@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<title>Login Admin &mdash; {{ desa.nama }}</title>
+<link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}" />
+<style>
+  .login-container { max-width: 400px; margin: 10rem auto; padding: 2rem; background: rgba(47, 111, 100, 0.1); border: 1px solid var(--tide-teal); border-radius: 8px; text-align: center; }
+  .login-input { width: 100%; padding: 0.75rem; margin: 1rem 0; border-radius: 4px; border: 1px solid var(--tide-teal); background: var(--chart-navy); color: white; }
+</style>
+</head>
+<body>
+  <div class="login-container">
+    <h2 style="color: var(--rust-buoy-lt); margin-bottom: 1rem;">Admin Panel</h2>
+    {% if error %}
+      <p style="color: #ff4c4c; font-size: 0.9rem;">{{ error }}</p>
+    {% endif %}
+    <form method="POST">
+      <input type="password" name="password" class="login-input" placeholder="Masukkan Password..." required>
+      <button type="submit" class="btn btn-primary" style="width: 100%;">Masuk</button>
+    </form>
+    <a href="/listing" style="color: var(--muted-sage); display: block; margin-top: 1rem; font-size: 0.8rem;">&larr; Kembali ke Web Utama</a>
+  </div>
+</body>
+</html>

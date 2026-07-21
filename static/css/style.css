@@ -1,0 +1,713 @@
+/* =========================================================================
+   1. CSS VARIABLES & BASE THEME (Nautical / Coastal Data)
+   ========================================================================= */
+:root {
+  --chart-navy: #10262b;
+  --paper-sand: #e8e2cd;
+  --rust-buoy: #c0572a;
+  --rust-buoy-lt: #d9784e;
+  --tide-teal: #2f6f64;
+  --muted-sage: #b9c4b7;
+  
+  --font-serif: 'Fraunces', serif;
+  --font-sans: 'Work Sans', sans-serif;
+  --font-mono: 'IBM Plex Mono', monospace;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background-color: var(--chart-navy);
+  color: var(--paper-sand);
+  font-family: var(--font-sans);
+  line-height: 1.6;
+  overflow-x: hidden;
+}
+
+h1, h2, h3 { font-family: var(--font-serif); font-weight: 500; }
+.mono { font-family: var(--font-mono); }
+
+/* =========================================================================
+   2. LAYOUT & NAVIGATION
+   ========================================================================= */
+.site-nav {
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  background: rgba(16, 38, 43, 0.75);
+  backdrop-filter: blur(12px) saturate(1.2);
+  -webkit-backdrop-filter: blur(12px) saturate(1.2);
+  border-bottom: 1px solid rgba(232, 226, 205, 0.1);
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+}
+
+.nav-inner {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 1rem 2rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  text-decoration: none;
+  color: var(--paper-sand);
+}
+
+.brand-mark { font-size: 1.5rem; }
+.brand-text strong { display: block; font-size: 1.1rem; }
+.brand-text small { color: var(--muted-sage); font-size: 0.8rem; }
+
+.nav-links a {
+  color: var(--paper-sand);
+  text-decoration: none;
+  margin-left: 1.5rem;
+  font-size: 0.9rem;
+  transition: color 0.3s ease;
+}
+.nav-links a:hover { color: var(--rust-buoy-lt); }
+
+/* =========================================================================
+   3. HERO SECTION & VIDEO STYLING
+   ========================================================================= */
+.hero {
+  max-width: 1200px;
+  margin: 4rem auto;
+  padding: 0 2rem;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 4rem;
+  align-items: center;
+}
+
+.hero-copy .eyebrow {
+  color: var(--rust-buoy-lt);
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+
+.hero-copy h1 {
+  font-size: 3.5rem;
+  line-height: 1.1;
+  margin: 1rem 0;
+}
+
+.hero-copy p {
+  color: var(--muted-sage);
+  font-size: 1.1rem;
+  margin-bottom: 2rem;
+}
+
+.hero-actions { display: flex; gap: 1rem; margin-bottom: 2.5rem; }
+
+.btn {
+  padding: 0.75rem 1.5rem;
+  border-radius: 4px;
+  text-decoration: none;
+  font-weight: 500;
+  transition: all 0.3s ease;
+}
+
+.btn-primary {
+  background: var(--rust-buoy);
+  color: var(--paper-sand);
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 4px 14px rgba(192, 87, 42, 0.25);
+}
+
+.btn-primary:hover {
+  background: var(--rust-buoy-lt);
+  box-shadow: 0 6px 20px rgba(192, 87, 42, 0.4);
+}
+
+.btn-ghost {
+  border: 1px solid var(--tide-teal);
+  color: var(--paper-sand);
+}
+
+.btn-ghost:hover {
+  background: rgba(47, 111, 100, 0.2);
+}
+
+.coord-readout {
+  display: flex;
+  gap: 2rem;
+  border-top: 1px solid rgba(232, 226, 205, 0.1);
+  padding-top: 1.5rem;
+}
+.coord-readout dt { font-size: 0.8rem; color: var(--muted-sage); }
+.coord-readout dd { font-size: 0.95rem; font-weight: 500; }
+
+.hero-media {
+  width: 100%;
+  aspect-ratio: 16 / 9; /* Memaksa rasio video menjadi 16:9 */
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.4);
+  border: 1px solid rgba(47, 111, 100, 0.3);
+  transform: translateY(0);
+  transition: transform 0.4s ease, box-shadow 0.4s ease;
+}
+
+.hero-media:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(185, 196, 183, 0.3);
+}
+
+.drone-video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+/* =========================================================================
+   4. SECTIONS, MAP, & LEDGER (Data Layouts)
+   ========================================================================= */
+main > section:not(.hero) {
+  max-width: 1200px;
+  margin: 4rem auto;
+  padding: 0 2rem;
+}
+
+.section-title {
+  font-size: 2rem;
+  margin-bottom: 2rem;
+  display: flex;
+  align-items: baseline;
+  gap: 1rem;
+}
+.section-num {
+  font-family: var(--font-mono);
+  color: var(--tide-teal);
+  font-size: 1rem;
+}
+
+/* Ledger / Kunjungan */
+.ledger {
+  background: rgba(47, 111, 100, 0.1);
+  border: 1px solid var(--tide-teal);
+  border-radius: 8px;
+  padding: 1.5rem;
+}
+.ledger-row {
+  display: flex;
+  justify-content: space-between;
+  padding: 0.75rem 1rem;
+  border-bottom: 1px solid rgba(232, 226, 205, 0.05);
+  transition: background 0.3s ease, padding-left 0.3s ease;
+}
+.ledger-row:hover:not(.ledger-row--total) {
+  background: rgba(47, 111, 100, 0.15);
+  padding-left: 1.5rem;
+}
+.ledger-row:last-child { border-bottom: none; }
+.ledger-row--total {
+  margin-top: 1rem;
+  padding-top: 1rem;
+  border-top: 1px dashed var(--tide-teal);
+  color: var(--rust-buoy-lt);
+  font-weight: 600;
+  font-size: 1.2rem;
+}
+
+/* Legend Kategori Peta */
+.legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem 1.5rem;
+  list-style: none;
+  margin-top: 1.25rem;
+  padding: 1rem 1.25rem;
+  background: rgba(47, 111, 100, 0.08);
+  border: 1px solid rgba(47, 111, 100, 0.3);
+  border-radius: 8px;
+}
+.legend-item {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.85rem;
+  color: var(--muted-sage);
+}
+.legend-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  border: 1px solid rgba(232, 226, 205, 0.4);
+  flex-shrink: 0;
+}
+.legend-label {
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+}
+
+/* Map Frame */
+.leaflet-frame {
+  height: 500px;
+  border-radius: 8px;
+  border: 1px solid var(--tide-teal);
+  z-index: 1;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+  transition: filter 0.4s ease;
+}
+.leaflet-frame:hover { filter: saturate(1.1); }
+
+/* POI Log */
+.poi-row {
+  padding: 1.5rem;
+  border-bottom: 1px solid rgba(232, 226, 205, 0.1);
+  transition: all 0.3s ease;
+  border-left: 4px solid transparent;
+}
+.poi-row:hover {
+  background: rgba(232, 226, 205, 0.03);
+  border-left-color: var(--rust-buoy);
+  transform: translateX(5px);
+}
+.poi-header { display: flex; align-items: center; gap: 1rem; margin-bottom: 0.5rem; }
+.poi-tag {
+  font-size: 0.75rem;
+  padding: 0.2rem 0.6rem;
+  border-radius: 20px;
+  background: var(--tide-teal);
+  font-weight: 600;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+
+/* Info Grid (Cards) */
+.info-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 2rem;
+}
+.card {
+  background: rgba(47, 111, 100, 0.05);
+  border: 1px solid rgba(47, 111, 100, 0.3);
+  padding: 2rem;
+  border-radius: 8px;
+  transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.4s ease;
+}
+.card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.2), 0 0 0 1px rgba(185, 196, 183, 0.3);
+}
+
+.contact-list, .social-list { list-style: none; }
+.contact-list li { margin-bottom: 1rem; display: flex; gap: 1rem; }
+.contact-icon { color: var(--rust-buoy-lt); }
+.card a { color: var(--paper-sand); text-decoration: none; border-bottom: 1px dashed var(--muted-sage); }
+.card a:hover { color: var(--rust-buoy-lt); border-color: var(--rust-buoy-lt); }
+
+.id-table div {
+  display: flex;
+  justify-content: space-between;
+  padding: 0.5rem 0;
+  border-bottom: 1px solid rgba(232, 226, 205, 0.05);
+}
+
+/* =========================================================================
+   5. UTILITIES & SCROLLBAR
+   ========================================================================= */
+::selection { background: var(--rust-buoy-lt); color: var(--chart-navy); }
+::-webkit-scrollbar { width: 8px; }
+::-webkit-scrollbar-track { background: var(--chart-navy); }
+::-webkit-scrollbar-thumb { background: rgba(185, 196, 183, 0.25); border-radius: 4px; }
+::-webkit-scrollbar-thumb:hover { background: rgba(185, 196, 183, 0.5); }
+
+.site-footer {
+  text-align: center;
+  padding: 3rem;
+  border-top: 1px solid rgba(232, 226, 205, 0.1);
+  color: var(--muted-sage);
+  margin-top: 4rem;
+}
+
+@media (max-width: 768px) {
+  .hero { grid-template-columns: 1fr; text-align: center; }
+  .hero-actions, .coord-readout { justify-content: center; }
+  .nav-links { display: none; }
+}
+
+/* =========================================================================
+   6. PROFIL DESA (Visi & Misi)
+   ========================================================================= */
+.profil-main {
+  max-width: 900px;
+  margin: 4rem auto;
+  padding: 0 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 3rem;
+}
+
+.vm-card {
+  padding: 4rem 3rem;
+  text-align: center;
+  background: rgba(232, 226, 205, 0.03); 
+  border-top: 4px solid var(--tide-teal);
+}
+
+.vm-title {
+  font-family: var(--font-serif);
+  font-size: 2.5rem;
+  color: var(--rust-buoy-lt);
+  margin-bottom: 2rem;
+}
+
+.visi-text {
+  font-size: 1.25rem;
+  font-weight: 500;
+  line-height: 1.8;
+  color: var(--paper-sand);
+  font-style: italic;
+}
+
+.vm-list {
+  text-align: left;
+  max-width: 700px;
+  margin: 0 auto;
+  font-size: 1.1rem;
+  color: var(--paper-sand);
+  line-height: 2;
+  padding-left: 1.5rem;
+}
+
+.vm-list li::marker {
+  color: var(--tide-teal);
+  font-weight: 600;
+  font-family: var(--font-mono);
+}
+
+/* =========================================================================
+   7. STRUKTUR ORGANISASI
+   ========================================================================= */
+.org-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 1.5rem;
+  margin-top: 3rem;
+}
+
+.org-card {
+  background: rgba(47, 111, 100, 0.05);
+  border: 1px solid rgba(47, 111, 100, 0.3);
+  border-radius: 8px;
+  padding: 1.75rem 1.25rem;
+  text-align: center;
+  transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275),
+              box-shadow 0.4s ease, border-color 0.4s ease;
+}
+
+.org-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.2), 0 0 0 1px rgba(185, 196, 183, 0.3);
+  border-color: var(--tide-teal);
+}
+
+.org-role {
+  font-family: var(--font-mono);
+  color: var(--tide-teal);
+  font-size: 0.78rem;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  margin-bottom: 0.6rem;
+}
+
+.org-name {
+  font-family: var(--font-serif);
+  font-size: 1.15rem;
+  font-weight: 500;
+  color: var(--paper-sand);
+}
+
+/* Kartu Kepala Desa ditonjolkan sebagai posisi tertinggi */
+.org-card.org-kades {
+  grid-column: 1 / -1;
+  max-width: 320px;
+  margin: 0 auto 0.5rem;
+  background: rgba(192, 87, 42, 0.08);
+  border: 1px solid var(--rust-buoy);
+  padding: 2.25rem 1.5rem;
+}
+
+.org-card.org-kades .org-role {
+  color: var(--rust-buoy-lt);
+  font-size: 0.85rem;
+}
+
+.org-card.org-kades .org-name {
+  font-size: 1.4rem;
+}
+
+.org-card.org-kades:hover {
+  border-color: var(--rust-buoy-lt);
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.25), 0 0 0 1px rgba(192, 87, 42, 0.4);
+}
+
+/* =========================================================================
+   7. FLOATING STATS WIDGET (Buku Kunjungan)
+   ========================================================================= */
+.floating-stats {
+  position: fixed;
+  bottom: 2rem;
+  right: 2rem;
+  z-index: 9999;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+}
+
+/* Tombol Pemicu */
+.stats-trigger {
+  background: var(--tide-teal);
+  color: var(--paper-sand);
+  padding: 0.75rem 1.5rem;
+  border-radius: 30px;
+  cursor: pointer;
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+  font-weight: 600;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
+  transition: background 0.3s ease, transform 0.3s ease;
+  border: 1px solid rgba(232, 226, 205, 0.2);
+}
+
+.floating-stats:hover .stats-trigger {
+  background: var(--rust-buoy);
+  transform: translateY(-2px);
+}
+
+/* Panel Data Tersembunyi */
+.stats-panel {
+  position: absolute;
+  bottom: 100%;
+  right: 0;
+  margin-bottom: 1rem;
+  width: 280px;
+  background: rgba(16, 38, 43, 0.95);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid var(--tide-teal);
+  border-radius: 8px;
+  padding: 1.5rem;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.6);
+  
+  /* State Awal: Transparan, Turun, & Disembunyikan */
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(15px);
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+/* Muncul Saat Di-Hover */
+.floating-stats:hover .stats-panel {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+
+/* Penyesuaian Ukuran Baris dalam Panel Kecil */
+.stats-panel .ledger-row {
+  padding: 0.5rem 0;
+  font-size: 0.85rem;
+}
+.stats-panel .ledger-row:hover:not(.ledger-row--total) {
+  background: transparent;
+  padding-left: 0.5rem;
+  color: var(--rust-buoy-lt);
+}
+.stats-panel .ledger-row--total {
+  font-size: 1rem;
+}
+
+/* =========================================================================
+   8. MEGA FOOTER (Kontak & Link Penting)
+   ========================================================================= */
+.mega-footer {
+  background-color: rgba(16, 38, 43, 0.95);
+  border-top: 1px solid var(--tide-teal);
+  padding: 5rem 2rem 2rem 2rem;
+  margin-top: 5rem;
+  font-size: 0.95rem;
+  position: relative;
+  z-index: 10;
+}
+
+.footer-top {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 3rem;
+  margin-bottom: 4rem;
+}
+
+.footer-brand {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 1.5rem;
+  font-size: 1.25rem;
+  color: var(--paper-sand);
+}
+
+.footer-col p {
+  color: var(--muted-sage);
+  margin-bottom: 0.5rem;
+  line-height: 1.6;
+}
+
+.footer-heading {
+  font-family: var(--font-sans);
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--paper-sand);
+  margin-bottom: 1.5rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.footer-contact, .footer-links {
+  list-style: none;
+}
+
+.footer-contact li {
+  display: flex;
+  gap: 0.75rem;
+  margin-bottom: 1.2rem;
+  color: var(--muted-sage);
+}
+
+.footer-contact a, .footer-links a {
+  color: var(--muted-sage);
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+.footer-links li {
+  margin-bottom: 1rem;
+}
+
+.footer-links a:hover, .footer-contact a:hover {
+  color: var(--rust-buoy-lt);
+}
+
+/* Kotak Kecil untuk Ikon Sosial Media */
+.footer-social {
+  display: flex;
+  gap: 0.75rem;
+  margin-top: 2rem;
+  flex-wrap: wrap;
+}
+
+.footer-social a {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 38px;
+  height: 38px;
+  background: rgba(47, 111, 100, 0.15);
+  border: 1px solid var(--tide-teal);
+  border-radius: 6px;
+  color: var(--paper-sand);
+  font-weight: 600;
+  font-size: 0.85rem;
+  transition: all 0.3s ease;
+}
+
+.footer-social a:hover {
+  background: var(--rust-buoy);
+  border-color: var(--rust-buoy-lt);
+  transform: translateY(-3px);
+}
+
+.footer-bottom {
+  max-width: 1200px;
+  margin: 0 auto;
+  text-align: center;
+  padding-top: 2rem;
+  border-top: 1px solid rgba(232, 226, 205, 0.1);
+  color: var(--muted-sage);
+}
+
+/* =========================================================================
+   9. BERITA / KABAR DESA
+   ========================================================================= */
+.news-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 2.5rem;
+  margin-top: 3rem;
+  text-align: left;
+}
+
+.news-card {
+  background: rgba(47, 111, 100, 0.05);
+  border: 1px solid var(--tide-teal);
+  border-radius: 8px;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  display: flex;
+  flex-direction: column;
+}
+
+.news-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+  border-color: var(--rust-buoy-lt);
+}
+
+.news-content {
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+}
+
+.news-date {
+  font-size: 0.8rem;
+  color: var(--rust-buoy-lt);
+  margin-bottom: 0.5rem;
+}
+
+.news-title {
+  font-family: var(--font-serif);
+  font-size: 1.4rem;
+  color: var(--paper-sand);
+  margin-bottom: 1rem;
+  line-height: 1.3;
+}
+
+.news-summary {
+  font-size: 0.95rem;
+  color: var(--muted-sage);
+  margin-bottom: 1.5rem;
+  flex-grow: 1;
+}
+
+.news-readmore {
+  color: var(--tide-teal);
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 0.9rem;
+  transition: color 0.3s ease;
+}
+
+.news-card:hover .news-readmore {
+  color: var(--rust-buoy-lt);
+}

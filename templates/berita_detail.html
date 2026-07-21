@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>{{ item.judul }} &mdash; {{ desa.nama }}</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Work+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}" />
+</head>
+<body>
+
+<div class="chart-grain" aria-hidden="true"></div>
+
+<!-- Navigasi -->
+<header class="site-nav">
+  <div class="nav-inner">
+    <a class="brand" href="/listing">
+      <span class="brand-mark">🌾</span>
+      <span class="brand-text">
+        <strong>{{ desa.nama }}</strong>
+        <small>{{ desa.kecamatan }} &middot; {{ desa.kabupaten }}</small>
+      </span>
+    </a>
+    <nav class="nav-links">
+      <a href="/listing">Beranda</a>
+      <a href="/profil">Visi & Misi</a>
+      <a href="/struktur">Struktur Organisasi</a>
+      <a href="/berita" style="color: var(--rust-buoy-lt); border-bottom: 2px solid var(--rust-buoy-lt);">Berita</a>
+    </nav>
+  </div>
+</header>
+
+<main class="profil-main" style="max-width: 800px; padding-top: 2rem;">
+  <a href="/berita" style="color: var(--tide-teal); text-decoration: none; font-weight: 600; display: inline-block; margin-bottom: 2rem;">&larr; Kembali ke Daftar Berita</a>
+  
+  <article class="news-article">
+    <h1 class="vm-title" style="text-align: left; margin-bottom: 0.5rem; font-size: 2.5rem;">{{ item.judul }}</h1>
+    <div class="news-date mono" style="color: var(--rust-buoy-lt); margin-bottom: 2rem;">Dipublikasikan pada: {{ item.tanggal }}</div>
+    
+    <!-- Foto Utama Artikel -->
+    <img src="{{ url_for('static', filename='uploads/' + item.gambar) }}" alt="{{ item.judul }}" style="width: 100%; border-radius: 8px; margin-bottom: 2.5rem; border: 1px solid var(--tide-teal); box-shadow: 0 10px 30px rgba(0,0,0,0.3);">
+    
+    <!-- Teks Berita (white-space: pre-wrap menjaga format paragraf/enter tetap rapi) -->
+    <div style="font-size: 1.15rem; line-height: 1.8; color: var(--paper-sand); white-space: pre-wrap; margin-bottom: 5rem;">{{ item.isi }}</div>
+  </article>
+</main>
+
+</body>
+</html>

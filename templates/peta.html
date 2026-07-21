@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<title>Peta &mdash; {{ desa.nama }}</title>
+<link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}" />
+<!-- Library Leaflet untuk Peta -->
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+</head>
+<body>
+<header class="site-nav">
+  <div class="nav-inner">
+    <a class="brand" href="/listing"><span class="brand-text"><strong>{{ desa.nama }}</strong></span></a>
+    <nav class="nav-links">
+      <a href="/listing">Beranda</a>
+      <a href="/peta" style="border-bottom: 2px solid var(--rust-buoy-lt);">Peta Desa</a>
+      <a href="/infografis">Infografis</a>
+      <a href="/berita">Berita</a>
+    </nav>
+  </div>
+</header>
+
+<main style="max-width: 1200px; margin: 0 auto; padding-top: 6rem; padding-bottom: 4rem;">
+  <section class="map-section" id="peta" style="width: 100%;">
+    <h2 class="section-title" style="color: var(--rust-buoy-lt); font-family: var(--font-serif); margin-bottom: 1rem;">Peta Titik Lokasi Desa</h2>
+    <p class="section-lede" style="color: var(--paper-sand); margin-bottom: 2rem;">Klik penanda untuk membaca catatan lapangan tiap titik &mdash; koordinat ditampilkan dalam derajat desimal.</p>
+    
+    <!-- Kotak Peta -->
+    <div id="peta-desa" class="leaflet-frame" style="height: 600px; border-radius: 12px; border: 2px solid rgba(255,255,255,0.1);"></div>
+    <ul class="legend" id="legenda-kategori" aria-label="Legenda kategori titik"></ul>
+  </section>
+</main>
+
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<!-- Pastikan script map Anda dipanggil di sini -->
+<script src="{{ url_for('static', filename='js/map.js') }}"></script>
+</body>
+</html>

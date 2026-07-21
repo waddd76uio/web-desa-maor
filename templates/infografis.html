@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<title>Infografis &mdash; {{ desa.nama }}</title>
+<link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}" />
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Work+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+</head>
+<body>
+<!-- Navigasi Utama -->
+<header class="site-nav">
+  <div class="nav-inner">
+    <a class="brand" href="/listing"><span class="brand-text"><strong>{{ desa.nama }}</strong></span></a>
+    <nav class="nav-links">
+      <a href="/listing">Beranda (Peta)</a>
+      <a href="/berita">Berita</a>
+      <a href="/infografis" style="border-bottom: 2px solid var(--rust-buoy-lt); font-weight: 600;">Infografis</a>
+    </nav>
+  </div>
+</header>
+
+<main class="profil-main" style="max-width: 1000px; padding-top: 4rem;">
+  <h1 style="text-align: center; color: var(--paper-sand); font-family: var(--font-serif); margin-bottom: 3rem;">📊 Galeri Infografis Desa</h1>
+  
+  <!-- Tempat Menampilkan Gambar Infografis -->
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem;">
+    {% for info in infografis %}
+    <div class="card" style="background: rgba(10,20,30,0.5); border-radius: 12px; overflow: hidden; border: 1px solid rgba(255,255,255,0.1);">
+      <img src="{{ url_for('static', filename='uploads/' + info.gambar) }}" alt="{{ info.judul }}" style="width: 100%; height: auto; display: block;">
+      <div style="padding: 1.5rem;">
+        <h3 style="color: var(--rust-buoy-lt); margin-bottom: 0.5rem; font-family: var(--font-sans);">{{ info.judul }}</h3>
+        <small style="color: var(--muted-sage);">Diunggah pada: {{ info.tanggal }}</small>
+      </div>
+    </div>
+    {% else %}
+    <p style="color: white; text-align: center; grid-column: 1 / -1; font-style: italic;">Belum ada infografis yang diunggah. Silakan tambahkan lewat Panel Admin.</p>
+    {% endfor %}
+  </div>
+</main>
+</body>
+</html>

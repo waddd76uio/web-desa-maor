@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Struktur Organisasi &mdash; {{ desa.nama }}</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Work+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}" />
+</head>
+<body>
+
+<div class="chart-grain" aria-hidden="true"></div>
+
+<header class="site-nav">
+  <div class="nav-inner">
+    <a class="brand" href="/listing">
+      <span class="brand-mark">🌾</span>
+      <span class="brand-text">
+        <strong>{{ desa.nama }}</strong>
+        <small>{{ desa.kecamatan }} &middot; {{ desa.kabupaten }}</small>
+      </span>
+    </a>
+    <nav class="nav-links">
+      <a href="/listing">Beranda</a>
+      <a href="/profil">Visi & Misi</a>
+      <a href="/struktur" style="color: var(--rust-buoy-lt); border-bottom: 2px solid var(--rust-buoy-lt);">Struktur Organisasi</a>
+    </nav>
+  </div>
+</header>
+
+<main class="profil-main">
+  <section class="vm-section" style="text-align: center;">
+    <h1 class="vm-title">Struktur Organisasi</h1>
+    <p class="section-lede">Jajaran perangkat pemerintah {{ desa.nama }}</p>
+    
+    <div class="org-grid">
+      {% for orang in desa.struktur %}
+        <div class="org-card {% if orang.jabatan == 'Kepala Desa' %}org-kades{% endif %}">
+          <div class="org-role">{{ orang.jabatan }}</div>
+          <div class="org-name">{{ orang.nama }}</div>
+        </div>
+      {% endfor %}
+    </div>
+  </section>
+</main>
+
+<footer class="mega-footer" id="kontak">
+  <div class="footer-top">
+    <div class="footer-col">
+      <div class="footer-brand">
+        <span class="brand-mark">🌾</span>
+        <span class="brand-text"><strong>Pemerintah {{ desa.nama }}</strong></span>
+      </div>
+      <p>{{ desa.alamat }}<br>{{ desa.kecamatan }}, {{ desa.kabupaten }}<br>{{ desa.provinsi }}, {{ desa.kode_pos }}</p>
+      <p style="margin-top: 1rem;"><strong style="color: var(--paper-sand);">Kode Wilayah:</strong> {{ desa.kode_wilayah }}</p>
+    </div>
+
+    <div class="footer-col">
+      <h3 class="footer-heading">Hubungi Kami</h3>
+      <ul class="footer-contact">
+        <li><span class="contact-icon">📞</span> <a href="tel:{{ desa.telepon }}">{{ desa.telepon }}</a></li>
+        <li><span class="contact-icon">✉️</span> <a href="mailto:{{ desa.email }}">{{ desa.email }}</a></li>
+      </ul>
+      <div class="footer-social">
+        <a href="{{ desa.sosial.instagram }}" target="_blank" rel="noopener">IG</a>
+        <a href="{{ desa.sosial.facebook }}" target="_blank" rel="noopener">FB</a>
+        <a href="{{ desa.sosial.twitter }}" target="_blank" rel="noopener">X</a>
+        <a href="{{ desa.sosial.youtube }}" target="_blank" rel="noopener">YT</a>
+        <a href="{{ desa.sosial.tiktok }}" target="_blank" rel="noopener">TK</a>
+      </div>
+    </div>
+
+    <div class="footer-col">
+      <h3 class="footer-heading">Nomor Telepon Penting</h3>
+      <ul class="footer-links">
+        <li><a href="#">Kades Maor / H. Supriyono</a></li>
+        <li><a href="#">Ambulan Kembangbahu</a></li>
+        <li><a href="#">Polsek Kembangbahu</a></li>
+        <li><a href="#">Puskesmas Terdekat</a></li>
+      </ul>
+    </div>
+
+    <div class="footer-col">
+      <h3 class="footer-heading">Jelajahi</h3>
+      <ul class="footer-links">
+        <li><a href="https://kemendesa.go.id" target="_blank" rel="noopener">Website Kemendesa</a></li>
+        <li><a href="https://kemendagri.go.id" target="_blank" rel="noopener">Website Kemendagri</a></li>
+        <li><a href="https://lamongankab.go.id" target="_blank" rel="noopener">Website Kab. Lamongan</a></li>
+        <li><a href="https://cekdptonline.kpu.go.id" target="_blank" rel="noopener">Cek DPT Online</a></li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="footer-bottom">
+    <p>&copy; 2026 Pemerintah {{ desa.nama }}</p>
+  </div>
+</footer>
+
+</body>
+</html>

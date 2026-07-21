@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<title>Dashboard Admin &mdash; {{ desa.nama }}</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Work+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}" />
+<style>
+  /* --- STYLING KHUSUS ADMIN DASHBOARD --- */
+  .admin-header-title {
+    text-align: center;
+    margin-bottom: 3rem;
+    color: var(--paper-sand);
+    font-family: var(--font-serif);
+    font-size: 2.5rem;
+  }
+  
+  /* Membuat layout 2 kolom sejajar untuk desktop */
+  .admin-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+    gap: 2.5rem;
+    margin-bottom: 4rem;
+  }
+  
+  /* Desain Kartu Formulir */
+  .admin-card {
+    background: rgba(47, 111, 100, 0.1);
+    border: 1px solid rgba(47, 111, 100, 0.4);
+    border-radius: 12px;
+    padding: 2.5rem;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+  }
+  
+  .admin-card h2 {
+    font-family: var(--font-serif);
+    font-size: 1.6rem;
+    color: var(--rust-buoy-lt);
+    margin-bottom: 1.5rem;
+    border-bottom: 1px solid rgba(255,255,255,0.05);
+    padding-bottom: 1rem;
+  }
+  
+  /* Desain Input & Label */
+  .admin-form { display: flex; flex-direction: column; gap: 1.25rem; }
+  .form-group label {
+    font-size: 0.85rem;
+    color: var(--muted-sage);
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+    display: block;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+  
+  .form-control {
+    width: 100%;
+    padding: 0.85rem;
+    border-radius: 6px;
+    border: 1px solid var(--tide-teal);
+    background: rgba(10, 20, 30, 0.3);
+    color: white;
+    font-family: var(--font-sans);
+    transition: all 0.3s ease;
+  }
+  
+  .form-control:focus {
+    outline: none;
+    border-color: var(--rust-buoy-lt);
+    background: rgba(10, 20, 30, 0.6);
+    box-shadow: 0 0 0 3px rgba(220, 107, 44, 0.2);
+  }
+  
+  .grid-2-col { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+  
+  /* Desain Tombol */
+  .btn-submit {
+    width: 100%;
+    padding: 1rem;
+    font-weight: 600;
+    font-size: 1rem;
+    border-radius: 6px;
+    border: none;
+    cursor: pointer;
+    transition: all 0.3s;
+    margin-top: 1rem;
+    font-family: var(--font-sans);
+  }
+  .btn-news { background: var(--rust-buoy-lt); color: white; }
+  .btn-news:hover { background: #a54b20; transform: translateY(-2px); }
+  
+  .btn-poi { background: var(--tide-teal); color: white; }
+  .btn-poi:hover { background: #24584e; transform: translateY(-2px); }
+</style>
+</head>
+<body>
+<div class="chart-grain" aria-hidden="true"></div>
+
+<!-- Navigasi Minimalis Admin -->
+<header class="site-nav">
+  <div class="nav-inner">
+    <a class="brand" href="/listing">
+      <span class="brand-mark">🌾</span>
+      <span class="brand-text">
+        <strong>Panel Admin</strong>
+        <small>{{ desa.nama }}</small>
+      </span>
+    </a>
+    <nav class="nav-links">
+      <a href="/listing">Lihat Web Utama &rarr;</a>
+      <a href="/admin/logout" style="color: #ff4c4c; font-weight: 600; margin-left: 1rem;">Logout</a>
+    </nav>
+  </div>
+</header>
+
+<main class="profil-main" style="max-width: 1200px; padding-top: 2rem;">
+  <h1 class="admin-header-title">Sistem Informasi Manajemen Desa</h1>
+  
+  <div class="admin-grid">
+    
+    <!-- KARTU KIRI: FORM BERITA -->
+    <div class="admin-card">
+      <h2>📰 Publikasi Berita Baru</h2>
+      <form class="admin-form" method="POST" enctype="multipart/form-data">
+        <input type="hidden" name="jenis_form" value="berita">
+        
+        <div class="form-group">
+          <label>Judul Berita</label>
+          <input type="text" name="judul" class="form-control" required placeholder="Cth: Kerja Bakti Rutin...">
+        </div>
+        
+        <div class="form-group">
+          <label>Ringkasan Singkat (Cuplikan)</label>
+          <textarea name="ringkasan" class="form-control" rows="2" required placeholder="Tulis sedikit inti berita..."></textarea>
+        </div>
+        
+        <div class="form-group">
+          <label>Isi Berita Lengkap</label>
+          <textarea name="isi" class="form-control" rows="8" required placeholder="Tulis seluruh paragraf di sini..."></textarea>
+        </div>
+        
+        <div class="form-group">
+          <label>Foto / Thumbnail</label>
+          <input type="file" name="gambar" class="form-control" accept="image/png, image/jpeg" required>
+        </div>
+        
+        <button type="submit" class="btn-submit btn-news">Upload & Publikasikan Berita</button>
+      </form>
+    </div>
+
+    <!-- FORM INFOGRAFIS -->
+    <div class="admin-card">
+      <h2>📊 Upload Infografis Baru</h2>
+      <form class="admin-form" method="POST" enctype="multipart/form-data">
+        <input type="hidden" name="jenis_form" value="infografis">
+        
+        <div class="form-group">
+          <label>Judul Infografis</label>
+          <input type="text" name="judul" class="form-control" required placeholder="Cth: Infografis APBDes 2026...">
+        </div>
+        
+        <div class="form-group">
+          <label>File Gambar Infografis</label>
+          <input type="file" name="gambar" class="form-control" accept="image/png, image/jpeg" required>
+        </div>
+        
+        <button type="submit" class="btn-submit" style="background: #e6b31e; color: #1a1a1a;">Upload Infografis</button>
+      </form>
+    </div>
+
+    <!-- KARTU KANAN: FORM POI (TITIK PETA) -->
+    <div class="admin-card">
+      <h2>📍 Tambah Titik Peta (POI)</h2>
+      <form class="admin-form" method="POST">
+        <input type="hidden" name="jenis_form" value="poi">
+        
+        <div class="form-group">
+          <label>Nama Lokasi / Fasilitas</label>
+          <input type="text" name="nama" class="form-control" required placeholder="Cth: Balai RW 03...">
+        </div>
+        
+        <div class="form-group">
+          <label>Kategori Tempat</label>
+          <select name="kategori" class="form-control" required>
+            <option value="" disabled selected>-- Pilih Kategori --</option>
+            <option value="Pemerintahan">Pemerintahan</option>
+            <option value="Peribadatan">Peribadatan</option>
+            <option value="Pendidikan">Pendidikan</option>
+            <option value="Kesehatan">Kesehatan</option>
+            <option value="Pertanian">Pertanian</option>
+            <option value="Pengairan">Pengairan</option>
+            <option value="Usaha Warga">Usaha Warga</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label>Deskripsi Singkat</label>
+          <textarea name="deskripsi" class="form-control" rows="3" required placeholder="Jelaskan fungsi atau detail lokasi ini..."></textarea>
+        </div>
+
+        <div class="grid-2-col">
+          <div class="form-group">
+            <label>Latitude (Lintang)</label>
+            <input type="number" step="any" name="lat" class="form-control" required placeholder="Cth: -7.2064">
+          </div>
+          <div class="form-group">
+            <label>Longitude (Bujur)</label>
+            <input type="number" step="any" name="lng" class="form-control" required placeholder="Cth: 112.3550">
+          </div>
+        </div>
+
+        <button type="submit" class="btn-submit btn-poi">Tambahkan ke Peta Web</button>
+      </form>
+    </div>
+    <!-- KARTU TAMBAHAN: FORM AGENDA -->
+    <div class="admin-card">
+      <h2>📅 Tambah Agenda Desa</h2>
+      <form class="admin-form" method="POST">
+        <input type="hidden" name="jenis_form" value="agenda">
+        
+        <div class="form-group">
+          <label>Nama Kegiatan</label>
+          <input type="text" name="judul" class="form-control" required placeholder="Cth: Kerja Bakti Rutin...">
+        </div>
+        
+        <div class="grid-2-col">
+          <div class="form-group">
+            <label>Tanggal Kegiatan</label>
+            <!-- Input type date akan otomatis memunculkan kalender bawaan browser -->
+            <input type="date" name="tanggal" class="form-control" required>
+          </div>
+          <div class="form-group">
+            <label>Waktu Pelaksanaan</label>
+            <input type="text" name="waktu" class="form-control" required placeholder="Cth: 08:00 WIB - Selesai">
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>Lokasi Acara</label>
+          <input type="text" name="lokasi" class="form-control" required placeholder="Cth: Balai Desa Maor">
+        </div>
+
+        <button type="submit" class="btn-submit" style="background: #4caf50; color: white;">Simpan Agenda</button>
+      </form>
+    </div>
+  </div>
+</main>
+
+</body>
+</html>
