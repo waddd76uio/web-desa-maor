@@ -57,52 +57,180 @@
     </div>
   </section>
 
-  <section class="vm-section" style="margin-top: 2rem; margin-bottom: 4rem;">
-    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem;">
-      
-      <div class="card vm-card" style="background: rgba(47, 111, 100, 0.1); border: 1px solid rgba(47, 111, 100, 0.4); padding: 2rem; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.1);">
-        <h2 style="font-family: var(--font-serif); color: var(--rust-buoy-lt); margin-bottom: 1.5rem; border-bottom: 1px solid rgba(255,255,255,0.05); padding-bottom: 0.5rem; font-size: 1.5rem;">🎙️ Sambutan Kepala Desa</h2>
-        
-        <div style="display: flex; gap: 1rem; margin-bottom: 1rem; align-items: center;">
-          <div style="width: 60px; height: 60px; background: var(--tide-teal); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.8rem;">🧑‍💼</div>
-          <div>
-            <strong style="color: var(--paper-sand); display: block; font-size: 1.2rem;">{{ desa.struktur[0].nama }}</strong>
-            <small style="color: var(--muted-sage); font-size: 0.9rem;">Kepala Desa Maor</small>
-          </div>
-        </div>
-        
-        <p style="color: var(--paper-sand); line-height: 1.7; font-size: 0.95rem; font-style: italic;">
-          "Assalamu'alaikum Warahmatullahi Wabarakatuh.
-          Salam sejahtera untuk kita semua.
+  <section class="village-profile-section">
 
-          Puji syukur ke hadirat Allah SWT atas limpahan rahmat dan karunia-Nya, sehingga Website Resmi Desa Maor, Kecamatan Kebangbahu, Kabupaten Lamongan dapat hadir sebagai media informasi bagi seluruh masyarakat. 
-          
-          Website ini merupakan wujud komitmen Pemerintah Desa Maor dalam mendukung keterbukaan informasi publik. Melalui website ini, kami menyajikan berbagai informasi mengenai profil desa, struktur pemerintahan, infografis desa, berita dan kegiatan, serta berbagai potensi yang dimiliki Desa Maor agar dapat diakses dengan mudah oleh masyarakat maupun masyarakat luas.
+  <!-- =====================================================
+       SAMBUTAN KEPALA DESA
+       ===================================================== -->
+  <article class="welcome-panel">
 
-          Kami berharap website ini dapat menjadi sarana komunikasi dan informasi yang mempererat hubungan antara pemerintah desa dengan masyarakat, sekaligus menjadi media untuk memperkenalkan potensi dan perkembangan Desa Maor kepada khalayak yang lebih luas.
+    <!-- Bagian foto kepala desa -->
+    <div class="welcome-portrait">
 
-          Kami mengajak seluruh masyarakat untuk terus menjaga semangat kebersamaan, gotong royong, dan partisipasi dalam mendukung pembangunan desa demi terwujudnya Desa Maor yang maju, mandiri, dan sejahtera.
-
-          Terima kasih kepada seluruh pihak yang telah mendukung terwujudnya website ini. Semoga website Desa Maor dapat memberikan manfaat sebagai sumber informasi yang akurat, transparan, dan terpercaya.
-
-          Wassalamu'alaikum Warahmatullahi Wabarakatuh.{{ desa.sambutan_kades }}"
-        </p>
+      <div class="welcome-photo-frame">
+        <img
+          src="{{ url_for('static', filename='uploads/foto-kepala-desa.jpg') }}"
+          alt="Foto {{ desa.struktur[0].nama }}"
+          class="welcome-photo"
+        >
       </div>
 
-      <div class="card vm-card" style="background: rgba(220, 107, 44, 0.05); border: 1px solid rgba(220, 107, 44, 0.3); padding: 2rem; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.1);">
-        <h2 style="font-family: var(--font-serif); color: var(--rust-buoy-lt); margin-bottom: 1rem; border-bottom: 1px solid rgba(255,255,255,0.05); padding-bottom: 0.5rem; font-size: 1.5rem;">📜 Sejarah Singkat</h2>
-        <h3>Sejarah Lahirnya Desa Maor ini tidak bisa dilepaskan dari jasa-jasa para tokoh Kharismatik dalam mengembangkan peradaban islam yang ada di pulau jawa, khususnya pengembangan islam yang ada di lamongan.
-            Pada masa itu Masyarakat Desa Maor bermukim di sebelah selatan dusun kalibogo desa kaliwates dengan nama Desa Klampok, karena letaknya yang berdekatan itulah sesepuh desa khawatir untuk kebutuhan hidup warganya. Kemudian sesepuh desa yang bernama SARPIN/Mbah TIBAN tersebut pergi keselatan menyeberangi sungai menuju hutan dan membuka hutan tersebut untuk di jadikan Desa dan tempat tinggal bagi warganya. Pada saat membuka hutan (babat alas) tersebut terdengar suara “NGAOR-NGAOR” yang tak lain adalah seekor KUCING, akhirnya sesepuh desa tersebut tempat itu diberi nama desa “MAOR”.
-            Kucingnya menghadap kedepan lurus dan dilingkari garis segilima yang artinya beriman Kepada Tuhan Yang Maha Esa dan Berpedoma Pada Pengamalan Pancasila.
-            Dari Gambar Padi dan Kapas engambarkan murah sandang pangan masyarakat serba kecukupan/makmur dan bertaqwa kepada Tuhan Yang Maha Esa.
-            Bintang yang artinya menerangi dan memberi cahaya bagi bangsa dan negara. Terus memberi cahaya seperti tuhan yang maknanya adalah jalan terang agar negara dapat menempuh jalan yang benar.</h3>
-        <p style="color: var(--paper-sand); line-height: 1.7; font-size: 0.95rem; text-align: justify;">
-          {{ desa.sejarah }}
-        </p>
+      <div class="welcome-identity">
+        <span class="welcome-position">Kepala Desa Maor</span>
+
+        <h3>{{ desa.struktur[0].nama }}</h3>
+
+        <p>Pemerintah Desa Maor</p>
       </div>
 
     </div>
-  </section>
+
+    <!-- Bagian isi sambutan -->
+    <div class="welcome-content">
+
+      <span class="profile-section-number">
+        01 / SAMBUTAN
+      </span>
+
+      <h2>Sambutan Kepala Desa</h2>
+
+      <div class="profile-title-line">
+        <span></span>
+      </div>
+
+      <div
+        class="welcome-copy"
+        tabindex="0"
+        aria-label="Isi sambutan Kepala Desa"
+      >
+
+        <p>
+          "Assalamu'alaikum Warahmatullahi Wabarakatuh.<br>
+          Salam sejahtera untuk kita semua.
+        </p>
+
+        <p>
+          Puji syukur ke hadirat Allah SWT atas limpahan rahmat dan
+          karunia-Nya, sehingga Website Resmi Desa Maor, Kecamatan
+          Kebangbahu, Kabupaten Lamongan dapat hadir sebagai media
+          informasi bagi seluruh masyarakat.
+        </p>
+
+        <p>
+          Website ini merupakan wujud komitmen Pemerintah Desa Maor
+          dalam mendukung keterbukaan informasi publik. Melalui website
+          ini, kami menyajikan berbagai informasi mengenai profil desa,
+          struktur pemerintahan, infografis desa, berita dan kegiatan,
+          serta berbagai potensi yang dimiliki Desa Maor agar dapat
+          diakses dengan mudah oleh masyarakat maupun masyarakat luas.
+        </p>
+
+        <p>
+          Kami berharap website ini dapat menjadi sarana komunikasi dan
+          informasi yang mempererat hubungan antara pemerintah desa
+          dengan masyarakat, sekaligus menjadi media untuk memperkenalkan
+          potensi dan perkembangan Desa Maor kepada khalayak yang lebih luas.
+        </p>
+
+        <p>
+          Kami mengajak seluruh masyarakat untuk terus menjaga semangat
+          kebersamaan, gotong royong, dan partisipasi dalam mendukung
+          pembangunan desa demi terwujudnya Desa Maor yang maju,
+          mandiri, dan sejahtera.
+        </p>
+
+        <p>
+          Terima kasih kepada seluruh pihak yang telah mendukung
+          terwujudnya website ini. Semoga website Desa Maor dapat
+          memberikan manfaat sebagai sumber informasi yang akurat,
+          transparan, dan terpercaya.
+        </p>
+
+        <p>
+          Wassalamu'alaikum Warahmatullahi Wabarakatuh.
+          {{ desa.sambutan_kades }}"
+        </p>
+
+      </div>
+
+    </div>
+
+  </article>
+
+
+  <!-- =====================================================
+       SEJARAH DESA
+       ===================================================== -->
+  <article class="history-panel">
+
+    <!-- Bagian judul sejarah -->
+    <div class="history-heading">
+
+      <span class="profile-section-number">
+        02 / SEJARAH
+      </span>
+
+      <h2>Sejarah Singkat</h2>
+
+      <div class="history-decoration">
+        <span></span>
+        <span></span>
+        <span></span>
+      </div>
+
+    </div>
+
+    <!-- Bagian isi sejarah -->
+    <div class="history-copy">
+
+      <p>
+        Sejarah Lahirnya Desa Maor ini tidak bisa dilepaskan dari
+        jasa-jasa para tokoh Kharismatik dalam mengembangkan peradaban
+        islam yang ada di pulau jawa, khususnya pengembangan islam yang
+        ada di lamongan.
+      </p>
+
+      <p>
+        Pada masa itu Masyarakat Desa Maor bermukim di sebelah selatan
+        dusun kalibogo desa kaliwates dengan nama Desa Klampok, karena
+        letaknya yang berdekatan itulah sesepuh desa khawatir untuk
+        kebutuhan hidup warganya. Kemudian sesepuh desa yang bernama
+        <strong>SARPIN/Mbah TIBAN</strong> tersebut pergi keselatan
+        menyeberangi sungai menuju hutan dan membuka hutan tersebut
+        untuk di jadikan Desa dan tempat tinggal bagi warganya. Pada
+        saat membuka hutan (babat alas) tersebut terdengar suara
+        <strong>“NGAOR-NGAOR”</strong> yang tak lain adalah seekor
+        <strong>KUCING</strong>, akhirnya sesepuh desa tersebut tempat
+        itu diberi nama desa <strong>“MAOR”</strong>.
+      </p>
+
+      <p>
+        Kucingnya menghadap kedepan lurus dan dilingkari garis segilima
+        yang artinya beriman Kepada Tuhan Yang Maha Esa dan Berpedoma
+        Pada Pengamalan Pancasila.
+      </p>
+
+      <p>
+        Dari Gambar Padi dan Kapas engambarkan murah sandang pangan
+        masyarakat serba kecukupan/makmur dan bertaqwa kepada Tuhan
+        Yang Maha Esa.
+      </p>
+
+      <p>
+        Bintang yang artinya menerangi dan memberi cahaya bagi bangsa
+        dan negara. Terus memberi cahaya seperti tuhan yang maknanya
+        adalah jalan terang agar negara dapat menempuh jalan yang benar.
+      </p>
+
+      <p>
+        {{ desa.sejarah }}
+      </p>
+
+    </div>
+
+  </article>
+
+</section>
 
 <section class="vm-section" style="margin-top: 4rem; margin-bottom: 4rem;">
   <h2 style="font-family: var(--font-serif); color: var(--rust-buoy-lt); margin-bottom: 2rem; text-align: center; font-size: 2rem;">📅 Agenda & Kalender Kegiatan Desa</h2>
