@@ -6,7 +6,15 @@
 <title>Profil &mdash; {{ desa.nama }}</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Work+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}" />
+<link
+  rel="stylesheet"
+  href="{{ url_for('static', filename='css/style.css') }}"
+>
+
+<script
+  defer
+  src="{{ url_for('static', filename='js/navigation.js') }}?v=3"
+></script>
 </head>
 <body>
 
@@ -14,39 +22,79 @@
 
 <header class="site-nav">
   <div class="nav-inner">
+
     <a class="brand" href="/listing">
-      <span class="brand-mark">🌾</span>
+      <span class="brand-mark" aria-hidden="true">🌾</span>
+
       <span class="brand-text">
         <strong>{{ desa.nama }}</strong>
-        <small>{{ desa.kecamatan }} &middot; {{ desa.kabupaten }}</small>
+        <small>
+          {{ desa.kecamatan }} &middot; {{ desa.kabupaten }}
+        </small>
       </span>
     </a>
-    <nav class="nav-links">
+
+    <button
+      class="nav-toggle"
+      type="button"
+      aria-label="Buka menu navigasi"
+      aria-expanded="false"
+      aria-controls="primary-navigation"
+    >
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
+
+    <nav
+      class="nav-links"
+      id="primary-navigation"
+      aria-label="Navigasi utama"
+    >
       <a href="/listing">Beranda</a>
-      <a href="/profil" style="color: var(--rust-buoy-lt); border-bottom: 2px solid var(--rust-buoy-lt);">Visi & Misi</a>
+      <a href="/peta">Peta Desa</a>
+      <a href="/profil" aria-current="page">Visi &amp; Misi</a>
       <a href="/struktur">Struktur Organisasi</a>
+      <a href="/infografis">Infografis</a>
+      <a href="/berita">Berita</a>
     </nav>
+
   </div>
 </header>
 
 <main class="profil-main">
+
+  <header class="profile-page-heading">
+    <span class="profile-page-eyebrow">Profil Desa</span>
+    <h1>Visi &amp; Misi</h1>
+    <p>
+      Arah pembangunan dan komitmen Pemerintah {{ desa.nama }}
+      dalam memberikan pelayanan kepada masyarakat.
+    </p>
+  </header>
+
   <section class="vm-section">
     <div class="card vm-card">
-      <h1 class="vm-title">Visi</h1>
+      <span class="vm-card-number">01</span>
+      <h2 class="vm-title">Visi</h2>
       <p class="vm-text visi-text">{{ desa.visi }}</p>
     </div>
   </section>
-    <section class="vm-section">
+
+  <section class="vm-section">
     <div class="card vm-card">
-      <h1 class="vm-title">Misi</h1>
+      <span class="vm-card-number">02</span>
+      <h2 class="vm-title">Misi</h2>
+
       <ol class="vm-list">
         {% for item in desa.misi %}
-        <li>{{ item }}</li>
+          <li>{{ item }}</li>
         {% endfor %}
       </ol>
     </div>
   </section>
-</main> <!-- Penutup <main> dipindah ke sini -->
+
+</main>
 
 <footer class="mega-footer" id="kontak">
   <div class="footer-top">

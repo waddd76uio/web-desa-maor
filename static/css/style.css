@@ -46,34 +46,127 @@ h1, h2, h3 { font-family: var(--font-serif); font-weight: 500; }
 }
 
 .nav-inner {
+  position: relative;
+  width: 100%;
   max-width: 1200px;
+  min-height: 74px;
   margin: 0 auto;
-  padding: 1rem 2rem;
+  padding: 0.9rem 2rem;
+
   display: flex;
-  justify-content: space-between;
   align-items: center;
+  justify-content: space-between;
+  gap: 2rem;
 }
 
 .brand {
+  min-width: 0;
   display: flex;
   align-items: center;
   gap: 0.75rem;
-  text-decoration: none;
+
   color: var(--paper-sand);
+  text-decoration: none;
 }
 
-.brand-mark { font-size: 1.5rem; }
-.brand-text strong { display: block; font-size: 1.1rem; }
-.brand-text small { color: var(--muted-sage); font-size: 0.8rem; }
+.brand-mark {
+  flex: 0 0 auto;
+  font-size: 1.5rem;
+}
+
+.brand-text {
+  min-width: 0;
+}
+
+.brand-text strong {
+  display: block;
+  font-size: 1.1rem;
+  line-height: 1.3;
+}
+
+.brand-text small {
+  display: block;
+  color: var(--muted-sage);
+  font-size: 0.8rem;
+  line-height: 1.4;
+}
+
+.nav-links {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: clamp(0.8rem, 1.5vw, 1.5rem);
+}
 
 .nav-links a {
+  position: relative;
+  flex: 0 0 auto;
+  padding: 0.45rem 0;
+
   color: var(--paper-sand);
-  text-decoration: none;
-  margin-left: 1.5rem;
   font-size: 0.9rem;
-  transition: color 0.3s ease;
+  text-decoration: none;
+  white-space: nowrap;
+
+  transition:
+    color 0.25s ease,
+    background 0.25s ease;
 }
-.nav-links a:hover { color: var(--rust-buoy-lt); }
+
+.nav-links a:hover {
+  color: var(--rust-buoy-lt);
+}
+
+.nav-links a[aria-current="page"] {
+  color: var(--paper-sand);
+  box-shadow: inset 0 -2px 0 var(--rust-buoy-lt);
+}
+
+
+/* Tombol menu untuk tablet dan HP */
+.nav-toggle {
+  display: none;
+  width: 44px;
+  height: 44px;
+  flex: 0 0 44px;
+
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: 5px;
+
+  padding: 0;
+  border: 1px solid rgba(232, 226, 205, 0.18);
+  border-radius: 8px;
+
+  background: rgba(47, 111, 100, 0.12);
+  cursor: pointer;
+}
+
+.nav-toggle span {
+  display: block;
+  width: 21px;
+  height: 2px;
+  border-radius: 10px;
+
+  background: var(--paper-sand);
+
+  transition:
+    transform 0.25s ease,
+    opacity 0.25s ease;
+}
+
+.nav-toggle.is-open span:nth-child(1) {
+  transform: translateY(7px) rotate(45deg);
+}
+
+.nav-toggle.is-open span:nth-child(2) {
+  opacity: 0;
+}
+
+.nav-toggle.is-open span:nth-child(3) {
+  transform: translateY(-7px) rotate(-45deg);
+}
 
 /* =========================================================================
    3. HERO SECTION & VIDEO STYLING
@@ -97,9 +190,12 @@ h1, h2, h3 { font-family: var(--font-serif); font-weight: 500; }
 }
 
 .hero-copy h1 {
-  font-size: 3.5rem;
-  line-height: 1.1;
   margin: 1rem 0;
+
+  font-size: clamp(2.25rem, 5vw, 3.5rem);
+  line-height: 1.1;
+
+  overflow-wrap: anywhere;
 }
 
 .hero-copy p {
@@ -141,10 +237,20 @@ h1, h2, h3 { font-family: var(--font-serif); font-weight: 500; }
 }
 
 .coord-readout {
-  display: flex;
-  gap: 2rem;
-  border-top: 1px solid rgba(232, 226, 205, 0.1);
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1.25rem;
+
   padding-top: 1.5rem;
+  border-top: 1px solid rgba(232, 226, 205, 0.1);
+}
+
+.coord-readout > div {
+  min-width: 0;
+}
+
+.coord-readout dd {
+  overflow-wrap: anywhere;
 }
 .coord-readout dt { font-size: 0.8rem; color: var(--muted-sage); }
 .coord-readout dd { font-size: 0.95rem; font-weight: 500; }
@@ -337,11 +443,312 @@ main > section:not(.hero) {
   margin-top: 4rem;
 }
 
-@media (max-width: 768px) {
-  .hero { grid-template-columns: 1fr; text-align: center; }
-  .hero-actions, .coord-readout { justify-content: center; }
-  .nav-links { display: none; }
+/* =========================================================================
+   RESPONSIVE NAVIGATION
+   ========================================================================= */
+
+@media (max-width: 1100px) {
+  .nav-inner {
+    position: relative;
+    padding: 0.85rem 1.5rem;
+  }
+
+  /* Menampilkan tombol hamburger */
+  .nav-toggle {
+    display: flex;
+    position: relative;
+    z-index: 1003;
+  }
+
+  /* Menu disembunyikan sebelum tombol hamburger diklik */
+  .nav-links {
+    position: absolute;
+    top: calc(100% + 1px);
+    left: 1.5rem;
+    right: 1.5rem;
+    z-index: 1002;
+
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    justify-content: flex-start;
+    gap: 0;
+
+    max-height: 0;
+    padding: 0 0.6rem;
+    overflow: hidden;
+
+    border: 1px solid transparent;
+    border-radius: 0 0 12px 12px;
+
+    background: rgba(16, 38, 43, 0.98);
+    box-shadow: 0 18px 35px rgba(0, 0, 0, 0.35);
+
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+
+    transform: translateY(-10px);
+
+    transition:
+      max-height 0.35s ease,
+      padding 0.35s ease,
+      opacity 0.25s ease,
+      visibility 0.25s ease,
+      transform 0.25s ease;
+  }
+
+  /* Menu muncul setelah tombol hamburger diklik */
+  .nav-links.is-open {
+    max-height: 520px;
+    padding: 0.65rem;
+
+    border-color: rgba(47, 111, 100, 0.5);
+
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+
+    transform: translateY(0);
+  }
+
+  .nav-links a {
+    display: block;
+    width: 100%;
+    margin: 0;
+    padding: 0.85rem 1rem;
+
+    border-bottom: 1px solid rgba(232, 226, 205, 0.07);
+    border-radius: 7px;
+
+    font-size: 0.9rem;
+    text-align: left;
+    white-space: normal;
+  }
+
+  .nav-links a:last-child {
+    border-bottom: none;
+  }
+
+  .nav-links a:hover {
+    color: var(--rust-buoy-lt);
+    background: rgba(47, 111, 100, 0.16);
+  }
+
+  .nav-links a[aria-current="page"] {
+    color: var(--paper-sand);
+    background: rgba(192, 87, 42, 0.12);
+    box-shadow: inset 3px 0 0 var(--rust-buoy-lt);
+  }
 }
+
+@media (max-width: 640px) {
+  .nav-inner {
+    min-height: 68px;
+    padding: 0.75rem 1rem;
+    gap: 0.75rem;
+  }
+
+  .brand {
+    max-width: calc(100% - 58px);
+    gap: 0.55rem;
+  }
+
+  .brand-mark {
+    font-size: 1.2rem;
+  }
+
+  .brand-text strong {
+    font-size: 0.95rem;
+  }
+
+  .brand-text small {
+    max-width: 210px;
+    font-size: 0.63rem;
+    line-height: 1.35;
+  }
+
+  .nav-toggle {
+    width: 42px;
+    height: 42px;
+    flex-basis: 42px;
+  }
+
+  .nav-links {
+    left: 1rem;
+    right: 1rem;
+  }
+}
+
+@media (max-width: 380px) {
+  .brand-text small {
+    display: none;
+  }
+
+  .brand-text strong {
+    font-size: 0.9rem;
+  }
+
+  .nav-inner {
+    padding-left: 0.85rem;
+    padding-right: 0.85rem;
+  }
+
+  .nav-links {
+    left: 0.85rem;
+    right: 0.85rem;
+  }
+}
+
+/* =========================================================================
+   RESPONSIVE HERO BERANDA
+   ========================================================================= */
+
+/* Mencegah teks dan video melewati lebar grid */
+.hero-copy,
+.hero-media {
+  min-width: 0;
+}
+
+
+/* TABLET DAN IPAD */
+@media (max-width: 1024px) {
+  .hero {
+    /* Tulisan berada di atas, video berada di bawah */
+    grid-template-columns: 1fr;
+
+    gap: 2.5rem;
+    margin: 2.75rem auto 3.5rem;
+    padding: 0 1.5rem;
+
+    text-align: center;
+  }
+
+  /* Memastikan urutannya tidak berubah */
+  .hero-copy {
+    order: 1;
+    width: 100%;
+    max-width: 760px;
+    margin: 0 auto;
+  }
+
+  .hero-media {
+    order: 2;
+    width: 100%;
+    max-width: 820px;
+    margin: 0 auto;
+  }
+
+  .hero-copy p {
+    max-width: 680px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  /* Provinsi, Kabupaten, Kode Wilayah tetap tiga kolom */
+  .coord-readout {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 1rem;
+  }
+}
+
+
+/* HP */
+@media (max-width: 560px) {
+  .hero {
+    grid-template-columns: 1fr;
+
+    gap: 2rem;
+    margin: 1.75rem auto 2.75rem;
+    padding: 0 1rem;
+
+    text-align: center;
+  }
+
+  .hero-copy {
+    order: 1;
+  }
+
+  .hero-media {
+    order: 2;
+    width: 100%;
+    margin: 0 auto;
+
+    /* Bentuk video tetap seperti tampilan awal */
+    aspect-ratio: 16 / 9;
+    border-radius: 8px;
+  }
+
+  .hero-copy .eyebrow {
+    font-size: 0.7rem;
+    letter-spacing: 1.5px;
+  }
+
+  .hero-copy h1 {
+    margin: 0.8rem 0 1rem;
+
+    font-size: clamp(2.15rem, 12vw, 2.85rem);
+    line-height: 1.05;
+  }
+
+  .hero-copy p {
+    max-width: 100%;
+    margin: 0 auto 1.75rem;
+
+    font-size: 0.9rem;
+    line-height: 1.7;
+  }
+
+  /* Tetap tiga kolom, jangan diubah menjadi satu kolom */
+  .coord-readout {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 0.4rem;
+
+    width: 100%;
+    padding-top: 1.15rem;
+  }
+
+  .coord-readout > div {
+    min-width: 0;
+    text-align: center;
+  }
+
+  .coord-readout dt {
+    margin-bottom: 0.25rem;
+
+    font-size: 0.62rem;
+    line-height: 1.3;
+  }
+
+  .coord-readout dd {
+    font-size: 0.73rem;
+    line-height: 1.35;
+
+    /* Memungkinkan kode wilayah turun baris jika benar-benar diperlukan */
+    overflow-wrap: anywhere;
+  }
+}
+
+
+/* HP sangat kecil */
+@media (max-width: 360px) {
+  .hero {
+    padding: 0 0.75rem;
+  }
+
+  .coord-readout {
+    gap: 0.25rem;
+  }
+
+  .coord-readout dt {
+    font-size: 0.58rem;
+  }
+
+  .coord-readout dd {
+    font-size: 0.68rem;
+  }
+}
+
 
 /* =========================================================================
    6. PROFIL DESA (Visi & Misi)
@@ -1258,5 +1665,1303 @@ main > section:not(.hero) {
     font-size: 0.87rem;
     line-height: 1.75;
     text-align: left;
+  }
+}
+
+/* =========================================================================
+   11. HALAMAN PETA RESPONSIVE
+   ========================================================================= */
+
+.map-page-main {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 4rem 2rem;
+}
+
+.map-section {
+  width: 100%;
+  min-width: 0;
+}
+
+.map-section-header {
+  max-width: 760px;
+  margin-bottom: 2rem;
+}
+
+.map-section-header .eyebrow {
+  display: block;
+  margin-bottom: 0.75rem;
+
+  color: var(--rust-buoy-lt);
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 1.8px;
+  text-transform: uppercase;
+}
+
+.map-section-header h1 {
+  margin-bottom: 0.75rem;
+
+  color: var(--paper-sand);
+  font-size: clamp(2rem, 5vw, 3rem);
+  line-height: 1.15;
+
+  overflow-wrap: anywhere;
+}
+
+.map-section-header .section-lede {
+  color: var(--muted-sage);
+  font-size: 1rem;
+  line-height: 1.75;
+}
+
+.map-page-main .leaflet-frame {
+  width: 100%;
+  height: clamp(420px, 65vh, 600px);
+
+  border: 1px solid rgba(47, 111, 100, 0.65);
+  border-radius: 12px;
+}
+
+@media (max-width: 768px) {
+  .map-page-main {
+    padding: 2.75rem 1.25rem;
+  }
+
+  .map-page-main .leaflet-frame {
+    height: 520px;
+    border-radius: 9px;
+  }
+
+  .map-page-main .legend {
+    gap: 0.75rem;
+    padding: 1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .map-page-main {
+    padding: 2rem 1rem;
+  }
+
+  .map-page-main .leaflet-frame {
+    height: 420px;
+  }
+
+  .map-section-header {
+    margin-bottom: 1.5rem;
+  }
+}
+
+/* =========================================================================
+   12. PROFIL, VISI MISI, DAN STRUKTUR ORGANISASI RESPONSIVE
+   ========================================================================= */
+
+/*
+  Menghapus margin dan padding ganda dari aturan:
+  main > section:not(.hero)
+*/
+.profil-main > .vm-section {
+  width: 100%;
+  max-width: none;
+  margin: 0;
+  padding: 0;
+}
+
+.profil-main {
+  width: 100%;
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 4rem 2rem 5rem;
+  gap: 2rem;
+}
+
+.struktur-main {
+  max-width: 1200px;
+}
+
+
+/* Judul utama halaman */
+.profile-page-heading {
+  max-width: 760px;
+  margin: 0 auto 1rem;
+  text-align: center;
+}
+
+.profile-page-eyebrow {
+  display: block;
+  margin-bottom: 0.75rem;
+
+  color: var(--tide-teal);
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  font-weight: 500;
+  letter-spacing: 1.8px;
+  text-transform: uppercase;
+}
+
+.profile-page-heading h1 {
+  margin-bottom: 1rem;
+
+  color: var(--rust-buoy-lt);
+  font-family: var(--font-serif);
+  font-size: clamp(2.25rem, 5vw, 3.5rem);
+  font-weight: 500;
+  line-height: 1.15;
+}
+
+.profile-page-heading p {
+  color: var(--muted-sage);
+  font-size: 1rem;
+  line-height: 1.75;
+}
+
+
+/* Card Visi dan Misi */
+.profil-main .vm-card {
+  position: relative;
+  overflow: hidden;
+
+  width: 100%;
+  padding: 3.5rem 3rem;
+
+  border: 1px solid rgba(47, 111, 100, 0.35);
+  border-top: 3px solid var(--tide-teal);
+  border-radius: 14px;
+
+  background:
+    linear-gradient(
+      145deg,
+      rgba(47, 111, 100, 0.08),
+      rgba(232, 226, 205, 0.025)
+    );
+
+  text-align: center;
+}
+
+.profil-main .vm-card::before {
+  content: "";
+  position: absolute;
+  top: -60px;
+  right: -60px;
+
+  width: 160px;
+  height: 160px;
+
+  border: 1px solid rgba(47, 111, 100, 0.16);
+  border-radius: 50%;
+}
+
+.vm-card-number {
+  display: block;
+  margin-bottom: 0.7rem;
+
+  color: var(--tide-teal);
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  letter-spacing: 1.5px;
+}
+
+.profil-main .vm-title {
+  margin-bottom: 1.5rem;
+  font-size: clamp(1.9rem, 4vw, 2.6rem);
+}
+
+.profil-main .visi-text {
+  max-width: 720px;
+  margin: 0 auto;
+
+  font-size: clamp(1rem, 2vw, 1.2rem);
+  line-height: 1.85;
+}
+
+.profil-main .vm-list {
+  width: 100%;
+  max-width: 720px;
+  margin: 0 auto;
+  padding-left: 1.5rem;
+
+  font-size: 1rem;
+  line-height: 1.85;
+}
+
+.profil-main .vm-list li {
+  margin-bottom: 1rem;
+  padding-left: 0.45rem;
+}
+
+.profil-main .vm-list li:last-child {
+  margin-bottom: 0;
+}
+
+
+/* Struktur Organisasi */
+.structure-section {
+  text-align: center;
+}
+
+.struktur-main .org-grid {
+  width: 100%;
+  margin-top: 1rem;
+
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1.5rem;
+}
+
+.struktur-main .org-card {
+  min-width: 0;
+  padding: 1.8rem 1.25rem;
+}
+
+.struktur-main .org-role,
+.struktur-main .org-name {
+  overflow-wrap: anywhere;
+}
+
+.struktur-main .org-name {
+  line-height: 1.4;
+}
+
+
+/* Tablet */
+@media (max-width: 900px) {
+  .profil-main {
+    padding: 3rem 1.5rem 4rem;
+  }
+
+  .profil-main .vm-card {
+    padding: 3rem 2rem;
+  }
+
+  .struktur-main .org-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .struktur-main .org-card.org-kades {
+    width: 100%;
+    max-width: 360px;
+  }
+}
+
+
+/* HP */
+@media (max-width: 600px) {
+  .profil-main {
+    padding: 2.25rem 1rem 3rem;
+    gap: 1.5rem;
+  }
+
+  .profile-page-heading {
+    margin-bottom: 0.5rem;
+  }
+
+  .profile-page-heading h1 {
+    font-size: 2rem;
+  }
+
+  .profile-page-heading p {
+    font-size: 0.9rem;
+    line-height: 1.7;
+  }
+
+  .profil-main .vm-card {
+    padding: 2.25rem 1.25rem;
+    border-radius: 11px;
+  }
+
+  .profil-main .vm-title {
+    margin-bottom: 1.15rem;
+    font-size: 1.85rem;
+  }
+
+  .profil-main .visi-text {
+    font-size: 0.95rem;
+    line-height: 1.75;
+  }
+
+  .profil-main .vm-list {
+    padding-left: 1.25rem;
+    font-size: 0.92rem;
+    line-height: 1.75;
+  }
+
+  .struktur-main .org-grid {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+
+  .struktur-main .org-card,
+  .struktur-main .org-card.org-kades {
+    grid-column: auto;
+    width: 100%;
+    max-width: none;
+    margin: 0;
+  }
+}
+
+
+/* Footer tablet dan HP */
+@media (max-width: 640px) {
+  .mega-footer {
+    margin-top: 3rem;
+    padding: 3rem 1rem 1.5rem;
+  }
+
+  .footer-top {
+    grid-template-columns: 1fr;
+    gap: 2.25rem;
+    margin-bottom: 2.5rem;
+  }
+
+  .footer-col {
+    min-width: 0;
+  }
+
+  .footer-contact a,
+  .footer-links a,
+  .footer-col p {
+    overflow-wrap: anywhere;
+  }
+}
+
+/* =========================================================================
+   13. HALAMAN INFOGRAFIS RESPONSIVE
+   ========================================================================= */
+
+.infographic-main {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 4rem 2rem 5rem;
+}
+
+
+/* Judul halaman */
+.infographic-heading {
+  max-width: 760px;
+  margin: 0 auto 3rem;
+  text-align: center;
+}
+
+.infographic-eyebrow {
+  display: block;
+  margin-bottom: 0.75rem;
+
+  color: var(--tide-teal);
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  font-weight: 500;
+  letter-spacing: 1.8px;
+  text-transform: uppercase;
+}
+
+.infographic-heading h1 {
+  margin-bottom: 1rem;
+
+  color: var(--rust-buoy-lt);
+  font-family: var(--font-serif);
+  font-size: clamp(2.25rem, 5vw, 3.5rem);
+  font-weight: 500;
+  line-height: 1.15;
+
+  overflow-wrap: anywhere;
+}
+
+.infographic-heading p {
+  color: var(--muted-sage);
+  font-size: 1rem;
+  line-height: 1.75;
+}
+
+
+/* Menghindari aturan global section memberi padding ganda */
+.infographic-main > .infographic-section {
+  width: 100%;
+  max-width: none;
+  margin: 0;
+  padding: 0;
+}
+
+
+/* Grid galeri */
+.infographic-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  align-items: start;
+  gap: 2rem;
+
+  width: 100%;
+}
+
+
+/* Card infografis */
+.infographic-card {
+  min-width: 0;
+  overflow: hidden;
+
+  border: 1px solid rgba(47, 111, 100, 0.38);
+  border-radius: 14px;
+
+  background:
+    linear-gradient(
+      145deg,
+      rgba(47, 111, 100, 0.08),
+      rgba(16, 38, 43, 0.55)
+    );
+
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.18);
+
+  transition:
+    transform 0.3s ease,
+    border-color 0.3s ease,
+    box-shadow 0.3s ease;
+}
+
+.infographic-card:hover {
+  transform: translateY(-5px);
+  border-color: var(--rust-buoy-lt);
+
+  box-shadow:
+    0 18px 36px rgba(0, 0, 0, 0.27),
+    0 0 0 1px rgba(217, 120, 78, 0.12);
+}
+
+
+/* Area gambar */
+.infographic-image-wrapper {
+  position: relative;
+  overflow: hidden;
+
+  width: 100%;
+  aspect-ratio: 4 / 5;
+
+  border-bottom: 1px solid rgba(232, 226, 205, 0.08);
+  background: rgba(8, 25, 29, 0.65);
+}
+
+.infographic-image {
+  width: 100%;
+  height: 100%;
+  display: block;
+
+  /*
+    Menggunakan contain agar seluruh isi poster/infografis
+    tidak terpotong.
+  */
+  object-fit: contain;
+  object-position: center;
+
+  transition: transform 0.4s ease;
+}
+
+.infographic-card:hover .infographic-image {
+  transform: scale(1.02);
+}
+
+
+/* Isi card */
+.infographic-content {
+  padding: 1.4rem 1.5rem 1.6rem;
+}
+
+.infographic-label {
+  display: block;
+  margin-bottom: 0.5rem;
+
+  color: var(--tide-teal);
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  letter-spacing: 1.2px;
+  text-transform: uppercase;
+}
+
+.infographic-content h2 {
+  margin-bottom: 0.65rem;
+
+  color: var(--rust-buoy-lt);
+  font-family: var(--font-serif);
+  font-size: 1.3rem;
+  line-height: 1.35;
+
+  overflow-wrap: anywhere;
+}
+
+.infographic-date {
+  display: block;
+
+  color: var(--muted-sage);
+  font-size: 0.78rem;
+  line-height: 1.5;
+
+  overflow-wrap: anywhere;
+}
+
+
+/* Tampilan jika data kosong */
+.infographic-empty {
+  grid-column: 1 / -1;
+
+  max-width: 600px;
+  margin: 1rem auto 0;
+  padding: 3rem 2rem;
+
+  border: 1px dashed rgba(47, 111, 100, 0.55);
+  border-radius: 14px;
+
+  background: rgba(47, 111, 100, 0.05);
+  text-align: center;
+}
+
+.infographic-empty > span {
+  display: block;
+  margin-bottom: 1rem;
+  font-size: 2.25rem;
+}
+
+.infographic-empty h2 {
+  margin-bottom: 0.65rem;
+  color: var(--rust-buoy-lt);
+  font-size: 1.5rem;
+}
+
+.infographic-empty p {
+  color: var(--muted-sage);
+  font-size: 0.95rem;
+  line-height: 1.7;
+}
+
+
+/* Tablet */
+@media (max-width: 900px) {
+  .infographic-main {
+    padding: 3rem 1.5rem 4rem;
+  }
+
+  .infographic-heading {
+    margin-bottom: 2.5rem;
+  }
+
+  .infographic-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 1.5rem;
+  }
+}
+
+
+/* HP */
+@media (max-width: 600px) {
+  .infographic-main {
+    padding: 2.25rem 1rem 3rem;
+  }
+
+  .infographic-heading {
+    margin-bottom: 2rem;
+  }
+
+  .infographic-heading h1 {
+    font-size: 2rem;
+  }
+
+  .infographic-heading p {
+    font-size: 0.9rem;
+    line-height: 1.7;
+  }
+
+  .infographic-grid {
+    grid-template-columns: 1fr;
+    gap: 1.25rem;
+  }
+
+  .infographic-card {
+    width: 100%;
+    border-radius: 11px;
+  }
+
+  .infographic-image-wrapper {
+    /*
+      Poster tetap proporsional pada HP.
+      Tinggi tidak dibuat fixed agar tidak terpotong.
+    */
+    aspect-ratio: 4 / 5;
+  }
+
+  .infographic-content {
+    padding: 1.2rem 1.25rem 1.4rem;
+  }
+
+  .infographic-content h2 {
+    font-size: 1.2rem;
+  }
+
+  .infographic-empty {
+    padding: 2.25rem 1.25rem;
+  }
+}
+
+
+/* HP sangat kecil */
+@media (max-width: 360px) {
+  .infographic-main {
+    padding-left: 0.75rem;
+    padding-right: 0.75rem;
+  }
+
+  .infographic-heading h1 {
+    font-size: 1.85rem;
+  }
+}
+
+/* =========================================================================
+   PERBAIKAN POSISI HALAMAN INFOGRAFIS
+   ========================================================================= */
+
+.infographic-main {
+  width: 100%;
+  max-width: 1200px;
+  min-height: calc(100vh - 74px);
+
+  margin: 0 auto;
+  padding: 4rem 2rem 5rem;
+}
+
+
+/* Judul halaman berada di tengah */
+.infographic-heading {
+  width: 100%;
+  max-width: 760px;
+
+  margin: 0 auto 3rem;
+  padding: 0;
+
+  text-align: center;
+}
+
+.infographic-heading .infographic-eyebrow {
+  display: block;
+  text-align: center;
+}
+
+.infographic-heading h1 {
+  text-align: center;
+}
+
+.infographic-heading p {
+  margin-left: auto;
+  margin-right: auto;
+  text-align: center;
+}
+
+
+/*
+  Menghapus margin dan padding dari aturan global:
+  main > section:not(.hero)
+*/
+.infographic-main > .infographic-section {
+  width: 100%;
+  max-width: none;
+
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+
+/* Pembungkus daftar */
+.infographic-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+
+  width: 100%;
+  gap: 2rem;
+}
+
+
+/* Tampilan ketika infografis masih kosong */
+.infographic-empty {
+  grid-column: 1 / -1;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  width: min(100%, 700px);
+  min-height: 260px;
+
+  margin: 0 auto;
+  padding: 3rem 2rem;
+
+  border: 1px dashed rgba(47, 111, 100, 0.55);
+  border-radius: 14px;
+
+  background: rgba(47, 111, 100, 0.05);
+
+  text-align: center;
+}
+
+.infographic-empty > span {
+  display: block;
+  margin-bottom: 1rem;
+
+  font-size: 2.25rem;
+  text-align: center;
+}
+
+.infographic-empty h2 {
+  margin-bottom: 0.65rem;
+
+  color: var(--rust-buoy-lt);
+  font-size: 1.5rem;
+  text-align: center;
+}
+
+.infographic-empty p {
+  max-width: 600px;
+  margin: 0 auto;
+
+  color: var(--muted-sage);
+  font-size: 0.95rem;
+  line-height: 1.7;
+  text-align: center;
+}
+
+
+/* Tablet */
+@media (max-width: 900px) {
+  .infographic-main {
+    padding: 3rem 1.5rem 4rem;
+  }
+
+  .infographic-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 1.5rem;
+  }
+}
+
+
+/* HP */
+@media (max-width: 600px) {
+  .infographic-main {
+    padding: 2.25rem 1rem 3rem;
+  }
+
+  .infographic-heading {
+    margin-bottom: 2rem;
+  }
+
+  .infographic-grid {
+    grid-template-columns: 1fr;
+    gap: 1.25rem;
+  }
+
+  .infographic-empty {
+    min-height: 230px;
+    padding: 2.25rem 1.25rem;
+  }
+}
+
+/* =========================================================================
+   14. HALAMAN BERITA DAN DETAIL BERITA RESPONSIVE
+   ========================================================================= */
+
+/* -------------------------------------------------------------------------
+   Halaman daftar berita
+   ------------------------------------------------------------------------- */
+
+.news-page-main {
+  width: 100%;
+  max-width: 1200px;
+  min-height: calc(100vh - 74px);
+
+  margin: 0 auto;
+  padding: 4rem 2rem 5rem;
+}
+
+
+/* Judul halaman */
+.news-page-heading {
+  width: 100%;
+  max-width: 760px;
+
+  margin: 0 auto 3rem;
+
+  text-align: center;
+}
+
+.news-page-eyebrow {
+  display: block;
+  margin-bottom: 0.75rem;
+
+  color: var(--tide-teal);
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  font-weight: 500;
+  letter-spacing: 1.8px;
+  text-transform: uppercase;
+}
+
+.news-page-heading h1 {
+  margin-bottom: 1rem;
+
+  color: var(--rust-buoy-lt);
+  font-family: var(--font-serif);
+  font-size: clamp(2.25rem, 5vw, 3.5rem);
+  font-weight: 500;
+  line-height: 1.15;
+
+  overflow-wrap: anywhere;
+}
+
+.news-page-heading p {
+  max-width: 680px;
+
+  margin-left: auto;
+  margin-right: auto;
+
+  color: var(--muted-sage);
+  font-size: 1rem;
+  line-height: 1.75;
+}
+
+
+/*
+  Menghapus pengaruh dari:
+  main > section:not(.hero)
+*/
+.news-page-main > .news-list-section {
+  width: 100%;
+  max-width: none;
+
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+
+/* Grid berita */
+.news-page-main .news-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  align-items: stretch;
+
+  width: 100%;
+  margin: 0;
+
+  gap: 2rem;
+}
+
+
+/* Card berita */
+.news-page-main .news-card {
+  min-width: 0;
+  overflow: hidden;
+
+  display: flex;
+  flex-direction: column;
+
+  border: 1px solid rgba(47, 111, 100, 0.4);
+  border-radius: 14px;
+
+  background:
+    linear-gradient(
+      145deg,
+      rgba(47, 111, 100, 0.08),
+      rgba(16, 38, 43, 0.6)
+    );
+
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.18);
+
+  transition:
+    transform 0.3s ease,
+    border-color 0.3s ease,
+    box-shadow 0.3s ease;
+}
+
+.news-page-main .news-card:hover {
+  transform: translateY(-5px);
+  border-color: var(--rust-buoy-lt);
+
+  box-shadow:
+    0 18px 36px rgba(0, 0, 0, 0.28),
+    0 0 0 1px rgba(217, 120, 78, 0.12);
+}
+
+
+/* Gambar card berita */
+.news-image-link {
+  display: block;
+  border: none;
+  text-decoration: none;
+}
+
+.news-image {
+  width: 100%;
+  aspect-ratio: 16 / 10;
+
+  overflow: hidden;
+
+  border-bottom: 1px solid rgba(232, 226, 205, 0.08);
+  background: rgba(8, 25, 29, 0.65);
+}
+
+.news-image img {
+  width: 100%;
+  height: 100%;
+  display: block;
+
+  object-fit: cover;
+  object-position: center;
+
+  transition:
+    transform 0.45s ease,
+    filter 0.45s ease;
+}
+
+.news-card:hover .news-image img {
+  transform: scale(1.04);
+  filter: brightness(1.05);
+}
+
+
+/* Isi card */
+.news-page-main .news-content {
+  flex: 1;
+
+  display: flex;
+  flex-direction: column;
+
+  min-width: 0;
+  padding: 1.5rem;
+}
+
+.news-page-main .news-date {
+  margin-bottom: 0.6rem;
+
+  color: var(--tide-teal);
+  font-size: 0.75rem;
+  line-height: 1.5;
+}
+
+.news-page-main .news-title {
+  margin-bottom: 0.85rem;
+
+  font-size: 1.35rem;
+  line-height: 1.35;
+
+  overflow-wrap: anywhere;
+}
+
+.news-page-main .news-title a {
+  color: var(--paper-sand);
+  text-decoration: none;
+}
+
+.news-page-main .news-title a:hover {
+  color: var(--rust-buoy-lt);
+}
+
+.news-page-main .news-summary {
+  flex: 1;
+
+  margin-bottom: 1.5rem;
+
+  color: var(--muted-sage);
+  font-size: 0.92rem;
+  line-height: 1.75;
+
+  overflow-wrap: anywhere;
+}
+
+.news-page-main .news-readmore {
+  align-self: flex-start;
+
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+
+  color: var(--rust-buoy-lt);
+  font-size: 0.88rem;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.news-page-main .news-readmore:hover {
+  color: var(--paper-sand);
+}
+
+
+/* Tampilan kosong */
+.news-empty {
+  grid-column: 1 / -1;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  width: min(100%, 700px);
+  min-height: 260px;
+
+  margin: 0 auto;
+  padding: 3rem 2rem;
+
+  border: 1px dashed rgba(47, 111, 100, 0.55);
+  border-radius: 14px;
+
+  background: rgba(47, 111, 100, 0.05);
+
+  text-align: center;
+}
+
+.news-empty > span {
+  display: block;
+  margin-bottom: 1rem;
+
+  font-size: 2.25rem;
+}
+
+.news-empty h2 {
+  margin-bottom: 0.65rem;
+
+  color: var(--rust-buoy-lt);
+  font-size: 1.5rem;
+}
+
+.news-empty p {
+  color: var(--muted-sage);
+  font-size: 0.95rem;
+  line-height: 1.7;
+}
+
+
+/* -------------------------------------------------------------------------
+   Halaman detail berita
+   ------------------------------------------------------------------------- */
+
+.news-detail-main {
+  width: 100%;
+  max-width: 900px;
+
+  margin: 0 auto;
+  padding: 3rem 2rem 5rem;
+}
+
+
+/* Tombol kembali */
+.news-back-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+
+  margin-bottom: 2rem;
+  padding: 0.65rem 1rem;
+
+  border: 1px solid rgba(47, 111, 100, 0.45);
+  border-radius: 7px;
+
+  color: var(--muted-sage);
+  background: rgba(47, 111, 100, 0.06);
+
+  font-size: 0.9rem;
+  font-weight: 500;
+  text-decoration: none;
+
+  transition:
+    color 0.25s ease,
+    border-color 0.25s ease,
+    background 0.25s ease,
+    transform 0.25s ease;
+}
+
+.news-back-link:hover {
+  color: var(--paper-sand);
+  border-color: var(--rust-buoy-lt);
+  background: rgba(192, 87, 42, 0.08);
+
+  transform: translateX(-3px);
+}
+
+
+/* Artikel */
+.news-article {
+  width: 100%;
+  min-width: 0;
+}
+
+.news-article-header {
+  max-width: 820px;
+  margin-bottom: 2rem;
+}
+
+.news-article-label {
+  display: block;
+  margin-bottom: 0.75rem;
+
+  color: var(--tide-teal);
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  letter-spacing: 1.7px;
+  text-transform: uppercase;
+}
+
+.news-article-header h1 {
+  margin-bottom: 1rem;
+
+  color: var(--paper-sand);
+  font-family: var(--font-serif);
+  font-size: clamp(2.25rem, 6vw, 3.6rem);
+  font-weight: 500;
+  line-height: 1.15;
+
+  overflow-wrap: anywhere;
+}
+
+.news-article-date {
+  display: block;
+
+  color: var(--rust-buoy-lt);
+  font-size: 0.8rem;
+  line-height: 1.6;
+}
+
+
+/* Foto utama */
+.news-article-figure {
+  width: 100%;
+  margin: 0 0 2.75rem;
+}
+
+.news-article-image {
+  width: 100%;
+  height: auto;
+  max-height: 560px;
+  display: block;
+
+  object-fit: cover;
+  object-position: center;
+
+  border: 1px solid rgba(47, 111, 100, 0.65);
+  border-radius: 12px;
+
+  box-shadow: 0 14px 35px rgba(0, 0, 0, 0.3);
+}
+
+
+/* Isi artikel */
+.news-article-body {
+  width: 100%;
+
+  color: var(--paper-sand);
+  font-size: 1.08rem;
+  line-height: 1.9;
+
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+
+
+/* Tablet */
+@media (max-width: 900px) {
+  .news-page-main {
+    padding: 3rem 1.5rem 4rem;
+  }
+
+  .news-page-main .news-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 1.5rem;
+  }
+
+  .news-detail-main {
+    padding: 2.75rem 1.5rem 4rem;
+  }
+}
+
+
+/* HP */
+@media (max-width: 600px) {
+  .news-page-main {
+    padding: 2.25rem 1rem 3rem;
+  }
+
+  .news-page-heading {
+    margin-bottom: 2rem;
+  }
+
+  .news-page-heading h1 {
+    font-size: 2rem;
+  }
+
+  .news-page-heading p {
+    font-size: 0.9rem;
+    line-height: 1.7;
+  }
+
+  .news-page-main .news-grid {
+    grid-template-columns: 1fr;
+    gap: 1.25rem;
+  }
+
+  .news-page-main .news-card {
+    width: 100%;
+    border-radius: 11px;
+  }
+
+  .news-page-main .news-content {
+    padding: 1.25rem;
+  }
+
+  .news-page-main .news-title {
+    font-size: 1.25rem;
+  }
+
+  .news-detail-main {
+    padding: 2rem 1rem 3rem;
+  }
+
+  .news-back-link {
+    width: 100%;
+    justify-content: center;
+
+    margin-bottom: 1.75rem;
+  }
+
+  .news-article-header h1 {
+    font-size: 2rem;
+  }
+
+  .news-article-date {
+    font-size: 0.72rem;
+  }
+
+  .news-article-figure {
+    margin-bottom: 2rem;
+  }
+
+  .news-article-image {
+    max-height: none;
+    border-radius: 9px;
+  }
+
+  .news-article-body {
+    font-size: 0.96rem;
+    line-height: 1.8;
+  }
+
+  .news-empty {
+    min-height: 230px;
+    padding: 2.25rem 1.25rem;
+  }
+}
+
+
+/* HP sangat kecil */
+@media (max-width: 360px) {
+  .news-page-main,
+  .news-detail-main {
+    padding-left: 0.75rem;
+    padding-right: 0.75rem;
+  }
+
+  .news-article-header h1 {
+    font-size: 1.8rem;
   }
 }

@@ -1,38 +1,108 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-<meta charset="UTF-8">
-<title>Peta &mdash; {{ desa.nama }}</title>
-<link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}" />
-<!-- Library Leaflet untuk Peta -->
-<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+  <meta charset="UTF-8">
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1"
+  >
+
+  <title>Peta &mdash; {{ desa.nama }}</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+
+  <link
+    href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Work+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap"
+    rel="stylesheet"
+  >
+
+  <link
+    rel="stylesheet"
+    href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+  >
+
+  <link
+    rel="stylesheet"
+    href="{{ url_for('static', filename='css/style.css') }}"
+  >
 </head>
 <body>
 <header class="site-nav">
   <div class="nav-inner">
-    <a class="brand" href="/listing"><span class="brand-text"><strong>{{ desa.nama }}</strong></span></a>
-    <nav class="nav-links">
+
+    <a class="brand" href="/listing">
+      <span class="brand-mark" aria-hidden="true">🌾</span>
+
+      <span class="brand-text">
+        <strong>{{ desa.nama }}</strong>
+        <small>
+          {{ desa.kecamatan }} &middot; {{ desa.kabupaten }}
+        </small>
+      </span>
+    </a>
+
+    <button
+      class="nav-toggle"
+      type="button"
+      aria-label="Buka menu navigasi"
+      aria-expanded="false"
+      aria-controls="primary-navigation"
+    >
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
+
+    <nav
+      class="nav-links"
+      id="primary-navigation"
+      aria-label="Navigasi utama"
+    >
       <a href="/listing">Beranda</a>
-      <a href="/peta" style="border-bottom: 2px solid var(--rust-buoy-lt);">Peta Desa</a>
+      <a href="/peta" aria-current="page">Peta Desa</a>
+      <a href="/profil">Visi &amp; Misi</a>
+      <a href="/struktur">Struktur Organisasi</a>
       <a href="/infografis">Infografis</a>
       <a href="/berita">Berita</a>
     </nav>
+
   </div>
 </header>
 
-<main style="max-width: 1200px; margin: 0 auto; padding-top: 6rem; padding-bottom: 4rem;">
-  <section class="map-section" id="peta" style="width: 100%;">
-    <h2 class="section-title" style="color: var(--rust-buoy-lt); font-family: var(--font-serif); margin-bottom: 1rem;">Peta Titik Lokasi Desa</h2>
-    <p class="section-lede" style="color: var(--paper-sand); margin-bottom: 2rem;">Klik penanda untuk membaca catatan lapangan tiap titik &mdash; koordinat ditampilkan dalam derajat desimal.</p>
-    
-    <!-- Kotak Peta -->
-    <div id="peta-desa" class="leaflet-frame" style="height: 600px; border-radius: 12px; border: 2px solid rgba(255,255,255,0.1);"></div>
-    <ul class="legend" id="legenda-kategori" aria-label="Legenda kategori titik"></ul>
+<main class="map-page-main">
+
+  <section class="map-section" id="peta">
+
+    <header class="map-section-header">
+      <span class="eyebrow">Peta Desa</span>
+
+      <h1>Peta Titik Lokasi Desa</h1>
+
+      <p class="section-lede">
+        Klik penanda untuk membaca catatan lapangan tiap titik
+        &mdash; koordinat ditampilkan dalam derajat desimal.
+      </p>
+    </header>
+
+    <div
+      id="peta-desa"
+      class="leaflet-frame"
+      aria-label="Peta titik lokasi Desa Maor"
+    ></div>
+
+    <ul
+      class="legend"
+      id="legenda-kategori"
+      aria-label="Legenda kategori titik"
+    ></ul>
+
   </section>
+
 </main>
 
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-<!-- Pastikan script map Anda dipanggil di sini -->
 <script src="{{ url_for('static', filename='js/map.js') }}"></script>
+<script src="{{ url_for('static', filename='js/navigation.js') }}"></script>
 </body>
 </html>

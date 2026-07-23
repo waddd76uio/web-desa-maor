@@ -11,6 +11,11 @@
 
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
 <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}" />
+
+<script
+  defer
+  src="{{ url_for('static', filename='js/navigation.js') }}?v=2"
+></script>
 </head>
 <body>
 
@@ -18,21 +23,43 @@
 
 <header class="site-nav">
   <div class="nav-inner">
-    <a class="brand" href="/">
-      <span class="brand-mark">🌾</span>
+
+    <a class="brand" href="/listing">
+      <span class="brand-mark" aria-hidden="true">🌾</span>
+
       <span class="brand-text">
         <strong>{{ desa.nama }}</strong>
-        <small>{{ desa.kecamatan }} &middot; {{ desa.kabupaten }}</small>
+        <small>
+          {{ desa.kecamatan }} &middot; {{ desa.kabupaten }}
+        </small>
       </span>
     </a>
-    <nav class="nav-links">
-      <a href="/listing" style="border-bottom: 2px solid var(--rust-buoy-lt);">Beranda</a>
+
+    <button
+      class="nav-toggle"
+      type="button"
+      aria-label="Buka menu navigasi"
+      aria-expanded="false"
+      aria-controls="primary-navigation"
+    >
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
+
+    <nav
+      class="nav-links"
+      id="primary-navigation"
+      aria-label="Navigasi utama"
+    >
+      <a href="/listing" aria-current="page">Beranda</a>
       <a href="/peta">Peta Desa</a>
-      <a href="/profil">Visi & Misi</a>
+      <a href="/profil">Visi &amp; Misi</a>
       <a href="/struktur">Struktur Organisasi</a>
       <a href="/infografis">Infografis</a>
       <a href="/berita">Berita</a>
     </nav>
+
   </div>
 </header>
 
@@ -354,7 +381,5 @@
   </div>
 </main>
 
-<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-<script src="{{ url_for('static', filename='js/map.js') }}"></script>
 </body>
 </html>
