@@ -2965,3 +2965,375 @@ main > section:not(.hero) {
     font-size: 1.8rem;
   }
 }
+
+/* =========================================================================
+   15. TOMBOL AKSI ADMIN
+   ========================================================================= */
+
+.admin-action-cell {
+  padding: 1rem;
+  text-align: center;
+}
+
+.admin-delete-form {
+  display: inline-block;
+  margin: 0;
+}
+
+.admin-delete-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  min-width: 90px;
+  padding: 0.65rem 1rem;
+
+  border: 1px solid rgba(217, 120, 78, 0.45);
+  border-radius: 7px;
+
+  background: #a4383a;
+  color: #ffffff;
+
+  font-family: var(--font-sans);
+  font-size: 0.85rem;
+  font-weight: 600;
+
+  cursor: pointer;
+
+  transition:
+    background 0.25s ease,
+    border-color 0.25s ease,
+    transform 0.25s ease,
+    box-shadow 0.25s ease;
+}
+
+.admin-delete-button:hover {
+  background: #c34b4e;
+  border-color: #d9784e;
+
+  transform: translateY(-2px);
+
+  box-shadow: 0 6px 15px rgba(164, 56, 58, 0.3);
+}
+
+.admin-delete-button:active {
+  transform: translateY(0);
+}
+
+.admin-delete-button:focus-visible {
+  outline: 2px solid var(--paper-sand);
+  outline-offset: 3px;
+}
+
+
+/* Tombol admin pada HP */
+@media (max-width: 600px) {
+  .admin-action-cell {
+    padding: 0.75rem;
+  }
+
+  .admin-delete-button {
+    min-width: 80px;
+    padding: 0.6rem 0.85rem;
+    font-size: 0.8rem;
+  }
+}
+
+/* =========================================================================
+   16. FITUR EDIT BERITA ADMIN
+   ========================================================================= */
+
+/* Pembungkus tombol Edit dan Hapus */
+.admin-action-group {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+}
+
+/* Tombol Edit pada tabel */
+.admin-edit-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  min-width: 90px;
+  padding: 0.65rem 1rem;
+
+  border: 1px solid rgba(47, 111, 100, 0.8);
+  border-radius: 7px;
+
+  background: var(--tide-teal);
+  color: var(--paper-sand);
+
+  font-family: var(--font-sans);
+  font-size: 0.85rem;
+  font-weight: 600;
+  text-decoration: none;
+
+  transition:
+    background 0.25s ease,
+    border-color 0.25s ease,
+    transform 0.25s ease,
+    box-shadow 0.25s ease;
+}
+
+.admin-edit-button:hover {
+  background: #3f8377;
+  border-color: var(--muted-sage);
+  color: var(--paper-sand);
+
+  transform: translateY(-2px);
+
+  box-shadow: 0 6px 15px rgba(47, 111, 100, 0.3);
+}
+
+.admin-edit-button:active {
+  transform: translateY(0);
+}
+
+
+/* Halaman edit */
+.admin-edit-page {
+  width: 100%;
+  min-height: 100vh;
+
+  display: flex;
+  justify-content: center;
+
+  padding: 4rem 2rem;
+}
+
+.admin-edit-card {
+  width: 100%;
+  max-width: 850px;
+
+  padding: 2.75rem;
+
+  border: 1px solid rgba(47, 111, 100, 0.55);
+  border-radius: 14px;
+
+  background:
+    linear-gradient(
+      145deg,
+      rgba(47, 111, 100, 0.11),
+      rgba(16, 38, 43, 0.85)
+    );
+
+  box-shadow: 0 18px 45px rgba(0, 0, 0, 0.28);
+}
+
+.admin-edit-back {
+  display: inline-block;
+  margin-bottom: 2rem;
+
+  color: var(--muted-sage);
+  font-size: 0.9rem;
+  text-decoration: none;
+}
+
+.admin-edit-back:hover {
+  color: var(--rust-buoy-lt);
+}
+
+.admin-edit-label {
+  display: block;
+  margin-bottom: 0.5rem;
+
+  color: var(--tide-teal);
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+}
+
+.admin-edit-card h1 {
+  margin-bottom: 0.5rem;
+
+  color: var(--rust-buoy-lt);
+  font-size: clamp(2rem, 5vw, 2.8rem);
+}
+
+.admin-edit-description {
+  margin-bottom: 2rem;
+  color: var(--muted-sage);
+}
+
+.admin-edit-error {
+  margin-bottom: 1.5rem;
+  padding: 1rem;
+
+  border: 1px solid rgba(217, 120, 78, 0.55);
+  border-radius: 7px;
+
+  background: rgba(164, 56, 58, 0.15);
+  color: #ffd6d7;
+}
+
+
+/* Form */
+.admin-edit-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.admin-edit-field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.55rem;
+}
+
+.admin-edit-field label {
+  color: var(--paper-sand);
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+
+.admin-edit-field input,
+.admin-edit-field textarea {
+  width: 100%;
+
+  padding: 0.85rem 1rem;
+
+  border: 1px solid rgba(47, 111, 100, 0.7);
+  border-radius: 7px;
+
+  background: rgba(16, 38, 43, 0.75);
+  color: var(--paper-sand);
+
+  font-family: var(--font-sans);
+  font-size: 0.95rem;
+}
+
+.admin-edit-field textarea {
+  resize: vertical;
+  line-height: 1.7;
+}
+
+.admin-edit-field input:focus,
+.admin-edit-field textarea:focus {
+  outline: none;
+  border-color: var(--rust-buoy-lt);
+
+  box-shadow: 0 0 0 3px rgba(217, 120, 78, 0.12);
+}
+
+.admin-edit-field small {
+  color: var(--muted-sage);
+  font-size: 0.77rem;
+}
+
+
+/* Gambar berita saat ini */
+.admin-current-image {
+  width: 100%;
+  max-width: 320px;
+
+  overflow: hidden;
+
+  border: 1px solid rgba(47, 111, 100, 0.55);
+  border-radius: 9px;
+}
+
+.admin-current-image img {
+  width: 100%;
+  height: 190px;
+  display: block;
+
+  object-fit: cover;
+  object-position: center;
+}
+
+.admin-no-image {
+  color: var(--muted-sage);
+  font-size: 0.9rem;
+}
+
+
+/* Tombol bawah form */
+.admin-edit-actions {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  flex-wrap: wrap;
+
+  gap: 0.75rem;
+  margin-top: 0.5rem;
+}
+
+.admin-cancel-button,
+.admin-save-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  min-width: 150px;
+  padding: 0.8rem 1.2rem;
+
+  border-radius: 7px;
+
+  font-family: var(--font-sans);
+  font-size: 0.9rem;
+  font-weight: 600;
+
+  cursor: pointer;
+}
+
+.admin-cancel-button {
+  border: 1px solid rgba(185, 196, 183, 0.35);
+
+  background: transparent;
+  color: var(--muted-sage);
+
+  text-decoration: none;
+}
+
+.admin-cancel-button:hover {
+  border-color: var(--paper-sand);
+  color: var(--paper-sand);
+}
+
+.admin-save-button {
+  border: 1px solid var(--rust-buoy-lt);
+
+  background: var(--rust-buoy);
+  color: var(--paper-sand);
+}
+
+.admin-save-button:hover {
+  background: var(--rust-buoy-lt);
+}
+
+
+/* Tampilan HP */
+@media (max-width: 600px) {
+  .admin-edit-page {
+    padding: 2rem 1rem;
+  }
+
+  .admin-edit-card {
+    padding: 1.75rem 1.25rem;
+    border-radius: 10px;
+  }
+
+  .admin-action-group {
+    flex-direction: column;
+  }
+
+  .admin-edit-button,
+  .admin-delete-button {
+    width: 100%;
+    min-width: 85px;
+  }
+
+  .admin-edit-actions {
+    flex-direction: column-reverse;
+  }
+
+  .admin-cancel-button,
+  .admin-save-button {
+    width: 100%;
+  }
+}
