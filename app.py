@@ -373,8 +373,8 @@ def umkm():
             nama_produk TEXT NOT NULL,
             nama_usaha TEXT NOT NULL,
             kategori TEXT NOT NULL,
-            harga INTEGER NOT NULL,
-            satuan TEXT NOT NULL,
+            harga INTEGER NOT NULL DEFAULT 0,
+            satuan TEXT NOT NULL DEFAULT '-',
             deskripsi TEXT,
             nomor_wa TEXT NOT NULL,
             alamat TEXT NOT NULL,
@@ -530,8 +530,8 @@ def admin_dashboard():
             nama_produk TEXT NOT NULL,
             nama_usaha TEXT NOT NULL,
             kategori TEXT NOT NULL,
-            harga INTEGER NOT NULL,
-            satuan TEXT NOT NULL,
+            harga INTEGER NOT NULL DEFAULT 0,
+            satuan TEXT NOT NULL DEFAULT '-',
             deskripsi TEXT,
             nomor_wa TEXT NOT NULL,
             alamat TEXT NOT NULL,
@@ -670,8 +670,6 @@ def admin_dashboard():
             nama_produk = request.form.get("nama_produk", "").strip()
             nama_usaha = request.form.get("nama_usaha", "").strip()
             kategori = request.form.get("kategori", "").strip()
-            harga = request.form.get("harga", "").strip()
-            satuan = request.form.get("satuan", "").strip()
             deskripsi = request.form.get("deskripsi", "").strip()
             nomor_wa = request.form.get("nomor_wa", "").strip()
             alamat = request.form.get("alamat", "").strip()
@@ -684,19 +682,11 @@ def admin_dashboard():
                 not nama_produk
                 or not nama_usaha
                 or not kategori
-                or not harga
-                or not satuan
                 or not nomor_wa
                 or not alamat
                 or not maps_url
             ):
                 return "Data produk UMKM belum lengkap.", 400
-
-            # Memastikan harga berupa angka
-            try:
-                harga_angka = int(harga)
-            except ValueError:
-                return "Harga produk harus berupa angka.", 400
 
             # Mengubah nomor 08 menjadi 628 secara otomatis
             nomor_wa = nomor_wa.replace(" ", "").replace("-", "")
@@ -1055,6 +1045,8 @@ def admin_edit_infografis(id_infografis):
         judul = request.form.get("judul", "").strip()
         tanggal = request.form.get("tanggal", "").strip()
         gambar = request.files.get("gambar")
+        harga_angka = 0
+        satuan = "-"
 
         # Validasi sederhana
         if not judul or not tanggal:
@@ -1228,10 +1220,6 @@ def admin_edit_umkm(id_umkm):
 
         kategori = request.form.get("kategori", "").strip()
 
-        harga = request.form.get("harga", "").strip()
-
-        satuan = request.form.get("satuan", "").strip()
-
         deskripsi = request.form.get("deskripsi", "").strip()
 
         nomor_wa = request.form.get("nomor_wa", "").strip()
@@ -1249,8 +1237,6 @@ def admin_edit_umkm(id_umkm):
             not nama_produk
             or not nama_usaha
             or not kategori
-            or not harga
-            or not satuan
             or not nomor_wa
             or not alamat
             or not maps_url
@@ -1262,16 +1248,33 @@ def admin_edit_umkm(id_umkm):
                 error="Semua data wajib harus diisi.",
             )
 
-        # Memastikan harga berupa angka
-        try:
-            harga_angka = int(harga)
-        except ValueError:
-            return render_template(
-                "admin_edit_umkm.html",
-                desa=DESA,
-                item=item,
-                error="Harga produk harus berupa angka.",
-            )
+        db.execute(
+            """
+            UPDATE umkm
+            SET nama_produk = ?,
+                nama_usaha = ?,
+                kategori = ?,
+                deskripsi = ?,
+                nomor_wa = ?,
+                alamat = ?,
+                maps_url = ?,
+                gambar = ?,
+                status = ?
+            WHERE id = ?
+            """,
+            (
+                nama_produk,
+                nama_usaha,
+                kategori,
+                deskripsi,
+                nomor_wa,
+                alamat,
+                maps_url,
+                filename,
+                status,
+                id_umkm,
+            ),
+        )
 
         # Merapikan nomor WhatsApp
         nomor_wa = nomor_wa.replace(" ", "").replace("-", "")
