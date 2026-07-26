@@ -4,34 +4,21 @@
 <head>
   <meta charset="UTF-8">
 
-  <meta
-    name="viewport"
-    content="width=device-width, initial-scale=1"
-  >
+  <meta name="viewport" content="width=device-width, initial-scale=1">
 
   <title>Infografis &mdash; {{ desa.nama }}</title>
 
-  <meta
-    name="description"
-    content="Galeri infografis dan informasi visual {{ desa.nama }}."
-  >
+  <meta name="description" content="Galeri infografis dan informasi visual {{ desa.nama }}.">
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
 
   <link
     href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Work+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap"
-    rel="stylesheet"
-  >
+    rel="stylesheet">
 
-  <link
-    rel="stylesheet"
-    href="{{ url_for('static', filename='css/style.css') }}?v=5"
-  >
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}?v=5">
 
-  <script
-    defer
-    src="{{ url_for('static', filename='js/navigation.js') }}?v=4"
-  ></script>
+  <script defer src="{{ url_for('static', filename='js/navigation.js') }}?v=4"></script>
 </head>
 
 <body>
@@ -52,28 +39,20 @@
         </span>
       </a>
 
-      <button
-        class="nav-toggle"
-        type="button"
-        aria-label="Buka menu navigasi"
-        aria-expanded="false"
-        aria-controls="primary-navigation"
-      >
+      <button class="nav-toggle" type="button" aria-label="Buka menu navigasi" aria-expanded="false"
+        aria-controls="primary-navigation">
         <span></span>
         <span></span>
         <span></span>
       </button>
 
-      <nav
-        class="nav-links"
-        id="primary-navigation"
-        aria-label="Navigasi utama"
-      >
+      <nav class="nav-links" id="primary-navigation" aria-label="Navigasi utama">
         <a href="/listing">Beranda</a>
         <a href="/peta">Peta Desa</a>
         <a href="/profil">Visi &amp; Misi</a>
         <a href="/struktur">Struktur Organisasi</a>
         <a href="/infografis" aria-current="page">Infografis</a>
+        <a href="/umkm">UMKM</a>
         <a href="/berita">Berita</a>
       </nav>
 
@@ -97,55 +76,47 @@
     </header>
 
 
-    <section
-      class="infographic-section"
-      aria-label="Daftar infografis desa"
-    >
+    <section class="infographic-section" aria-label="Daftar infografis desa">
 
       <div class="infographic-grid">
 
         {% for info in infografis %}
 
-          <article class="infographic-card">
+        <article class="infographic-card">
 
-            <div class="infographic-image-wrapper">
-              <img
-                src="{{ url_for('static', filename='uploads/' + info.gambar) }}"
-                alt="{{ info.judul }}"
-                class="infographic-image"
-                loading="lazy"
-                decoding="async"
-              >
-            </div>
+          <div class="infographic-image-wrapper">
+            <img src="{{ url_for('static', filename='uploads/' + info.gambar) }}" alt="{{ info.judul }}"
+              class="infographic-image" loading="lazy" decoding="async">
+          </div>
 
-            <div class="infographic-content">
+          <div class="infographic-content">
 
-              <span class="infographic-label">
-                Infografis Desa
-              </span>
+            <span class="infographic-label">
+              Infografis Desa
+            </span>
 
-              <h2>{{ info.judul }}</h2>
+            <h2>{{ info.judul }}</h2>
 
-              <time class="infographic-date">
-                Diunggah pada: {{ info.tanggal }}
-              </time>
+            <time class="infographic-date">
+              Diunggah pada: {{ info.tanggal }}
+            </time>
 
-            </div>
+          </div>
 
-          </article>
+        </article>
 
         {% else %}
 
-          <div class="infographic-empty">
-            <span aria-hidden="true">📊</span>
+        <div class="infographic-empty">
+          <span aria-hidden="true">📊</span>
 
-            <h2>Belum Ada Infografis</h2>
+          <h2>Belum Ada Infografis</h2>
 
-            <p>
-              Belum ada infografis yang diunggah.
-              Silakan tambahkan melalui Panel Admin.
-            </p>
-          </div>
+          <p>
+            Belum ada infografis yang diunggah.
+            Silakan tambahkan melalui Panel Admin.
+          </p>
+        </div>
 
         {% endfor %}
 
@@ -156,4 +127,5 @@
   </main>
 
 </body>
+
 </html>

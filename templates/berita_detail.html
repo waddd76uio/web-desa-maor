@@ -4,34 +4,21 @@
 <head>
   <meta charset="UTF-8">
 
-  <meta
-    name="viewport"
-    content="width=device-width, initial-scale=1"
-  >
+  <meta name="viewport" content="width=device-width, initial-scale=1">
 
   <title>{{ item.judul }} &mdash; {{ desa.nama }}</title>
 
-  <meta
-    name="description"
-    content="{{ item.ringkasan }}"
-  >
+  <meta name="description" content="{{ item.ringkasan }}">
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
 
   <link
     href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Work+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap"
-    rel="stylesheet"
-  >
+    rel="stylesheet">
 
-  <link
-    rel="stylesheet"
-    href="{{ url_for('static', filename='css/style.css') }}?v=6"
-  >
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}?v=6">
 
-  <script
-    defer
-    src="{{ url_for('static', filename='js/navigation.js') }}?v=4"
-  ></script>
+  <script defer src="{{ url_for('static', filename='js/navigation.js') }}?v=4"></script>
 </head>
 
 <body>
@@ -54,28 +41,20 @@
         </span>
       </a>
 
-      <button
-        class="nav-toggle"
-        type="button"
-        aria-label="Buka menu navigasi"
-        aria-expanded="false"
-        aria-controls="primary-navigation"
-      >
+      <button class="nav-toggle" type="button" aria-label="Buka menu navigasi" aria-expanded="false"
+        aria-controls="primary-navigation">
         <span></span>
         <span></span>
         <span></span>
       </button>
 
-      <nav
-        class="nav-links"
-        id="primary-navigation"
-        aria-label="Navigasi utama"
-      >
+      <nav class="nav-links" id="primary-navigation" aria-label="Navigasi utama">
         <a href="/listing">Beranda</a>
         <a href="/peta">Peta Desa</a>
         <a href="/profil">Visi &amp; Misi</a>
         <a href="/struktur">Struktur Organisasi</a>
         <a href="/infografis">Infografis</a>
+        <a href="/umkm">UMKM</a>
         <a href="/berita" aria-current="page">Berita</a>
       </nav>
 
@@ -85,10 +64,7 @@
 
   <main class="news-detail-main">
 
-    <a
-      href="/berita"
-      class="news-back-link"
-    >
+    <a href="/berita" class="news-back-link">
       <span aria-hidden="true">&larr;</span>
       Kembali ke Daftar Berita
     </a>
@@ -113,11 +89,8 @@
 
       <figure class="news-article-figure">
 
-        <img
-          src="{{ url_for('static', filename='uploads/' + item.gambar) }}"
-          alt="{{ item.judul }}"
-          class="news-article-image"
-        >
+        <img src="{{ url_for('static', filename='uploads/' + item.gambar) }}" alt="{{ item.judul }}"
+          class="news-article-image">
 
       </figure>
 
@@ -131,4 +104,5 @@
   </main>
 
 </body>
+
 </html>

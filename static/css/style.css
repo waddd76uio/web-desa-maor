@@ -8,7 +8,7 @@
   --rust-buoy-lt: #d9784e;
   --tide-teal: #2f6f64;
   --muted-sage: #b9c4b7;
-  
+
   --font-serif: 'Fraunces', serif;
   --font-sans: 'Work Sans', sans-serif;
   --font-mono: 'IBM Plex Mono', monospace;
@@ -28,8 +28,16 @@ body {
   overflow-x: hidden;
 }
 
-h1, h2, h3 { font-family: var(--font-serif); font-weight: 500; }
-.mono { font-family: var(--font-mono); }
+h1,
+h2,
+h3 {
+  font-family: var(--font-serif);
+  font-weight: 500;
+}
+
+.mono {
+  font-family: var(--font-mono);
+}
 
 /* =========================================================================
    2. LAYOUT & NAVIGATION
@@ -204,7 +212,11 @@ h1, h2, h3 { font-family: var(--font-serif); font-weight: 500; }
   margin-bottom: 2rem;
 }
 
-.hero-actions { display: flex; gap: 1rem; margin-bottom: 2.5rem; }
+.hero-actions {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 2.5rem;
+}
 
 .btn {
   padding: 0.75rem 1.5rem;
@@ -245,19 +257,28 @@ h1, h2, h3 { font-family: var(--font-serif); font-weight: 500; }
   border-top: 1px solid rgba(232, 226, 205, 0.1);
 }
 
-.coord-readout > div {
+.coord-readout>div {
   min-width: 0;
 }
 
 .coord-readout dd {
   overflow-wrap: anywhere;
 }
-.coord-readout dt { font-size: 0.8rem; color: var(--muted-sage); }
-.coord-readout dd { font-size: 0.95rem; font-weight: 500; }
+
+.coord-readout dt {
+  font-size: 0.8rem;
+  color: var(--muted-sage);
+}
+
+.coord-readout dd {
+  font-size: 0.95rem;
+  font-weight: 500;
+}
 
 .hero-media {
   width: 100%;
-  aspect-ratio: 16 / 9; /* Memaksa rasio video menjadi 16:9 */
+  aspect-ratio: 16 / 9;
+  /* Memaksa rasio video menjadi 16:9 */
   border-radius: 12px;
   overflow: hidden;
   box-shadow: 0 12px 30px rgba(0, 0, 0, 0.4);
@@ -281,7 +302,7 @@ h1, h2, h3 { font-family: var(--font-serif); font-weight: 500; }
 /* =========================================================================
    4. SECTIONS, MAP, & LEDGER (Data Layouts)
    ========================================================================= */
-main > section:not(.hero) {
+main>section:not(.hero) {
   max-width: 1200px;
   margin: 4rem auto;
   padding: 0 2rem;
@@ -294,6 +315,7 @@ main > section:not(.hero) {
   align-items: baseline;
   gap: 1rem;
 }
+
 .section-num {
   font-family: var(--font-mono);
   color: var(--tide-teal);
@@ -307,6 +329,7 @@ main > section:not(.hero) {
   border-radius: 8px;
   padding: 1.5rem;
 }
+
 .ledger-row {
   display: flex;
   justify-content: space-between;
@@ -314,11 +337,16 @@ main > section:not(.hero) {
   border-bottom: 1px solid rgba(232, 226, 205, 0.05);
   transition: background 0.3s ease, padding-left 0.3s ease;
 }
+
 .ledger-row:hover:not(.ledger-row--total) {
   background: rgba(47, 111, 100, 0.15);
   padding-left: 1.5rem;
 }
-.ledger-row:last-child { border-bottom: none; }
+
+.ledger-row:last-child {
+  border-bottom: none;
+}
+
 .ledger-row--total {
   margin-top: 1rem;
   padding-top: 1rem;
@@ -340,6 +368,7 @@ main > section:not(.hero) {
   border: 1px solid rgba(47, 111, 100, 0.3);
   border-radius: 8px;
 }
+
 .legend-item {
   display: flex;
   align-items: center;
@@ -347,6 +376,7 @@ main > section:not(.hero) {
   font-size: 0.85rem;
   color: var(--muted-sage);
 }
+
 .legend-dot {
   width: 10px;
   height: 10px;
@@ -354,6 +384,7 @@ main > section:not(.hero) {
   border: 1px solid rgba(232, 226, 205, 0.4);
   flex-shrink: 0;
 }
+
 .legend-label {
   text-transform: uppercase;
   letter-spacing: 0.5px;
@@ -370,7 +401,10 @@ main > section:not(.hero) {
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
   transition: filter 0.4s ease;
 }
-.leaflet-frame:hover { filter: saturate(1.1); }
+
+.leaflet-frame:hover {
+  filter: saturate(1.1);
+}
 
 /* POI Log */
 .poi-row {
@@ -379,12 +413,20 @@ main > section:not(.hero) {
   transition: all 0.3s ease;
   border-left: 4px solid transparent;
 }
+
 .poi-row:hover {
   background: rgba(232, 226, 205, 0.03);
   border-left-color: var(--rust-buoy);
   transform: translateX(5px);
 }
-.poi-header { display: flex; align-items: center; gap: 1rem; margin-bottom: 0.5rem; }
+
+.poi-header {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 0.5rem;
+}
+
 .poi-tag {
   font-size: 0.75rem;
   padding: 0.2rem 0.6rem;
@@ -401,6 +443,7 @@ main > section:not(.hero) {
   grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
   gap: 2rem;
 }
+
 .card {
   background: rgba(47, 111, 100, 0.05);
   border: 1px solid rgba(47, 111, 100, 0.3);
@@ -408,16 +451,37 @@ main > section:not(.hero) {
   border-radius: 8px;
   transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.4s ease;
 }
+
 .card:hover {
   transform: translateY(-4px);
   box-shadow: 0 12px 24px rgba(0, 0, 0, 0.2), 0 0 0 1px rgba(185, 196, 183, 0.3);
 }
 
-.contact-list, .social-list { list-style: none; }
-.contact-list li { margin-bottom: 1rem; display: flex; gap: 1rem; }
-.contact-icon { color: var(--rust-buoy-lt); }
-.card a { color: var(--paper-sand); text-decoration: none; border-bottom: 1px dashed var(--muted-sage); }
-.card a:hover { color: var(--rust-buoy-lt); border-color: var(--rust-buoy-lt); }
+.contact-list,
+.social-list {
+  list-style: none;
+}
+
+.contact-list li {
+  margin-bottom: 1rem;
+  display: flex;
+  gap: 1rem;
+}
+
+.contact-icon {
+  color: var(--rust-buoy-lt);
+}
+
+.card a {
+  color: var(--paper-sand);
+  text-decoration: none;
+  border-bottom: 1px dashed var(--muted-sage);
+}
+
+.card a:hover {
+  color: var(--rust-buoy-lt);
+  border-color: var(--rust-buoy-lt);
+}
 
 .id-table div {
   display: flex;
@@ -429,11 +493,27 @@ main > section:not(.hero) {
 /* =========================================================================
    5. UTILITIES & SCROLLBAR
    ========================================================================= */
-::selection { background: var(--rust-buoy-lt); color: var(--chart-navy); }
-::-webkit-scrollbar { width: 8px; }
-::-webkit-scrollbar-track { background: var(--chart-navy); }
-::-webkit-scrollbar-thumb { background: rgba(185, 196, 183, 0.25); border-radius: 4px; }
-::-webkit-scrollbar-thumb:hover { background: rgba(185, 196, 183, 0.5); }
+::selection {
+  background: var(--rust-buoy-lt);
+  color: var(--chart-navy);
+}
+
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--chart-navy);
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(185, 196, 183, 0.25);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(185, 196, 183, 0.5);
+}
 
 .site-footer {
   text-align: center;
@@ -708,7 +788,7 @@ main > section:not(.hero) {
     padding-top: 1.15rem;
   }
 
-  .coord-readout > div {
+  .coord-readout>div {
     min-width: 0;
     text-align: center;
   }
@@ -765,7 +845,7 @@ main > section:not(.hero) {
 .vm-card {
   padding: 4rem 3rem;
   text-align: center;
-  background: rgba(232, 226, 205, 0.03); 
+  background: rgba(232, 226, 205, 0.03);
   border-top: 4px solid var(--tide-teal);
 }
 
@@ -817,7 +897,7 @@ main > section:not(.hero) {
   padding: 1.75rem 1.25rem;
   text-align: center;
   transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275),
-              box-shadow 0.4s ease, border-color 0.4s ease;
+    box-shadow 0.4s ease, border-color 0.4s ease;
 }
 
 .org-card:hover {
@@ -914,7 +994,7 @@ main > section:not(.hero) {
   border-radius: 8px;
   padding: 1.5rem;
   box-shadow: 0 10px 40px rgba(0, 0, 0, 0.6);
-  
+
   /* State Awal: Transparan, Turun, & Disembunyikan */
   opacity: 0;
   visibility: hidden;
@@ -934,11 +1014,13 @@ main > section:not(.hero) {
   padding: 0.5rem 0;
   font-size: 0.85rem;
 }
+
 .stats-panel .ledger-row:hover:not(.ledger-row--total) {
   background: transparent;
   padding-left: 0.5rem;
   color: var(--rust-buoy-lt);
 }
+
 .stats-panel .ledger-row--total {
   font-size: 1rem;
 }
@@ -990,7 +1072,8 @@ main > section:not(.hero) {
   letter-spacing: 1px;
 }
 
-.footer-contact, .footer-links {
+.footer-contact,
+.footer-links {
   list-style: none;
 }
 
@@ -1001,7 +1084,8 @@ main > section:not(.hero) {
   color: var(--muted-sage);
 }
 
-.footer-contact a, .footer-links a {
+.footer-contact a,
+.footer-links a {
   color: var(--muted-sage);
   text-decoration: none;
   transition: color 0.3s ease;
@@ -1011,7 +1095,8 @@ main > section:not(.hero) {
   margin-bottom: 1rem;
 }
 
-.footer-links a:hover, .footer-contact a:hover {
+.footer-links a:hover,
+.footer-contact a:hover {
   color: var(--rust-buoy-lt);
 }
 
@@ -1167,11 +1252,9 @@ main > section:not(.hero) {
   height: 3px;
   border-radius: 0 0 20px 20px;
 
-  background: linear-gradient(
-    90deg,
-    var(--tide-teal),
-    rgba(47, 111, 100, 0.35)
-  );
+  background: linear-gradient(90deg,
+      var(--tide-teal),
+      rgba(47, 111, 100, 0.35));
 }
 
 
@@ -1382,8 +1465,7 @@ main > section:not(.hero) {
   /* Scrollbar Firefox */
   scrollbar-width: thin;
   scrollbar-color:
-    rgba(217, 120, 78, 0.75)
-    rgba(16, 38, 43, 0.28);
+    rgba(217, 120, 78, 0.75) rgba(16, 38, 43, 0.28);
 }
 
 .welcome-copy p {
@@ -1452,11 +1534,9 @@ main > section:not(.hero) {
   height: 3px;
   border-radius: 0 0 20px 20px;
 
-  background: linear-gradient(
-    90deg,
-    var(--rust-buoy),
-    var(--rust-buoy-lt)
-  );
+  background: linear-gradient(90deg,
+      var(--rust-buoy),
+      var(--rust-buoy-lt));
 }
 
 
@@ -1762,7 +1842,7 @@ main > section:not(.hero) {
   Menghapus margin dan padding ganda dari aturan:
   main > section:not(.hero)
 */
-.profil-main > .vm-section {
+.profil-main>.vm-section {
   width: 100%;
   max-width: none;
   margin: 0;
@@ -1831,11 +1911,9 @@ main > section:not(.hero) {
   border-radius: 14px;
 
   background:
-    linear-gradient(
-      145deg,
+    linear-gradient(145deg,
       rgba(47, 111, 100, 0.08),
-      rgba(232, 226, 205, 0.025)
-    );
+      rgba(232, 226, 205, 0.025));
 
   text-align: center;
 }
@@ -2076,7 +2154,7 @@ main > section:not(.hero) {
 
 
 /* Menghindari aturan global section memberi padding ganda */
-.infographic-main > .infographic-section {
+.infographic-main>.infographic-section {
   width: 100%;
   max-width: none;
   margin: 0;
@@ -2104,11 +2182,9 @@ main > section:not(.hero) {
   border-radius: 14px;
 
   background:
-    linear-gradient(
-      145deg,
+    linear-gradient(145deg,
       rgba(47, 111, 100, 0.08),
-      rgba(16, 38, 43, 0.55)
-    );
+      rgba(16, 38, 43, 0.55));
 
   box-shadow: 0 12px 28px rgba(0, 0, 0, 0.18);
 
@@ -2213,7 +2289,7 @@ main > section:not(.hero) {
   text-align: center;
 }
 
-.infographic-empty > span {
+.infographic-empty>span {
   display: block;
   margin-bottom: 1rem;
   font-size: 2.25rem;
@@ -2357,7 +2433,7 @@ main > section:not(.hero) {
   Menghapus margin dan padding dari aturan global:
   main > section:not(.hero)
 */
-.infographic-main > .infographic-section {
+.infographic-main>.infographic-section {
   width: 100%;
   max-width: none;
 
@@ -2399,7 +2475,7 @@ main > section:not(.hero) {
   text-align: center;
 }
 
-.infographic-empty > span {
+.infographic-empty>span {
   display: block;
   margin-bottom: 1rem;
 
@@ -2528,7 +2604,7 @@ main > section:not(.hero) {
   Menghapus pengaruh dari:
   main > section:not(.hero)
 */
-.news-page-main > .news-list-section {
+.news-page-main>.news-list-section {
   width: 100%;
   max-width: none;
 
@@ -2562,11 +2638,9 @@ main > section:not(.hero) {
   border-radius: 14px;
 
   background:
-    linear-gradient(
-      145deg,
+    linear-gradient(145deg,
       rgba(47, 111, 100, 0.08),
-      rgba(16, 38, 43, 0.6)
-    );
+      rgba(16, 38, 43, 0.6));
 
   box-shadow: 0 12px 28px rgba(0, 0, 0, 0.18);
 
@@ -2712,7 +2786,7 @@ main > section:not(.hero) {
   text-align: center;
 }
 
-.news-empty > span {
+.news-empty>span {
   display: block;
   margin-bottom: 1rem;
 
@@ -2955,6 +3029,7 @@ main > section:not(.hero) {
 
 /* HP sangat kecil */
 @media (max-width: 360px) {
+
   .news-page-main,
   .news-detail-main {
     padding-left: 0.75rem;
@@ -3115,11 +3190,9 @@ main > section:not(.hero) {
   border-radius: 14px;
 
   background:
-    linear-gradient(
-      145deg,
+    linear-gradient(145deg,
       rgba(47, 111, 100, 0.11),
-      rgba(16, 38, 43, 0.85)
-    );
+      rgba(16, 38, 43, 0.85));
 
   box-shadow: 0 18px 45px rgba(0, 0, 0, 0.28);
 }
@@ -3335,5 +3408,541 @@ main > section:not(.hero) {
   .admin-cancel-button,
   .admin-save-button {
     width: 100%;
+  }
+}
+
+/* =========================================================================
+   17. HALAMAN PUBLIK UMKM
+   ========================================================================= */
+
+.umkm-page-main {
+  width: 100%;
+  max-width: 1200px;
+  min-height: calc(100vh - 74px);
+
+  margin: 0 auto;
+  padding: 4rem 2rem 5rem;
+}
+
+
+/* Judul halaman */
+.umkm-page-heading {
+  width: 100%;
+  max-width: 760px;
+
+  margin: 0 auto 3rem;
+
+  text-align: center;
+}
+
+.umkm-page-eyebrow {
+  display: block;
+  margin-bottom: 0.75rem;
+
+  color: var(--tide-teal);
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  font-weight: 500;
+  letter-spacing: 1.8px;
+  text-transform: uppercase;
+}
+
+.umkm-page-heading h1 {
+  margin-bottom: 1rem;
+
+  color: var(--rust-buoy-lt);
+  font-family: var(--font-serif);
+  font-size: clamp(2.25rem, 5vw, 3.5rem);
+  font-weight: 500;
+  line-height: 1.15;
+}
+
+.umkm-page-heading p {
+  max-width: 680px;
+  margin: 0 auto;
+
+  color: var(--muted-sage);
+  font-size: 1rem;
+  line-height: 1.75;
+}
+
+
+/* Menghindari padding section global */
+.umkm-page-main>.umkm-filter-section,
+.umkm-page-main>.umkm-product-section {
+  width: 100%;
+  max-width: none;
+
+  padding: 0 !important;
+}
+
+
+/* Filter dan pencarian */
+.umkm-page-main>.umkm-filter-section {
+  margin-top: 0 !important;
+  margin-right: 0 !important;
+  margin-bottom: 3rem !important;
+  margin-left: 0 !important;
+}
+
+
+/* Daftar produk */
+.umkm-page-main>.umkm-product-section {
+  margin: 0 !important;
+}
+
+.umkm-filter-bar {
+  display: grid;
+  grid-template-columns: minmax(220px, 0.65fr) minmax(280px, 1.35fr);
+  gap: 1rem;
+
+  width: 100%;
+  padding: 1.2rem;
+
+  border: 1px solid rgba(47, 111, 100, 0.4);
+  border-radius: 12px;
+
+  background: rgba(47, 111, 100, 0.07);
+}
+
+.umkm-filter-field,
+.umkm-search-field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.umkm-filter-field label,
+.umkm-search-field label {
+  color: var(--muted-sage);
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.8px;
+  text-transform: uppercase;
+}
+
+.umkm-filter-field select,
+.umkm-search-field input {
+  width: 100%;
+  min-height: 46px;
+
+  padding: 0.75rem 0.9rem;
+
+  border: 1px solid rgba(47, 111, 100, 0.65);
+  border-radius: 7px;
+
+  background: rgba(16, 38, 43, 0.85);
+  color: var(--paper-sand);
+
+  font-family: var(--font-sans);
+  font-size: 0.9rem;
+}
+
+.umkm-filter-field select:focus,
+.umkm-search-field input:focus {
+  outline: none;
+  border-color: var(--rust-buoy-lt);
+
+  box-shadow: 0 0 0 3px rgba(217, 120, 78, 0.12);
+}
+
+
+/* Grid produk */
+.umkm-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  align-items: stretch;
+  gap: 2rem;
+
+  width: 100%;
+}
+
+
+/*
+  Memastikan produk yang tidak sesuai dengan pencarian
+  atau kategori benar-benar disembunyikan.
+*/
+.umkm-card[hidden],
+.umkm-filter-empty[hidden] {
+  display: none !important;
+}
+
+
+/* Card produk */
+.umkm-card {
+  min-width: 0;
+  overflow: hidden;
+
+  display: flex;
+  flex-direction: column;
+
+  border: 1px solid rgba(47, 111, 100, 0.42);
+  border-radius: 14px;
+
+  background:
+    linear-gradient(145deg,
+      rgba(47, 111, 100, 0.09),
+      rgba(16, 38, 43, 0.72));
+
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.18);
+
+  transition:
+    transform 0.3s ease,
+    border-color 0.3s ease,
+    box-shadow 0.3s ease;
+}
+
+.umkm-card:hover {
+  transform: translateY(-5px);
+  border-color: var(--rust-buoy-lt);
+
+  box-shadow:
+    0 18px 36px rgba(0, 0, 0, 0.28),
+    0 0 0 1px rgba(217, 120, 78, 0.12);
+}
+
+
+/* Gambar produk */
+.umkm-card-image {
+  position: relative;
+  overflow: hidden;
+
+  width: 100%;
+  aspect-ratio: 4 / 3;
+
+  border-bottom: 1px solid rgba(232, 226, 205, 0.08);
+  background: rgba(8, 25, 29, 0.7);
+}
+
+.umkm-card-image img {
+  width: 100%;
+  height: 100%;
+  display: block;
+
+  object-fit: cover;
+  object-position: center;
+
+  transition:
+    transform 0.45s ease,
+    filter 0.45s ease;
+}
+
+.umkm-card:hover .umkm-card-image img {
+  transform: scale(1.04);
+  filter: brightness(1.05);
+}
+
+.umkm-image-placeholder {
+  width: 100%;
+  height: 100%;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  color: var(--muted-sage);
+}
+
+.umkm-image-placeholder span {
+  margin-bottom: 0.5rem;
+  font-size: 2rem;
+}
+
+.umkm-image-placeholder p {
+  font-size: 0.85rem;
+}
+
+.umkm-category-badge {
+  position: absolute;
+  top: 1rem;
+  left: 1rem;
+
+  padding: 0.35rem 0.7rem;
+
+  border: 1px solid rgba(232, 226, 205, 0.18);
+  border-radius: 999px;
+
+  background: rgba(16, 38, 43, 0.88);
+  color: var(--paper-sand);
+
+  font-size: 0.7rem;
+  font-weight: 600;
+}
+
+
+/* Isi card */
+.umkm-card-content {
+  flex: 1;
+
+  display: flex;
+  flex-direction: column;
+
+  min-width: 0;
+  padding: 1.5rem;
+}
+
+.umkm-business-name {
+  margin-bottom: 0.45rem;
+
+  color: var(--tide-teal);
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  letter-spacing: 0.7px;
+  text-transform: uppercase;
+
+  overflow-wrap: anywhere;
+}
+
+.umkm-product-name {
+  margin-bottom: 0.75rem;
+
+  color: var(--paper-sand);
+  font-family: var(--font-serif);
+  font-size: 1.4rem;
+  line-height: 1.3;
+
+  overflow-wrap: anywhere;
+}
+
+.umkm-product-description {
+  margin-bottom: 1.25rem;
+
+  color: var(--muted-sage);
+  font-size: 0.9rem;
+  line-height: 1.7;
+
+  overflow-wrap: anywhere;
+}
+
+
+/* Harga */
+.umkm-price {
+  margin-top: auto;
+  margin-bottom: 1rem;
+
+  padding-top: 1rem;
+
+  border-top: 1px solid rgba(232, 226, 205, 0.08);
+}
+
+.umkm-price-label {
+  display: block;
+  margin-bottom: 0.2rem;
+
+  color: var(--muted-sage);
+  font-size: 0.72rem;
+}
+
+.umkm-price strong {
+  color: var(--rust-buoy-lt);
+  font-size: 1.25rem;
+}
+
+.umkm-price small {
+  margin-left: 0.2rem;
+
+  color: var(--muted-sage);
+  font-size: 0.75rem;
+}
+
+
+/* Alamat */
+.umkm-address {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.6rem;
+
+  margin-bottom: 1.25rem;
+
+  color: var(--muted-sage);
+  font-size: 0.82rem;
+  line-height: 1.6;
+}
+
+.umkm-address p {
+  overflow-wrap: anywhere;
+}
+
+
+/* Tombol */
+.umkm-card-actions {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.75rem;
+}
+
+.umkm-whatsapp-button,
+.umkm-maps-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4rem;
+
+  min-height: 44px;
+  padding: 0.7rem 0.8rem;
+
+  border-radius: 7px;
+
+  font-size: 0.82rem;
+  font-weight: 600;
+  text-decoration: none;
+
+  transition:
+    transform 0.25s ease,
+    background 0.25s ease,
+    border-color 0.25s ease;
+}
+
+.umkm-whatsapp-button {
+  border: 1px solid rgba(61, 190, 105, 0.55);
+
+  background: rgba(37, 170, 87, 0.18);
+  color: #66dd91;
+}
+
+.umkm-whatsapp-button:hover {
+  background: rgba(37, 170, 87, 0.3);
+  transform: translateY(-2px);
+}
+
+.umkm-maps-button {
+  border: 1px solid rgba(47, 111, 100, 0.65);
+
+  background: rgba(47, 111, 100, 0.12);
+  color: var(--paper-sand);
+}
+
+.umkm-maps-button:hover {
+  background: rgba(47, 111, 100, 0.28);
+  border-color: var(--muted-sage);
+
+  transform: translateY(-2px);
+}
+
+
+/* Data kosong */
+.umkm-empty,
+.umkm-filter-empty {
+  grid-column: 1 / -1;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  width: min(100%, 700px);
+  min-height: 260px;
+
+  margin: 0 auto;
+  padding: 3rem 2rem;
+
+  border: 1px dashed rgba(47, 111, 100, 0.55);
+  border-radius: 14px;
+
+  background: rgba(47, 111, 100, 0.05);
+  text-align: center;
+}
+
+.umkm-filter-empty {
+  margin-top: 1rem;
+}
+
+.umkm-empty span,
+.umkm-filter-empty span {
+  display: block;
+  margin-bottom: 1rem;
+
+  font-size: 2.25rem;
+}
+
+.umkm-empty h2,
+.umkm-filter-empty h2 {
+  margin-bottom: 0.65rem;
+
+  color: var(--rust-buoy-lt);
+  font-size: 1.5rem;
+}
+
+.umkm-empty p,
+.umkm-filter-empty p {
+  color: var(--muted-sage);
+  font-size: 0.95rem;
+  line-height: 1.7;
+}
+
+
+/* Tablet */
+@media (max-width: 900px) {
+  .umkm-page-main {
+    padding: 3rem 1.5rem 4rem;
+  }
+
+  .umkm-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 1.5rem;
+  }
+}
+
+
+/* HP */
+@media (max-width: 600px) {
+  .umkm-page-main {
+    padding: 2.25rem 1rem 3rem;
+  }
+
+  .umkm-page-heading {
+    margin-bottom: 2rem;
+  }
+
+  .umkm-page-heading h1 {
+    font-size: 2rem;
+  }
+
+  .umkm-page-heading p {
+    font-size: 0.9rem;
+    line-height: 1.7;
+  }
+
+  .umkm-filter-bar {
+    grid-template-columns: 1fr;
+    padding: 1rem;
+  }
+
+  .umkm-grid {
+    grid-template-columns: 1fr;
+    gap: 1.25rem;
+  }
+
+  .umkm-card {
+    width: 100%;
+    border-radius: 11px;
+  }
+
+  .umkm-card-content {
+    padding: 1.25rem;
+  }
+
+  .umkm-product-name {
+    font-size: 1.25rem;
+  }
+
+  .umkm-empty,
+  .umkm-filter-empty {
+    min-height: 230px;
+    padding: 2.25rem 1.25rem;
+  }
+}
+
+
+/* HP sangat kecil */
+@media (max-width: 380px) {
+  .umkm-page-main {
+    padding-left: 0.75rem;
+    padding-right: 0.75rem;
+  }
+
+  .umkm-card-actions {
+    grid-template-columns: 1fr;
   }
 }

@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>UMKM Desa &mdash; {{ desa.nama }}</title>
+
+    <meta name="description" content="Daftar produk UMKM dan usaha warga {{ desa.nama }}.">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Work+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap"
+        rel="stylesheet">
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}?v=7">
+
+    <script defer src="{{ url_for('static', filename='js/navigation.js') }}?v=4"></script>
+</head>
+
+<body>
+
+    <div class="chart-grain" aria-hidden="true"></div>
+
+    <!-- NAVIGASI -->
+    <header class="site-nav">
+        <div class="nav-inner">
+
+            <a class="brand" href="/listing">
+                <span class="brand-mark" aria-hidden="true">
+                    🌾
+                </span>
+
+                <span class="brand-text">
+                    <strong>{{ desa.nama }}</strong>
+
+                    <small>
+                        {{ desa.kecamatan }} &middot;
+                        {{ desa.kabupaten }}
+                    </small>
+                </span>
+            </a>
+
+            <button class="nav-toggle" type="button" aria-label="Buka menu navigasi" aria-expanded="false"
+                aria-controls="primary-navigation">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+
+            <nav class="nav-links" id="primary-navigation" aria-label="Navigasi utama">
+                <a href="/listing">Beranda</a>
+                <a href="/peta">Peta Desa</a>
+                <a href="/profil">Visi &amp; Misi</a>
+                <a href="/struktur">Struktur Organisasi</a>
+                <a href="/infografis">Infografis</a>
+                <a href="/umkm" aria-current="page">UMKM</a>
+                <a href="/berita">Berita</a>
+            </nav>
+
+        </div>
+    </header>
+
+
+    <main class="umkm-page-main">
+
+        <!-- JUDUL HALAMAN -->
+        <header class="umkm-page-heading">
+
+            <span class="umkm-page-eyebrow">
+                Produk Warga
+            </span>
+
+            <h1>UMKM Desa Maor</h1>
+
+            <p>
+                Temukan produk unggulan dan usaha milik warga
+                {{ desa.nama }}. Hubungi penjual secara langsung
+                melalui WhatsApp atau lihat lokasi usahanya.
+            </p>
+
+        </header>
+
+
+        <!-- PENCARIAN DAN FILTER -->
+        <section class="umkm-filter-section" aria-label="Pencarian dan filter produk">
+
+            <div class="umkm-filter-bar">
+
+                <div class="umkm-filter-field">
+                    <label for="umkm-category">
+                        Kategori
+                    </label>
+
+                    <select id="umkm-category">
+                        <option value="semua">
+                            Semua Kategori
+                        </option>
+
+                        <option value="makanan">
+                            Makanan
+                        </option>
+
+                        <option value="minuman">
+                            Minuman
+                        </option>
+
+                        <option value="kerajinan">
+                            Kerajinan
+                        </option>
+
+                        <option value="pertanian">
+                            Pertanian
+                        </option>
+
+                        <option value="jasa">
+                            Jasa
+                        </option>
+
+                        <option value="lainnya">
+                            Lainnya
+                        </option>
+                    </select>
+                </div>
+
+                <div class="umkm-search-field">
+                    <label for="umkm-search">
+                        Cari Produk
+                    </label>
+
+                    <input type="search" id="umkm-search" placeholder="Cari produk atau nama usaha..."
+                        autocomplete="off">
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- DAFTAR PRODUK -->
+        <section class="umkm-product-section" aria-label="Daftar produk UMKM">
+
+            <div class="umkm-grid" id="umkm-grid">
+
+                {% for item in daftar_umkm %}
+
+                <article class="umkm-card" data-category="{{ item['kategori']|lower }}"
+                    data-search="{{ item['nama_produk']|lower }} {{ item['nama_usaha']|lower }}">
+
+                    <div class="umkm-card-image">
+
+                        {% if item["gambar"] %}
+
+                        <img src="{{ url_for(
+                'static',
+                filename='uploads/' + item['gambar']
+              ) }}" alt="{{ item['nama_produk'] }}" loading="lazy" decoding="async">
+
+                        {% else %}
+
+                        <div class="umkm-image-placeholder">
+                            <span aria-hidden="true">🛍️</span>
+                            <p>Foto belum tersedia</p>
+                        </div>
+
+                        {% endif %}
+
+                        <span class="umkm-category-badge">
+                            {{ item["kategori"] }}
+                        </span>
+
+                    </div>
+
+
+                    <div class="umkm-card-content">
+
+                        <div class="umkm-business-name">
+                            {{ item["nama_usaha"] }}
+                        </div>
+
+                        <h2 class="umkm-product-name">
+                            {{ item["nama_produk"] }}
+                        </h2>
+
+                        {% if item["deskripsi"] %}
+
+                        <p class="umkm-product-description">
+                            {{ item["deskripsi"] }}
+                        </p>
+
+                        {% endif %}
+
+
+                        <div class="umkm-price">
+
+                            <span class="umkm-price-label">
+                                Harga
+                            </span>
+
+                            <strong>
+                                Rp {{
+                                "{:,.0f}".format(
+                                item["harga"]
+                                ).replace(",", ".")
+                                }}
+                            </strong>
+
+                            <small>
+                                / {{ item["satuan"] }}
+                            </small>
+
+                        </div>
+
+
+                        <div class="umkm-address">
+
+                            <span aria-hidden="true">📍</span>
+
+                            <p>
+                                {{ item["alamat"] }}
+                            </p>
+
+                        </div>
+
+
+                        <div class="umkm-card-actions">
+
+                            <a class="umkm-whatsapp-button"
+                                href="https://wa.me/{{ item['nomor_wa'] }}?text={{ ('Halo, saya tertarik dengan produk ' + item['nama_produk'] + ' dari ' + item['nama_usaha'])|urlencode }}"
+                                target="_blank" rel="noopener noreferrer">
+                                <span aria-hidden="true">💬</span>
+                                WhatsApp
+                            </a>
+
+                            <a class="umkm-maps-button" href="{{ item['maps_url'] }}" target="_blank"
+                                rel="noopener noreferrer">
+                                <span aria-hidden="true">📍</span>
+                                Lokasi
+                            </a>
+
+                        </div>
+
+                    </div>
+
+                </article>
+
+                {% else %}
+
+                <div class="umkm-empty">
+
+                    <span aria-hidden="true">🛍️</span>
+
+                    <h2>Belum Ada Produk UMKM</h2>
+
+                    <p>
+                        Produk UMKM Desa Maor belum tersedia.
+                    </p>
+
+                </div>
+
+                {% endfor %}
+
+            </div>
+
+
+            <!-- PESAN JIKA FILTER TIDAK MENEMUKAN PRODUK -->
+            <div class="umkm-filter-empty" id="umkm-filter-empty" hidden>
+                <span aria-hidden="true">🔎</span>
+
+                <h2>Produk Tidak Ditemukan</h2>
+
+                <p>
+                    Coba gunakan kata pencarian atau kategori lainnya.
+                </p>
+            </div>
+
+        </section>
+
+    </main>
+
+
+    <script>
+        const searchInput = document.getElementById("umkm-search");
+        const categorySelect = document.getElementById("umkm-category");
+        const cards = document.querySelectorAll(".umkm-card");
+        const emptyResult = document.getElementById("umkm-filter-empty");
+
+        function filterProducts() {
+            const searchValue = searchInput.value
+                .toLowerCase()
+                .trim();
+
+            const categoryValue = categorySelect.value
+                .toLowerCase();
+
+            let visibleProducts = 0;
+
+            cards.forEach((card) => {
+                const productText = card.dataset.search || "";
+                const productCategory = card.dataset.category || "";
+
+                const matchesSearch =
+                    productText.includes(searchValue);
+
+                const matchesCategory =
+                    categoryValue === "semua" ||
+                    productCategory === categoryValue;
+
+                const shouldShow =
+                    matchesSearch && matchesCategory;
+
+                card.hidden = !shouldShow;
+
+                if (shouldShow) {
+                    visibleProducts += 1;
+                }
+            });
+
+            emptyResult.hidden =
+                visibleProducts !== 0 || cards.length === 0;
+        }
+
+        searchInput.addEventListener(
+            "input",
+            filterProducts
+        );
+
+        categorySelect.addEventListener(
+            "change",
+            filterProducts
+        );
+    </script>
+
+</body>
+
+</html>

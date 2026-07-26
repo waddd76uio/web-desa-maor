@@ -347,9 +347,59 @@ def struktur():
 @app.route("/berita")
 def berita():
     db = get_db()
-    # Mengambil berita dari database, diurutkan dari yang terbaru (ID terbesar)
+
+    # Mengambil berita dari database,
+    # diurutkan dari yang terbaru
     daftar_berita = db.execute("SELECT * FROM berita ORDER BY id DESC").fetchall()
-    return render_template("berita.html", desa=DESA, berita=daftar_berita)
+
+    return render_template(
+        "berita.html",
+        desa=DESA,
+        berita=daftar_berita,
+    )
+
+
+# ==========================================
+# HALAMAN PUBLIK UMKM
+# ==========================================
+@app.route("/umkm")
+def umkm():
+    db = get_db()
+
+    # Memastikan tabel UMKM tersedia
+    db.execute("""
+        CREATE TABLE IF NOT EXISTS umkm (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            nama_produk TEXT NOT NULL,
+            nama_usaha TEXT NOT NULL,
+            kategori TEXT NOT NULL,
+            harga INTEGER NOT NULL,
+            satuan TEXT NOT NULL,
+            deskripsi TEXT,
+            nomor_wa TEXT NOT NULL,
+            alamat TEXT NOT NULL,
+            maps_url TEXT NOT NULL,
+            gambar TEXT,
+            status TEXT NOT NULL DEFAULT 'aktif',
+            tanggal TEXT NOT NULL
+        )
+    """)
+
+    db.commit()
+
+    # Hanya menampilkan produk yang statusnya aktif
+    daftar_umkm = db.execute("""
+        SELECT *
+        FROM umkm
+        WHERE status = 'aktif'
+        ORDER BY id DESC
+    """).fetchall()
+
+    return render_template(
+        "umkm.html",
+        desa=DESA,
+        daftar_umkm=daftar_umkm,
+    )
 
 
 @app.route("/api/poi")
@@ -470,6 +520,25 @@ def admin_dashboard():
             deskripsi TEXT NOT NULL,
             lat REAL NOT NULL,
             lng REAL NOT NULL
+        )
+        """)
+
+    # Memastikan tabel UMKM tersedia
+    db.execute("""
+        CREATE TABLE IF NOT EXISTS umkm (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            nama_produk TEXT NOT NULL,
+            nama_usaha TEXT NOT NULL,
+            kategori TEXT NOT NULL,
+            harga INTEGER NOT NULL,
+            satuan TEXT NOT NULL,
+            deskripsi TEXT,
+            nomor_wa TEXT NOT NULL,
+            alamat TEXT NOT NULL,
+            maps_url TEXT NOT NULL,
+            gambar TEXT,
+            status TEXT NOT NULL DEFAULT 'aktif',
+            tanggal TEXT NOT NULL
         )
         """)
 
@@ -594,6 +663,107 @@ def admin_dashboard():
 
             return redirect(url_for("admin_dashboard"))
 
+        # ==========================================
+        # FORM TAMBAH PRODUK UMKM
+        # ==========================================
+        elif jenis_form == "umkm":
+            nama_produk = request.form.get("nama_produk", "").strip()
+            nama_usaha = request.form.get("nama_usaha", "").strip()
+            kategori = request.form.get("kategori", "").strip()
+            harga = request.form.get("harga", "").strip()
+            satuan = request.form.get("satuan", "").strip()
+            deskripsi = request.form.get("deskripsi", "").strip()
+            nomor_wa = request.form.get("nomor_wa", "").strip()
+            alamat = request.form.get("alamat", "").strip()
+            maps_url = request.form.get("maps_url", "").strip()
+            status = request.form.get("status", "aktif").strip()
+            gambar = request.files.get("gambar")
+
+            # Memastikan data wajib telah diisi
+            if (
+                not nama_produk
+                or not nama_usaha
+                or not kategori
+                or not harga
+                or not satuan
+                or not nomor_wa
+                or not alamat
+                or not maps_url
+            ):
+                return "Data produk UMKM belum lengkap.", 400
+
+            # Memastikan harga berupa angka
+            try:
+                harga_angka = int(harga)
+            except ValueError:
+                return "Harga produk harus berupa angka.", 400
+
+            # Mengubah nomor 08 menjadi 628 secara otomatis
+            nomor_wa = nomor_wa.replace(" ", "").replace("-", "")
+
+            if nomor_wa.startswith("08"):
+                nomor_wa = "62" + nomor_wa[1:]
+            elif nomor_wa.startswith("+62"):
+                nomor_wa = nomor_wa[1:]
+
+            tanggal = datetime.datetime.now(Waktu_Lokal).strftime("%d %B %Y")
+
+            filename = "default.jpg"
+
+            # Menyimpan gambar produk
+            if gambar and gambar.filename:
+                nama_asli = secure_filename(gambar.filename)
+
+                kode_waktu = datetime.datetime.now().strftime("%Y%m%d%H%M%S")
+
+                filename = f"umkm_{kode_waktu}_{nama_asli}"
+
+                gambar.save(
+                    os.path.join(
+                        app.config["UPLOAD_FOLDER"],
+                        filename,
+                    )
+                )
+
+            # Menyimpan data UMKM ke database
+            db.execute(
+                """
+                INSERT INTO umkm (
+                    nama_produk,
+                    nama_usaha,
+                    kategori,
+                    harga,
+                    satuan,
+                    deskripsi,
+                    nomor_wa,
+                    alamat,
+                    maps_url,
+                    gambar,
+                    status,
+                    tanggal
+                )
+                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+                """,
+                (
+                    nama_produk,
+                    nama_usaha,
+                    kategori,
+                    harga_angka,
+                    satuan,
+                    deskripsi,
+                    nomor_wa,
+                    alamat,
+                    maps_url,
+                    filename,
+                    status,
+                    tanggal,
+                ),
+            )
+
+            db.commit()
+
+            return redirect(url_for("admin_dashboard"))
+
     # ==========================================
     # MENAMPILKAN HALAMAN ADMIN
     # ==========================================
@@ -622,6 +792,12 @@ def admin_dashboard():
         ORDER BY id ASC
         """).fetchall()
 
+    daftar_umkm = db.execute("""
+        SELECT *
+        FROM umkm
+        ORDER BY id DESC
+        """).fetchall()
+
     return render_template(
         "admin.html",
         desa=DESA,
@@ -629,6 +805,7 @@ def admin_dashboard():
         daftar_infografis=daftar_infografis,
         daftar_agenda=daftar_agenda,
         daftar_poi=daftar_poi,
+        daftar_umkm=daftar_umkm,
     )
 
 
@@ -1017,6 +1194,211 @@ def admin_edit_berita(id_berita):
 
     # Menampilkan halaman edit
     return render_template("admin_edit_berita.html", desa=DESA, item=item)
+
+
+# ==========================================
+# EDIT PRODUK UMKM
+# ==========================================
+@app.route(
+    "/admin/umkm/<int:id_umkm>/edit",
+    methods=["GET", "POST"],
+)
+def admin_edit_umkm(id_umkm):
+    # Memastikan admin sudah login
+    if not session.get("admin_logged_in"):
+        return redirect(url_for("admin_login"))
+
+    db = get_db()
+
+    # Mengambil produk UMKM berdasarkan ID
+    item = db.execute(
+        "SELECT * FROM umkm WHERE id = ?",
+        (id_umkm,),
+    ).fetchone()
+
+    # Jika produk tidak ditemukan
+    if item is None:
+        return "Produk UMKM tidak ditemukan", 404
+
+    # Dijalankan saat tombol Simpan Perubahan ditekan
+    if request.method == "POST":
+        nama_produk = request.form.get("nama_produk", "").strip()
+
+        nama_usaha = request.form.get("nama_usaha", "").strip()
+
+        kategori = request.form.get("kategori", "").strip()
+
+        harga = request.form.get("harga", "").strip()
+
+        satuan = request.form.get("satuan", "").strip()
+
+        deskripsi = request.form.get("deskripsi", "").strip()
+
+        nomor_wa = request.form.get("nomor_wa", "").strip()
+
+        alamat = request.form.get("alamat", "").strip()
+
+        maps_url = request.form.get("maps_url", "").strip()
+
+        status = request.form.get("status", "aktif").strip()
+
+        gambar = request.files.get("gambar")
+
+        # Validasi kolom wajib
+        if (
+            not nama_produk
+            or not nama_usaha
+            or not kategori
+            or not harga
+            or not satuan
+            or not nomor_wa
+            or not alamat
+            or not maps_url
+        ):
+            return render_template(
+                "admin_edit_umkm.html",
+                desa=DESA,
+                item=item,
+                error="Semua data wajib harus diisi.",
+            )
+
+        # Memastikan harga berupa angka
+        try:
+            harga_angka = int(harga)
+        except ValueError:
+            return render_template(
+                "admin_edit_umkm.html",
+                desa=DESA,
+                item=item,
+                error="Harga produk harus berupa angka.",
+            )
+
+        # Merapikan nomor WhatsApp
+        nomor_wa = nomor_wa.replace(" ", "").replace("-", "")
+
+        if nomor_wa.startswith("08"):
+            nomor_wa = "62" + nomor_wa[1:]
+
+        elif nomor_wa.startswith("+62"):
+            nomor_wa = nomor_wa[1:]
+
+        # Tetap menggunakan gambar lama
+        filename = item["gambar"]
+
+        # Jika admin memilih gambar baru
+        if gambar and gambar.filename:
+            nama_asli = secure_filename(gambar.filename)
+
+            kode_waktu = datetime.datetime.now().strftime("%Y%m%d%H%M%S")
+
+            filename_baru = f"umkm_{kode_waktu}_{nama_asli}"
+
+            gambar.save(
+                os.path.join(
+                    app.config["UPLOAD_FOLDER"],
+                    filename_baru,
+                )
+            )
+
+            # Hapus gambar lama jika tersedia
+            if filename and filename != "default.jpg":
+                lokasi_gambar_lama = os.path.join(
+                    app.config["UPLOAD_FOLDER"],
+                    filename,
+                )
+
+                if os.path.exists(lokasi_gambar_lama):
+                    os.remove(lokasi_gambar_lama)
+
+            filename = filename_baru
+
+        # Memperbarui data UMKM
+        db.execute(
+            """
+            UPDATE umkm
+            SET nama_produk = ?,
+                nama_usaha = ?,
+                kategori = ?,
+                harga = ?,
+                satuan = ?,
+                deskripsi = ?,
+                nomor_wa = ?,
+                alamat = ?,
+                maps_url = ?,
+                gambar = ?,
+                status = ?
+            WHERE id = ?
+            """,
+            (
+                nama_produk,
+                nama_usaha,
+                kategori,
+                harga_angka,
+                satuan,
+                deskripsi,
+                nomor_wa,
+                alamat,
+                maps_url,
+                filename,
+                status,
+                id_umkm,
+            ),
+        )
+
+        db.commit()
+
+        return redirect(url_for("admin_dashboard"))
+
+    return render_template(
+        "admin_edit_umkm.html",
+        desa=DESA,
+        item=item,
+    )
+
+
+# ==========================================
+# HAPUS PRODUK UMKM
+# ==========================================
+@app.route("/admin/umkm/<int:id_umkm>/hapus", methods=["POST"])
+def admin_hapus_umkm(id_umkm):
+    # Memastikan admin sudah login
+    if not session.get("admin_logged_in"):
+        return redirect(url_for("admin_login"))
+
+    db = get_db()
+
+    # Mengambil produk UMKM berdasarkan ID
+    item = db.execute(
+        "SELECT * FROM umkm WHERE id = ?",
+        (id_umkm,),
+    ).fetchone()
+
+    # Jika produk tidak ditemukan
+    if item is None:
+        return "Produk UMKM tidak ditemukan", 404
+
+    # Menyimpan nama gambar sebelum data dihapus
+    nama_gambar = item["gambar"]
+
+    # Menghapus data produk dari database
+    db.execute(
+        "DELETE FROM umkm WHERE id = ?",
+        (id_umkm,),
+    )
+
+    db.commit()
+
+    # Menghapus file gambar produk dari folder uploads
+    if nama_gambar and nama_gambar != "default.jpg":
+        lokasi_gambar = os.path.join(
+            app.config["UPLOAD_FOLDER"],
+            nama_gambar,
+        )
+
+        if os.path.exists(lokasi_gambar):
+            os.remove(lokasi_gambar)
+
+    return redirect(url_for("admin_dashboard"))
 
 
 # ==========================================

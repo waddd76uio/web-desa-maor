@@ -329,6 +329,107 @@
           <button type="submit" class="btn-submit" style="background: #4caf50; color: white;">Simpan Agenda</button>
         </form>
       </div>
+
+      <!-- KARTU TAMBAHAN: FORM PRODUK UMKM -->
+      <div class="admin-card">
+        <h2>🛍️ Tambah Produk UMKM</h2>
+
+        <form class="admin-form" method="POST" enctype="multipart/form-data">
+          <input type="hidden" name="jenis_form" value="umkm">
+
+          <div class="grid-2-col">
+
+            <div class="form-group">
+              <label>Nama Produk</label>
+              <input type="text" name="nama_produk" class="form-control" required placeholder="Cth: Keripik Pisang">
+            </div>
+
+            <div class="form-group">
+              <label>Nama Usaha</label>
+              <input type="text" name="nama_usaha" class="form-control" required placeholder="Cth: UMKM Berkah Maor">
+            </div>
+
+          </div>
+
+          <div class="grid-2-col">
+
+            <div class="form-group">
+              <label>Kategori Produk</label>
+
+              <select name="kategori" class="form-control" required>
+                <option value="" disabled selected>
+                  -- Pilih Kategori --
+                </option>
+
+                <option value="Makanan">Makanan</option>
+                <option value="Minuman">Minuman</option>
+                <option value="Kerajinan">Kerajinan</option>
+                <option value="Pertanian">Pertanian</option>
+                <option value="Jasa">Jasa</option>
+                <option value="Lainnya">Lainnya</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label>Harga Produk</label>
+              <input type="number" name="harga" class="form-control" min="0" required placeholder="Cth: 15000">
+            </div>
+
+          </div>
+
+          <div class="form-group">
+            <label>Satuan Produk</label>
+            <input type="text" name="satuan" class="form-control" required
+              placeholder="Cth: pcs, bungkus, botol, atau kilogram">
+          </div>
+
+          <div class="form-group">
+            <label>Deskripsi Produk</label>
+            <textarea name="deskripsi" class="form-control" rows="4"
+              placeholder="Jelaskan produk secara singkat..."></textarea>
+          </div>
+
+          <div class="form-group">
+            <label>Nomor WhatsApp</label>
+            <input type="text" name="nomor_wa" class="form-control" required placeholder="Cth: 6281234567890">
+
+            <small style="color: var(--muted-sage);">
+              Gunakan format 62, bukan angka 0 di bagian depan.
+            </small>
+          </div>
+
+          <div class="form-group">
+            <label>Alamat Usaha</label>
+            <textarea name="alamat" class="form-control" rows="3" required
+              placeholder="Cth: Dusun Maor, Desa Maor..."></textarea>
+          </div>
+
+          <div class="form-group">
+            <label>Link Google Maps</label>
+            <input type="url" name="maps_url" class="form-control" required placeholder="https://maps.google.com/...">
+          </div>
+
+          <div class="form-group">
+            <label>Foto Produk</label>
+            <input type="file" name="gambar" class="form-control" accept=".jpg,.jpeg,.png,.webp,image/*" required>
+          </div>
+
+          <div class="form-group">
+            <label>Status Produk</label>
+
+            <select name="status" class="form-control" required>
+              <option value="aktif" selected>Aktif</option>
+              <option value="nonaktif">Nonaktif</option>
+            </select>
+          </div>
+
+          <button type="submit" class="btn-submit" style="background: #2f8f72; color: white;">
+            Simpan Produk UMKM
+          </button>
+
+        </form>
+      </div>
+
     </div>
 
     <!-- DAFTAR BERITA YANG SUDAH TERSIMPAN -->
@@ -739,6 +840,191 @@
         Belum ada titik peta yang tersimpan.
       </p>
       {% endif %}
+    </section>
+
+    <!-- DAFTAR PRODUK UMKM YANG SUDAH TERSIMPAN -->
+    <section class="admin-card admin-list-card">
+      <h2>🛍️ Daftar Produk UMKM Tersimpan</h2>
+
+      {% if daftar_umkm %}
+      <div style="overflow-x: auto;">
+
+        <table style="
+      width: 100%;
+      min-width: 1100px;
+      border-collapse: collapse;
+    ">
+
+          <thead>
+            <tr style="border-bottom: 1px solid rgba(255,255,255,0.2);">
+
+              <th style="padding: 1rem; text-align: left;">
+                No.
+              </th>
+
+              <th style="padding: 1rem; text-align: left;">
+                Produk
+              </th>
+
+              <th style="padding: 1rem; text-align: left;">
+                Nama Usaha
+              </th>
+
+              <th style="padding: 1rem; text-align: left;">
+                Kategori
+              </th>
+
+              <th style="padding: 1rem; text-align: left;">
+                Harga
+              </th>
+
+              <th style="padding: 1rem; text-align: left;">
+                WhatsApp
+              </th>
+
+              <th style="padding: 1rem; text-align: left;">
+                Status
+              </th>
+
+              <th style="padding: 1rem; text-align: left;">
+                Gambar
+              </th>
+
+              <th style="padding: 1rem; text-align: center;">
+                Aksi
+              </th>
+
+            </tr>
+          </thead>
+
+          <tbody>
+
+            {% for item_umkm in daftar_umkm %}
+
+            <tr style="border-bottom: 1px solid rgba(255,255,255,0.08);">
+
+              <td style="padding: 1rem;">
+                {{ loop.index }}
+              </td>
+
+              <td style="padding: 1rem; min-width: 180px;">
+                <strong>
+                  {{ item_umkm["nama_produk"] }}
+                </strong>
+
+                <div style="
+              margin-top: 0.35rem;
+              color: var(--muted-sage);
+              font-size: 0.8rem;
+            ">
+                  {{ item_umkm["satuan"] }}
+                </div>
+              </td>
+
+              <td style="padding: 1rem;">
+                {{ item_umkm["nama_usaha"] }}
+              </td>
+
+              <td style="padding: 1rem;">
+                {{ item_umkm["kategori"] }}
+              </td>
+
+              <td style="padding: 1rem;">
+                Rp {{ "{:,.0f}".format(item_umkm["harga"]).replace(",", ".") }}
+              </td>
+
+              <td style="padding: 1rem;">
+                <a href="https://wa.me/{{ item_umkm['nomor_wa'] }}" target="_blank" rel="noopener noreferrer"
+                  style="color: #52d681;">
+                  {{ item_umkm["nomor_wa"] }}
+                </a>
+              </td>
+
+              <td style="padding: 1rem;">
+                {% if item_umkm["status"] == "aktif" %}
+                <span style="
+                display: inline-block;
+                padding: 0.35rem 0.7rem;
+                border-radius: 999px;
+                background: rgba(76, 175, 80, 0.18);
+                color: #73d978;
+                font-size: 0.8rem;
+                font-weight: 600;
+              ">
+                  Aktif
+                </span>
+                {% else %}
+                <span style="
+                display: inline-block;
+                padding: 0.35rem 0.7rem;
+                border-radius: 999px;
+                background: rgba(244, 67, 54, 0.18);
+                color: #ff7676;
+                font-size: 0.8rem;
+                font-weight: 600;
+              ">
+                  Nonaktif
+                </span>
+                {% endif %}
+              </td>
+
+              <td style="padding: 1rem;">
+                {% if item_umkm["gambar"] %}
+                <img src="{{ url_for('static', filename='uploads/' + item_umkm['gambar']) }}"
+                  alt="{{ item_umkm['nama_produk'] }}" style="
+                  width: 85px;
+                  height: 70px;
+                  object-fit: cover;
+                  border-radius: 7px;
+                ">
+                {% else %}
+                Tidak ada gambar
+                {% endif %}
+              </td>
+
+              <td class="admin-action-cell">
+
+                <div class="admin-action-group">
+
+                  <a href="{{ url_for(
+        'admin_edit_umkm',
+        id_umkm=item_umkm['id']
+      ) }}" class="admin-edit-button">
+                    Edit
+                  </a>
+
+                  <form class="admin-delete-form" action="{{ url_for(
+        'admin_hapus_umkm',
+        id_umkm=item_umkm['id']
+      ) }}" method="POST" onsubmit="return confirm(
+        'Apakah Anda yakin ingin menghapus produk UMKM ini?'
+      );">
+                    <button class="admin-delete-button" type="submit">
+                      Hapus
+                    </button>
+                  </form>
+
+                </div>
+
+              </td>
+
+            </tr>
+
+            {% endfor %}
+
+          </tbody>
+        </table>
+
+      </div>
+
+      {% else %}
+
+      <p style="color: var(--muted-sage);">
+        Belum ada produk UMKM yang tersimpan.
+      </p>
+
+      {% endif %}
+
     </section>
 
   </main>

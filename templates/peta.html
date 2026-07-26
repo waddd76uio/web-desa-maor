@@ -1,12 +1,10 @@
 <!DOCTYPE html>
 <html lang="id">
+
 <head>
   <meta charset="UTF-8">
 
-  <meta
-    name="viewport"
-    content="width=device-width, initial-scale=1"
-  >
+  <meta name="viewport" content="width=device-width, initial-scale=1">
 
   <title>Peta &mdash; {{ desa.nama }}</title>
 
@@ -14,95 +12,74 @@
 
   <link
     href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Work+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap"
-    rel="stylesheet"
-  >
+    rel="stylesheet">
 
-  <link
-    rel="stylesheet"
-    href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
-  >
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
 
-  <link
-    rel="stylesheet"
-    href="{{ url_for('static', filename='css/style.css') }}"
-  >
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
 </head>
+
 <body>
-<header class="site-nav">
-  <div class="nav-inner">
+  <header class="site-nav">
+    <div class="nav-inner">
 
-    <a class="brand" href="/listing">
-      <span class="brand-mark" aria-hidden="true">🌾</span>
+      <a class="brand" href="/listing">
+        <span class="brand-mark" aria-hidden="true">🌾</span>
 
-      <span class="brand-text">
-        <strong>{{ desa.nama }}</strong>
-        <small>
-          {{ desa.kecamatan }} &middot; {{ desa.kabupaten }}
-        </small>
-      </span>
-    </a>
+        <span class="brand-text">
+          <strong>{{ desa.nama }}</strong>
+          <small>
+            {{ desa.kecamatan }} &middot; {{ desa.kabupaten }}
+          </small>
+        </span>
+      </a>
 
-    <button
-      class="nav-toggle"
-      type="button"
-      aria-label="Buka menu navigasi"
-      aria-expanded="false"
-      aria-controls="primary-navigation"
-    >
-      <span></span>
-      <span></span>
-      <span></span>
-    </button>
+      <button class="nav-toggle" type="button" aria-label="Buka menu navigasi" aria-expanded="false"
+        aria-controls="primary-navigation">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
 
-    <nav
-      class="nav-links"
-      id="primary-navigation"
-      aria-label="Navigasi utama"
-    >
-      <a href="/listing">Beranda</a>
-      <a href="/peta" aria-current="page">Peta Desa</a>
-      <a href="/profil">Visi &amp; Misi</a>
-      <a href="/struktur">Struktur Organisasi</a>
-      <a href="/infografis">Infografis</a>
-      <a href="/berita">Berita</a>
-    </nav>
+      <nav class="nav-links" id="primary-navigation" aria-label="Navigasi utama">
+        <a href="/listing">Beranda</a>
+        <a href="/peta" aria-current="page">Peta Desa</a>
+        <a href="/profil">Visi &amp; Misi</a>
+        <a href="/struktur">Struktur Organisasi</a>
+        <a href="/infografis">Infografis</a>
+        <a href="/umkm">UMKM</a>
+        <a href="/berita">Berita</a>
+      </nav>
 
-  </div>
-</header>
+    </div>
+  </header>
 
-<main class="map-page-main">
+  <main class="map-page-main">
 
-  <section class="map-section" id="peta">
+    <section class="map-section" id="peta">
 
-    <header class="map-section-header">
-      <span class="eyebrow">Peta Desa</span>
+      <header class="map-section-header">
+        <span class="eyebrow">Peta Desa</span>
 
-      <h1>Peta Titik Lokasi Desa</h1>
+        <h1>Peta Titik Lokasi Desa</h1>
 
-      <p class="section-lede">
-        Klik penanda untuk membaca catatan lapangan tiap titik
-        &mdash; koordinat ditampilkan dalam derajat desimal.
-      </p>
-    </header>
+        <p class="section-lede">
+          Klik penanda untuk membaca catatan lapangan tiap titik
+          &mdash; koordinat ditampilkan dalam derajat desimal.
+        </p>
+      </header>
 
-    <div
-      id="peta-desa"
-      class="leaflet-frame"
-      aria-label="Peta titik lokasi Desa Maor"
-    ></div>
+      <div id="peta-desa" class="leaflet-frame" aria-label="Peta titik lokasi Desa Maor"></div>
 
-    <ul
-      class="legend"
-      id="legenda-kategori"
-      aria-label="Legenda kategori titik"
-    ></ul>
+      <ul class="legend" id="legenda-kategori" aria-label="Legenda kategori titik"></ul>
 
-  </section>
+    </section>
 
-</main>
+  </main>
 
-<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-<script src="{{ url_for('static', filename='js/map.js') }}"></script>
-<script src="{{ url_for('static', filename='js/navigation.js') }}"></script>
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <script src="{{ url_for('static', filename='js/map.js') }}"></script>
+  <script src="{{ url_for('static', filename='js/navigation.js') }}"></script>
 </body>
+
 </html>
