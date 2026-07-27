@@ -1792,7 +1792,8 @@ def admin_hapus_berita(id_berita):
 @app.route("/admin/logout")
 def admin_logout():
     session.pop("admin_logged_in", None)
-    return redirect(url_for("admin_login"))
+
+    return redirect(url_for("listing"))
 
 
 @app.route("/berita/<int:id_berita>")
