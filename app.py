@@ -64,7 +64,7 @@ DESA = {
     "kode_wilayah": "35.24.19.2009",
     "kode_pos": "62282",
     "alamat": "Jl. Raya Kembangbahu No.17, Maor, Kec. Kembangbahu, Kabupaten Lamongan",
-    "telepon": "081234567890",  # Placeholder - sesuaikan jika ada data valid
+    "telepon": "085655804299",  # Placeholder - sesuaikan jika ada data valid
     "email": "desa.maor@gmail.com",
     "jam_layanan": "Senin – Kamis (08.00–15.00) & Jumat (08.00–11.00)",
     "sosial": {
