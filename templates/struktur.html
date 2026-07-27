@@ -68,14 +68,46 @@
     <section class="vm-section structure-section">
 
       <div class="org-grid">
-        {% for orang in desa.struktur %}
 
-        <article class="org-card {% if orang.jabatan == 'Kepala Desa' %}org-kades{% endif %}">
-          <div class="org-role">{{ orang.jabatan }}</div>
-          <div class="org-name">{{ orang.nama }}</div>
+        {% for orang in daftar_struktur %}
+
+        <article class="org-card {% if orang['jabatan'] == 'Kepala Desa' %}org-kades{% endif %}">
+
+          <div class="org-photo-wrapper">
+            {% if orang["foto"] and orang["foto"] != "default.jpg" %}
+
+            <img src="{{ url_for('static', filename='uploads/' + orang['foto']) }}" alt="Foto {{ orang['nama'] }}"
+              class="org-photo">
+
+            {% else %}
+
+            <div class="org-photo-placeholder">
+              <span>👤</span>
+            </div>
+
+            {% endif %}
+          </div>
+
+          <div class="org-card-content">
+            <div class="org-role">
+              {{ orang["jabatan"] }}
+            </div>
+
+            <div class="org-name">
+              {{ orang["nama"] }}
+            </div>
+          </div>
+
         </article>
 
+        {% else %}
+
+        <div class="org-empty">
+          <p>Data struktur organisasi belum tersedia.</p>
+        </div>
+
         {% endfor %}
+
       </div>
 
     </section>

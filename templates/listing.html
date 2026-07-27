@@ -99,16 +99,40 @@
         <div class="welcome-portrait">
 
           <div class="welcome-photo-frame">
-            <img src="{{ url_for('static', filename='uploads/foto-kepala-desa.jpg') }}"
-              alt="Foto {{ desa.struktur[0].nama }}" class="welcome-photo">
+
+            {% if kepala_desa and kepala_desa["foto"] and kepala_desa["foto"] != "default.jpg" %}
+
+            <img src="{{ url_for('static', filename='uploads/' + kepala_desa['foto']) }}"
+              alt="Foto {{ kepala_desa['nama'] }}" class="welcome-photo">
+
+            {% else %}
+
+            <div class="welcome-photo-placeholder">
+              <span>👤</span>
+            </div>
+
+            {% endif %}
+
           </div>
 
           <div class="welcome-identity">
-            <span class="welcome-position">Kepala Desa Maor</span>
+            <span class="welcome-position">
+              {% if kepala_desa %}
+              {{ kepala_desa["jabatan"] }}
+              {% else %}
+              Kepala Desa
+              {% endif %}
+            </span>
 
-            <h3>{{ desa.struktur[0].nama }}</h3>
+            <h3>
+              {% if kepala_desa %}
+              {{ kepala_desa["nama"] }}
+              {% else %}
+              Nama Kepala Desa
+              {% endif %}
+            </h3>
 
-            <p>Pemerintah Desa Maor</p>
+            <p>Pemerintah {{ desa.nama }}</p>
           </div>
 
         </div>

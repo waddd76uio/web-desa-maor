@@ -330,6 +330,48 @@
         </form>
       </div>
 
+      <!-- KARTU TAMBAHAN: FORM STRUKTUR ORGANISASI -->
+      <div class="admin-card">
+        <h2>👤 Tambah Perangkat Desa</h2>
+
+        <form class="admin-form" method="POST" enctype="multipart/form-data">
+          <input type="hidden" name="jenis_form" value="struktur">
+
+          <div class="grid-2-col">
+
+            <div class="form-group">
+              <label>Nama Lengkap</label>
+              <input type="text" name="nama" class="form-control" required placeholder="Cth: H. Supriyono">
+            </div>
+
+            <div class="form-group">
+              <label>Jabatan</label>
+              <input type="text" name="jabatan" class="form-control" required placeholder="Cth: Kepala Desa">
+            </div>
+
+          </div>
+
+          <div class="form-group">
+            <label>Urutan Tampilan</label>
+            <input type="number" name="urutan" class="form-control" value="1" min="1" required>
+
+            <small style="color: var(--muted-sage);">
+              Angka yang lebih kecil akan tampil lebih dahulu.
+            </small>
+          </div>
+
+          <div class="form-group">
+            <label>Foto Perangkat Desa</label>
+            <input type="file" name="foto" class="form-control" accept=".jpg,.jpeg,.png,.webp,image/*" required>
+          </div>
+
+          <button type="submit" class="btn-submit" style="background: #c0572a; color: white;">
+            Simpan Perangkat Desa
+          </button>
+
+        </form>
+      </div>
+
       <!-- KARTU TAMBAHAN: FORM PRODUK UMKM -->
       <div class="admin-card">
         <h2>🛍️ Tambah Produk UMKM</h2>
@@ -416,6 +458,113 @@
       </div>
 
     </div>
+
+    <!-- DAFTAR STRUKTUR ORGANISASI -->
+    <section class="admin-card admin-list-card">
+      <h2>👥 Daftar Struktur Organisasi</h2>
+
+      {% if daftar_struktur %}
+
+      <div style="overflow-x: auto;">
+        <table style="
+      width: 100%;
+      min-width: 800px;
+      border-collapse: collapse;
+    ">
+
+          <thead>
+            <tr style="border-bottom: 1px solid rgba(255,255,255,0.2);">
+              <th style="padding: 1rem; text-align: left;">Urutan</th>
+              <th style="padding: 1rem; text-align: left;">Foto</th>
+              <th style="padding: 1rem; text-align: left;">Nama</th>
+              <th style="padding: 1rem; text-align: left;">Jabatan</th>
+              <th style="padding: 1rem; text-align: center;">Aksi</th>
+            </tr>
+          </thead>
+
+          <tbody>
+            {% for item_struktur in daftar_struktur %}
+
+            <tr style="border-bottom: 1px solid rgba(255,255,255,0.08);">
+
+              <td style="padding: 1rem;">
+                {{ item_struktur["urutan"] }}
+              </td>
+
+              <td style="padding: 1rem;">
+
+                {% if item_struktur["foto"] and item_struktur["foto"] != "default.jpg" %}
+
+                <img src="{{ url_for('static', filename='uploads/' + item_struktur['foto']) }}"
+                  alt="{{ item_struktur['nama'] }}" style="
+                width: 65px;
+                height: 80px;
+                object-fit: cover;
+                object-position: center top;
+                border-radius: 7px;
+              ">
+
+                {% else %}
+
+                <span style="color: var(--muted-sage);">
+                  Belum ada foto
+                </span>
+
+                {% endif %}
+
+              </td>
+
+              <td style="padding: 1rem;">
+                <strong>{{ item_struktur["nama"] }}</strong>
+              </td>
+
+              <td style="padding: 1rem;">
+                {{ item_struktur["jabatan"] }}
+              </td>
+
+              <td class="admin-action-cell">
+
+                <div class="admin-action-group">
+
+                  <a href="{{ url_for(
+                  'admin_edit_struktur',
+                  id_struktur=item_struktur['id']
+                ) }}" class="admin-edit-button">
+                    Edit
+                  </a>
+
+                  <form class="admin-delete-form" action="{{ url_for(
+                  'admin_hapus_struktur',
+                  id_struktur=item_struktur['id']
+                ) }}" method="POST" onsubmit="return confirm(
+                  'Apakah Anda yakin ingin menghapus perangkat desa ini?'
+                );">
+                    <button class="admin-delete-button" type="submit">
+                      Hapus
+                    </button>
+                  </form>
+
+                </div>
+
+              </td>
+
+            </tr>
+
+            {% endfor %}
+          </tbody>
+
+        </table>
+      </div>
+
+      {% else %}
+
+      <p style="color: var(--muted-sage);">
+        Belum ada data struktur organisasi.
+      </p>
+
+      {% endif %}
+
+    </section>
 
     <!-- DAFTAR BERITA YANG SUDAH TERSIMPAN -->
     <section class="admin-card admin-list-card">

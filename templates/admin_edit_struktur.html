@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Edit Struktur Organisasi — {{ desa.nama }}</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Work+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap"
+        rel="stylesheet">
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+
+<body>
+
+    <div class="chart-grain" aria-hidden="true"></div>
+
+    <main class="admin-edit-page">
+
+        <section class="admin-edit-card">
+
+            <a href="{{ url_for('admin_dashboard') }}" class="admin-edit-back">
+                ← Kembali ke Dashboard Admin
+            </a>
+
+            <span class="admin-edit-label">
+                Struktur Organisasi
+            </span>
+
+            <h1>Edit Perangkat Desa</h1>
+
+            <p class="admin-edit-description">
+                Ubah nama, jabatan, foto, atau urutan tampil perangkat desa.
+            </p>
+
+            {% if error %}
+            <div class="admin-edit-error">
+                {{ error }}
+            </div>
+            {% endif %}
+
+            <form class="admin-edit-form" method="POST" enctype="multipart/form-data">
+
+                <div class="admin-edit-field">
+                    <label for="nama">Nama Lengkap</label>
+
+                    <input id="nama" type="text" name="nama" value="{{ item['nama'] }}" required>
+                </div>
+
+                <div class="admin-edit-field">
+                    <label for="jabatan">Jabatan</label>
+
+                    <input id="jabatan" type="text" name="jabatan" value="{{ item['jabatan'] }}" required>
+                </div>
+
+                <div class="admin-edit-field">
+                    <label for="urutan">Urutan Tampilan</label>
+
+                    <input id="urutan" type="number" name="urutan" min="1" value="{{ item['urutan'] }}" required>
+
+                    <small>
+                        Angka yang lebih kecil akan tampil lebih dahulu.
+                    </small>
+                </div>
+
+                <div class="admin-edit-field">
+                    <label>Foto Saat Ini</label>
+
+                    {% if item["foto"] and item["foto"] != "default.jpg" %}
+
+                    <div class="admin-current-image admin-structure-current-image">
+                        <img src="{{ url_for('static', filename='uploads/' + item['foto']) }}" alt="{{ item['nama'] }}">
+                    </div>
+
+                    {% else %}
+
+                    <p class="admin-no-image">
+                        Belum ada foto.
+                    </p>
+
+                    {% endif %}
+                </div>
+
+                <div class="admin-edit-field">
+                    <label for="foto">Ganti Foto</label>
+
+                    <input id="foto" type="file" name="foto" accept=".jpg,.jpeg,.png,.webp,image/*">
+
+                    <small>
+                        Kosongkan apabila tetap menggunakan foto lama.
+                    </small>
+                </div>
+
+                <div class="admin-edit-actions">
+
+                    <a href="{{ url_for('admin_dashboard') }}" class="admin-cancel-button">
+                        Batal
+                    </a>
+
+                    <button type="submit" class="admin-save-button">
+                        Simpan Perubahan
+                    </button>
+
+                </div>
+
+            </form>
+
+        </section>
+
+    </main>
+
+</body>
+
+</html>

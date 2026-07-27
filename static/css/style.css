@@ -883,6 +883,71 @@ main>section:not(.hero) {
 /* =========================================================================
    7. STRUKTUR ORGANISASI
    ========================================================================= */
+.org-photo-wrapper {
+  width: 120px;
+  aspect-ratio: 3 / 4;
+
+  margin: 0 auto 1.25rem;
+  overflow: hidden;
+
+  border: 2px solid rgba(47, 111, 100, 0.65);
+  border-radius: 10px;
+
+  background: rgba(16, 38, 43, 0.75);
+
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.25);
+}
+
+.org-photo {
+  width: 100%;
+  height: 100%;
+  display: block;
+
+  object-fit: cover;
+  object-position: center top;
+
+  transition:
+    transform 0.35s ease,
+    filter 0.35s ease;
+}
+
+.org-card:hover .org-photo {
+  transform: scale(1.04);
+  filter: brightness(1.05);
+}
+
+.org-photo-placeholder {
+  width: 100%;
+  height: 100%;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  background: rgba(47, 111, 100, 0.08);
+}
+
+.org-photo-placeholder span {
+  font-size: 3rem;
+  opacity: 0.7;
+}
+
+.org-card-content {
+  width: 100%;
+}
+
+.org-empty {
+  grid-column: 1 / -1;
+
+  padding: 2rem;
+
+  border: 1px dashed rgba(47, 111, 100, 0.55);
+  border-radius: 10px;
+
+  color: var(--muted-sage);
+  text-align: center;
+}
+
 .org-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
@@ -930,6 +995,11 @@ main>section:not(.hero) {
   background: rgba(192, 87, 42, 0.08);
   border: 1px solid var(--rust-buoy);
   padding: 2.25rem 1.5rem;
+}
+
+.org-card.org-kades .org-photo-wrapper {
+  width: 145px;
+  border-color: var(--rust-buoy-lt);
 }
 
 .org-card.org-kades .org-role {
@@ -1313,6 +1383,23 @@ main>section:not(.hero) {
 }
 
 /* Foto kepala desa */
+.welcome-photo-placeholder {
+  width: 100%;
+  height: 100%;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  background: rgba(47, 111, 100, 0.08);
+  color: var(--muted-sage);
+}
+
+.welcome-photo-placeholder span {
+  font-size: 5rem;
+  opacity: 0.7;
+}
+
 .welcome-photo {
   width: 100%;
   height: 100%;
@@ -3945,4 +4032,15 @@ main>section:not(.hero) {
   .umkm-card-actions {
     grid-template-columns: 1fr;
   }
+}
+
+/* Foto pada halaman edit struktur */
+.admin-structure-current-image {
+  max-width: 210px;
+}
+
+.admin-structure-current-image img {
+  height: 260px;
+  object-fit: cover;
+  object-position: center top;
 }

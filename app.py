@@ -270,6 +270,49 @@ def hitung_statistik():
 
 
 # ---------------------------------------------------------------------------
+# Database Struktur Organisasi
+# ---------------------------------------------------------------------------
+def pastikan_tabel_struktur():
+    db = get_db()
+
+    db.execute("""
+        CREATE TABLE IF NOT EXISTS struktur_organisasi (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            nama TEXT NOT NULL,
+            jabatan TEXT NOT NULL,
+            foto TEXT,
+            urutan INTEGER NOT NULL DEFAULT 0
+        )
+    """)
+
+    db.commit()
+
+    # Tambahkan data awal apabila tabel masih kosong
+    jumlah_data = db.execute("""
+        SELECT COUNT(*) AS total
+        FROM struktur_organisasi
+    """).fetchone()["total"]
+
+    if jumlah_data == 0:
+        data_awal = [
+            ("Nama Kepala Desa", "Kepala Desa", "default.jpg", 1),
+            ("Nama Sekdes", "Sekretaris Desa", "default.jpg", 2),
+            ("Nama", "Kaur Keuangan", "default.jpg", 3),
+        ]
+
+        db.executemany(
+            """
+            INSERT INTO struktur_organisasi
+            (nama, jabatan, foto, urutan)
+            VALUES (?, ?, ?, ?)
+        """,
+            data_awal,
+        )
+
+        db.commit()
+
+
+# ---------------------------------------------------------------------------
 # Routes
 # ---------------------------------------------------------------------------
 @app.route("/")
@@ -283,6 +326,9 @@ def listing():
     catat_kunjungan()
     stats = hitung_statistik()
 
+    # Memastikan tabel struktur organisasi tersedia
+    pastikan_tabel_struktur()
+
     db = get_db()
     # Pastikan tabel agenda ada
     db.execute(
@@ -292,6 +338,15 @@ def listing():
 
     # Ambil data agenda, urutkan dari tanggal terdekat
     agenda_raw = db.execute("SELECT * FROM agenda ORDER BY tanggal ASC").fetchall()
+
+    # Mengambil data Kepala Desa untuk bagian sambutan beranda
+    kepala_desa = db.execute("""
+        SELECT *
+        FROM struktur_organisasi
+        WHERE LOWER(TRIM(jabatan)) = LOWER('Kepala Desa')
+        ORDER BY urutan ASC, id ASC
+        LIMIT 1
+    """).fetchone()
 
     # Proses konversi format tanggal (Misal: 2026-08-17 menjadi "17" dan "Agu")
     daftar_agenda = []
@@ -312,10 +367,15 @@ def listing():
 
     for a in agenda_raw:
         try:
-            dt = datetime.datetime.strptime(a["tanggal"], "%Y-%m-%d")
+            dt = datetime.datetime.strptime(
+                a["tanggal"],
+                "%Y-%m-%d",
+            )
+
             tgl_angka = dt.strftime("%d")
             bln_teks = bulan_indo[dt.month - 1]
-        except:
+
+        except (ValueError, TypeError):
             tgl_angka = "--"
             bln_teks = "--"
 
@@ -329,7 +389,13 @@ def listing():
             }
         )
 
-    return render_template("listing.html", desa=DESA, stats=stats, agenda=daftar_agenda)
+    return render_template(
+        "listing.html",
+        desa=DESA,
+        stats=stats,
+        agenda=daftar_agenda,
+        kepala_desa=kepala_desa,
+    )
 
 
 # --- RUTE BARU UNTUK HALAMAN PROFIL (TERPISAH) ---
@@ -341,7 +407,21 @@ def profil():
 # --- RUTE UNTUK HALAMAN STRUKTUR ORGANISASI ---
 @app.route("/struktur")
 def struktur():
-    return render_template("struktur.html", desa=DESA)
+    pastikan_tabel_struktur()
+
+    db = get_db()
+
+    daftar_struktur = db.execute("""
+        SELECT *
+        FROM struktur_organisasi
+        ORDER BY urutan ASC, id ASC
+    """).fetchall()
+
+    return render_template(
+        "struktur.html",
+        desa=DESA,
+        daftar_struktur=daftar_struktur,
+    )
 
 
 @app.route("/berita")
@@ -382,6 +462,17 @@ def umkm():
             gambar TEXT,
             status TEXT NOT NULL DEFAULT 'aktif',
             tanggal TEXT NOT NULL
+        )
+    """)
+
+    # Memastikan tabel struktur organisasi tersedia
+    db.execute("""
+        CREATE TABLE IF NOT EXISTS struktur_organisasi (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            nama TEXT NOT NULL,
+            jabatan TEXT NOT NULL,
+            foto TEXT,
+            urutan INTEGER NOT NULL DEFAULT 0
         )
     """)
 
@@ -664,6 +755,56 @@ def admin_dashboard():
             return redirect(url_for("admin_dashboard"))
 
         # ==========================================
+        # FORM TAMBAH STRUKTUR ORGANISASI
+        # ==========================================
+        elif jenis_form == "struktur":
+            nama = request.form.get("nama", "").strip()
+            jabatan = request.form.get("jabatan", "").strip()
+            urutan = request.form.get("urutan", "0").strip()
+            foto = request.files.get("foto")
+
+            if not nama or not jabatan:
+                return "Nama dan jabatan wajib diisi.", 400
+
+            try:
+                urutan_angka = int(urutan)
+            except ValueError:
+                urutan_angka = 0
+
+            filename = "default.jpg"
+
+            if foto and foto.filename:
+                nama_asli = secure_filename(foto.filename)
+                kode_waktu = datetime.datetime.now().strftime("%Y%m%d%H%M%S%f")
+
+                filename = f"struktur_{kode_waktu}_{nama_asli}"
+
+                foto.save(
+                    os.path.join(
+                        app.config["UPLOAD_FOLDER"],
+                        filename,
+                    )
+                )
+
+            db.execute(
+                """
+                INSERT INTO struktur_organisasi
+                (nama, jabatan, foto, urutan)
+                VALUES (?, ?, ?, ?)
+            """,
+                (
+                    nama,
+                    jabatan,
+                    filename,
+                    urutan_angka,
+                ),
+            )
+
+            db.commit()
+
+            return redirect(url_for("admin_dashboard"))
+
+        # ==========================================
         # FORM TAMBAH PRODUK UMKM
         # ==========================================
         elif jenis_form == "umkm":
@@ -676,6 +817,10 @@ def admin_dashboard():
             maps_url = request.form.get("maps_url", "").strip()
             status = request.form.get("status", "aktif").strip()
             gambar = request.files.get("gambar")
+
+            # Nilai bawaan untuk kolom lama di database
+            harga_angka = 0
+            satuan = "-"
 
             # Memastikan data wajib telah diisi
             if (
@@ -788,6 +933,12 @@ def admin_dashboard():
         ORDER BY id DESC
         """).fetchall()
 
+    daftar_struktur = db.execute("""
+        SELECT *
+        FROM struktur_organisasi
+        ORDER BY urutan ASC, id ASC
+        """).fetchall()
+
     return render_template(
         "admin.html",
         desa=DESA,
@@ -796,7 +947,159 @@ def admin_dashboard():
         daftar_agenda=daftar_agenda,
         daftar_poi=daftar_poi,
         daftar_umkm=daftar_umkm,
+        daftar_struktur=daftar_struktur,
     )
+
+
+# ==========================================
+# EDIT STRUKTUR ORGANISASI
+# ==========================================
+@app.route(
+    "/admin/struktur/<int:id_struktur>/edit",
+    methods=["GET", "POST"],
+)
+def admin_edit_struktur(id_struktur):
+    if not session.get("admin_logged_in"):
+        return redirect(url_for("admin_login"))
+
+    pastikan_tabel_struktur()
+
+    db = get_db()
+
+    item = db.execute(
+        """
+        SELECT *
+        FROM struktur_organisasi
+        WHERE id = ?
+    """,
+        (id_struktur,),
+    ).fetchone()
+
+    if item is None:
+        return "Data perangkat desa tidak ditemukan.", 404
+
+    if request.method == "POST":
+        nama = request.form.get("nama", "").strip()
+        jabatan = request.form.get("jabatan", "").strip()
+        urutan = request.form.get("urutan", "0").strip()
+        foto = request.files.get("foto")
+
+        if not nama or not jabatan:
+            return render_template(
+                "admin_edit_struktur.html",
+                desa=DESA,
+                item=item,
+                error="Nama dan jabatan wajib diisi.",
+            )
+
+        try:
+            urutan_angka = int(urutan)
+        except ValueError:
+            urutan_angka = 0
+
+        filename = item["foto"]
+
+        if foto and foto.filename:
+            nama_asli = secure_filename(foto.filename)
+            kode_waktu = datetime.datetime.now().strftime("%Y%m%d%H%M%S%f")
+
+            filename_baru = f"struktur_{kode_waktu}_{nama_asli}"
+
+            foto.save(
+                os.path.join(
+                    app.config["UPLOAD_FOLDER"],
+                    filename_baru,
+                )
+            )
+
+            # Menghapus foto lama, kecuali default.jpg
+            if filename and filename != "default.jpg":
+                lokasi_foto_lama = os.path.join(
+                    app.config["UPLOAD_FOLDER"],
+                    filename,
+                )
+
+                if os.path.exists(lokasi_foto_lama):
+                    os.remove(lokasi_foto_lama)
+
+            filename = filename_baru
+
+        db.execute(
+            """
+            UPDATE struktur_organisasi
+            SET nama = ?,
+                jabatan = ?,
+                foto = ?,
+                urutan = ?
+            WHERE id = ?
+        """,
+            (
+                nama,
+                jabatan,
+                filename,
+                urutan_angka,
+                id_struktur,
+            ),
+        )
+
+        db.commit()
+
+        return redirect(url_for("admin_dashboard"))
+
+    return render_template(
+        "admin_edit_struktur.html",
+        desa=DESA,
+        item=item,
+    )
+
+
+# ==========================================
+# HAPUS STRUKTUR ORGANISASI
+# ==========================================
+@app.route(
+    "/admin/struktur/<int:id_struktur>/hapus",
+    methods=["POST"],
+)
+def admin_hapus_struktur(id_struktur):
+    if not session.get("admin_logged_in"):
+        return redirect(url_for("admin_login"))
+
+    db = get_db()
+
+    item = db.execute(
+        """
+        SELECT *
+        FROM struktur_organisasi
+        WHERE id = ?
+    """,
+        (id_struktur,),
+    ).fetchone()
+
+    if item is None:
+        return "Data perangkat desa tidak ditemukan.", 404
+
+    nama_foto = item["foto"]
+
+    db.execute(
+        """
+        DELETE FROM struktur_organisasi
+        WHERE id = ?
+    """,
+        (id_struktur,),
+    )
+
+    db.commit()
+
+    if nama_foto and nama_foto != "default.jpg":
+        lokasi_foto = os.path.join(
+            app.config["UPLOAD_FOLDER"],
+            nama_foto,
+        )
+
+        if os.path.exists(lokasi_foto):
+            os.remove(lokasi_foto)
+
+    return redirect(url_for("admin_dashboard"))
 
 
 # ==========================================
@@ -1045,8 +1348,6 @@ def admin_edit_infografis(id_infografis):
         judul = request.form.get("judul", "").strip()
         tanggal = request.form.get("tanggal", "").strip()
         gambar = request.files.get("gambar")
-        harga_angka = 0
-        satuan = "-"
 
         # Validasi sederhana
         if not judul or not tanggal:
@@ -1212,7 +1513,7 @@ def admin_edit_umkm(id_umkm):
     if item is None:
         return "Produk UMKM tidak ditemukan", 404
 
-    # Dijalankan saat tombol Simpan Perubahan ditekan
+    # Dijalankan ketika tombol Simpan Perubahan ditekan
     if request.method == "POST":
         nama_produk = request.form.get("nama_produk", "").strip()
 
@@ -1245,36 +1546,8 @@ def admin_edit_umkm(id_umkm):
                 "admin_edit_umkm.html",
                 desa=DESA,
                 item=item,
-                error="Semua data wajib harus diisi.",
+                error="Nama produk, nama usaha, kategori, WhatsApp, alamat, dan lokasi wajib diisi.",
             )
-
-        db.execute(
-            """
-            UPDATE umkm
-            SET nama_produk = ?,
-                nama_usaha = ?,
-                kategori = ?,
-                deskripsi = ?,
-                nomor_wa = ?,
-                alamat = ?,
-                maps_url = ?,
-                gambar = ?,
-                status = ?
-            WHERE id = ?
-            """,
-            (
-                nama_produk,
-                nama_usaha,
-                kategori,
-                deskripsi,
-                nomor_wa,
-                alamat,
-                maps_url,
-                filename,
-                status,
-                id_umkm,
-            ),
-        )
 
         # Merapikan nomor WhatsApp
         nomor_wa = nomor_wa.replace(" ", "").replace("-", "")
@@ -1285,14 +1558,14 @@ def admin_edit_umkm(id_umkm):
         elif nomor_wa.startswith("+62"):
             nomor_wa = nomor_wa[1:]
 
-        # Tetap menggunakan gambar lama
+        # Gunakan gambar lama jika tidak memilih gambar baru
         filename = item["gambar"]
 
         # Jika admin memilih gambar baru
         if gambar and gambar.filename:
             nama_asli = secure_filename(gambar.filename)
 
-            kode_waktu = datetime.datetime.now().strftime("%Y%m%d%H%M%S")
+            kode_waktu = datetime.datetime.now().strftime("%Y%m%d%H%M%S%f")
 
             filename_baru = f"umkm_{kode_waktu}_{nama_asli}"
 
@@ -1303,7 +1576,7 @@ def admin_edit_umkm(id_umkm):
                 )
             )
 
-            # Hapus gambar lama jika tersedia
+            # Menghapus gambar lama, kecuali default.jpg
             if filename and filename != "default.jpg":
                 lokasi_gambar_lama = os.path.join(
                     app.config["UPLOAD_FOLDER"],
@@ -1315,15 +1588,13 @@ def admin_edit_umkm(id_umkm):
 
             filename = filename_baru
 
-        # Memperbarui data UMKM
+        # Memperbarui data produk UMKM
         db.execute(
             """
             UPDATE umkm
             SET nama_produk = ?,
                 nama_usaha = ?,
                 kategori = ?,
-                harga = ?,
-                satuan = ?,
                 deskripsi = ?,
                 nomor_wa = ?,
                 alamat = ?,
@@ -1336,8 +1607,6 @@ def admin_edit_umkm(id_umkm):
                 nama_produk,
                 nama_usaha,
                 kategori,
-                harga_angka,
-                satuan,
                 deskripsi,
                 nomor_wa,
                 alamat,
