@@ -30,7 +30,10 @@
     <div class="nav-inner">
 
       <a class="brand" href="/listing">
-        <span class="brand-mark" aria-hidden="true">🌾</span>
+        <span class="brand-mark" aria-hidden="true">
+          <img src="{{ url_for('static', filename='uploads/logo-desa-maor.png') }}" alt="Logo Desa Maor"
+            class="brand-logo">
+        </span>
 
         <span class="brand-text">
           <strong>{{ desa.nama }}</strong>

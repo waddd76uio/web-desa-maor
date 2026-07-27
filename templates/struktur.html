@@ -22,7 +22,10 @@
     <div class="nav-inner">
 
       <a class="brand" href="/listing">
-        <span class="brand-mark" aria-hidden="true">🌾</span>
+        <span class="brand-mark" aria-hidden="true">
+          <img src="{{ url_for('static', filename='uploads/logo-desa-maor.png') }}" alt="Logo Desa Maor"
+            class="brand-logo">
+        </span>
 
         <span class="brand-text">
           <strong>{{ desa.nama }}</strong>
@@ -47,6 +50,16 @@
         <a href="/infografis">Infografis</a>
         <a href="/umkm">UMKM</a>
         <a href="/berita">Berita</a>
+
+        <a href="{{ url_for('admin_login') }}" class="nav-admin-link" aria-label="Masuk ke halaman login admin">
+          <svg class="nav-admin-icon" viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M7 10V7a5 5 0 0 1 10 0v3"></path>
+            <rect x="5" y="10" width="14" height="10" rx="2"></rect>
+            <path d="M12 14v2"></path>
+          </svg>
+
+          <span>Admin</span>
+        </a>
       </nav>
 
     </div>
@@ -118,7 +131,9 @@
     <div class="footer-top">
       <div class="footer-col">
         <div class="footer-brand">
-          <span class="brand-mark">🌾</span>
+          <span class="footer-brand-mark" aria-hidden="true">
+            <img src="{{ url_for('static', filename='uploads/logo-desa-maor.png') }}" alt="" class="footer-brand-logo">
+          </span>
           <span class="brand-text"><strong>Pemerintah {{ desa.nama }}</strong></span>
         </div>
         <p>{{ desa.alamat }}<br>{{ desa.kecamatan }}, {{ desa.kabupaten }}<br>{{ desa.provinsi }}, {{ desa.kode_pos }}

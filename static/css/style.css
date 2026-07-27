@@ -78,8 +78,22 @@ h3 {
 }
 
 .brand-mark {
-  flex: 0 0 auto;
-  font-size: 1.5rem;
+  width: 30px;
+  height: 36px;
+  flex: 0 0 30px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.brand-logo {
+  width: 100%;
+  height: 100%;
+  display: block;
+
+  object-fit: contain;
+  object-position: center;
 }
 
 .brand-text {
@@ -696,7 +710,9 @@ main>section:not(.hero) {
   }
 
   .brand-mark {
-    font-size: 1.2rem;
+    width: 25px;
+    height: 31px;
+    flex-basis: 25px;
   }
 
   .brand-text strong {
@@ -1185,6 +1201,25 @@ main>section:not(.hero) {
   margin-bottom: 1.5rem;
   font-size: 1.25rem;
   color: var(--paper-sand);
+}
+
+.footer-brand-mark {
+  width: 34px;
+  height: 42px;
+  flex: 0 0 34px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.footer-brand-logo {
+  width: 100%;
+  height: 100%;
+  display: block;
+
+  object-fit: contain;
+  object-position: center;
 }
 
 .footer-col p {

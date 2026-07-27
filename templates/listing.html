@@ -27,7 +27,9 @@
     <div class="nav-inner">
 
       <a class="brand" href="/listing">
-        <span class="brand-mark" aria-hidden="true">🌾</span>
+        <span class="brand-mark" aria-hidden="true">
+          <img src="{{ url_for('static', filename='uploads/logo-desa-maor.png') }}" alt="" class="brand-logo">
+        </span>
 
         <span class="brand-text">
           <strong>{{ desa.nama }}</strong>
@@ -335,8 +337,14 @@
       <div class="footer-top">
         <div class="footer-col">
           <div class="footer-brand">
-            <span class="brand-mark">🌾</span>
-            <span class="brand-text"><strong>Pemerintah {{ desa.nama }}</strong></span>
+            <span class="footer-brand-mark" aria-hidden="true">
+              <img src="{{ url_for('static', filename='uploads/logo-desa-maor.png') }}" alt=""
+                class="footer-brand-logo">
+            </span>
+
+            <span class="brand-text">
+              <strong>Pemerintah {{ desa.nama }}</strong>
+            </span>
           </div>
           <p>{{ desa.alamat }}<br>{{ desa.kecamatan }}, {{ desa.kabupaten }}<br>{{ desa.provinsi }}, {{ desa.kode_pos }}
           </p>
