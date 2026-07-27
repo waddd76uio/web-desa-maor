@@ -56,6 +56,16 @@
         <a href="/infografis">Infografis</a>
         <a href="/umkm">UMKM</a>
         <a href="/berita" aria-current="page">Berita</a>
+
+        <a href="{{ url_for('admin_login') }}" class="nav-admin-link" aria-label="Masuk ke halaman login admin">
+          <svg class="nav-admin-icon" viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M7 10V7a5 5 0 0 1 10 0v3"></path>
+            <rect x="5" y="10" width="14" height="10" rx="2"></rect>
+            <path d="M12 14v2"></path>
+          </svg>
+
+          <span>Admin</span>
+        </a>
       </nav>
 
     </div>

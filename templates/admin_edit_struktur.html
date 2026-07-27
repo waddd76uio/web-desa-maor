@@ -69,21 +69,31 @@
                 </div>
 
                 <div class="admin-edit-field">
-                    <label>Foto Saat Ini</label>
+                    <label>Preview Foto</label>
 
-                    {% if item["foto"] and item["foto"] != "default.jpg" %}
+                    <div class="admin-photo-editor">
 
-                    <div class="admin-current-image admin-structure-current-image">
-                        <img src="{{ url_for('static', filename='uploads/' + item['foto']) }}" alt="{{ item['nama'] }}">
+                        <div class="admin-current-image admin-structure-current-image" id="photoPreviewContainer">
+
+                            <img id="photoPreview" {% if item["foto"] and item["foto"] !="default.jpg" %} src="{{ url_for(
+                    'static',
+                    filename='uploads/' + item['foto']
+                ) }}" alt="Foto {{ item['nama'] }}" {% else %} hidden alt="Preview foto perangkat desa" {% endif %}>
+
+                            <div class="admin-photo-placeholder" id="photoPlaceholder" {% if item["foto"] and
+                                item["foto"] !="default.jpg" %} hidden {% endif %}>
+                                <span>👤</span>
+                                <p>Belum ada foto</p>
+                            </div>
+
+                        </div>
+
+                        <button type="button" class="admin-remove-photo-button" id="removePhotoButton" {% if not
+                            item["foto"] or item["foto"]=="default.jpg" %} hidden {% endif %}>
+                            Hapus Foto
+                        </button>
+
                     </div>
-
-                    {% else %}
-
-                    <p class="admin-no-image">
-                        Belum ada foto.
-                    </p>
-
-                    {% endif %}
                 </div>
 
                 <div class="admin-edit-field">
@@ -91,7 +101,11 @@
 
                     <input id="foto" type="file" name="foto" accept=".jpg,.jpeg,.png,.webp,image/*">
 
+                    <!-- Nilai ini diubah oleh JavaScript ketika Hapus Foto diklik -->
+                    <input type="hidden" name="hapus_foto" id="hapusFoto" value="0">
+
                     <small>
+                        Setelah memilih file, preview foto akan tampil di atas.
                         Kosongkan apabila tetap menggunakan foto lama.
                     </small>
                 </div>
@@ -113,6 +127,88 @@
         </section>
 
     </main>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const fotoInput = document.getElementById("foto");
+            const photoPreview = document.getElementById("photoPreview");
+            const photoPlaceholder = document.getElementById("photoPlaceholder");
+            const removePhotoButton = document.getElementById(
+                "removePhotoButton"
+            );
+            const hapusFotoInput = document.getElementById("hapusFoto");
+
+            let previewObjectUrl = null;
+
+            // Menampilkan preview ketika pengguna memilih gambar
+            fotoInput.addEventListener("change", function () {
+                const file = fotoInput.files[0];
+
+                if (!file) {
+                    return;
+                }
+
+                // Memastikan file yang dipilih benar-benar gambar
+                if (!file.type.startsWith("image/")) {
+                    alert("File yang dipilih harus berupa gambar.");
+
+                    fotoInput.value = "";
+                    return;
+                }
+
+                // Membersihkan URL preview sebelumnya
+                if (previewObjectUrl) {
+                    URL.revokeObjectURL(previewObjectUrl);
+                }
+
+                previewObjectUrl = URL.createObjectURL(file);
+
+                photoPreview.src = previewObjectUrl;
+                photoPreview.hidden = false;
+
+                photoPlaceholder.hidden = true;
+                removePhotoButton.hidden = false;
+
+                // Membatalkan perintah hapus karena ada foto baru
+                hapusFotoInput.value = "0";
+            });
+
+            // Menandai foto untuk dihapus saat formulir disimpan
+            removePhotoButton.addEventListener("click", function () {
+                const setuju = confirm(
+                    "Foto akan dihapus setelah Anda menekan Simpan Perubahan. Lanjutkan?"
+                );
+
+                if (!setuju) {
+                    return;
+                }
+
+                // Menghapus file baru yang mungkin sudah dipilih
+                fotoInput.value = "";
+
+                if (previewObjectUrl) {
+                    URL.revokeObjectURL(previewObjectUrl);
+                    previewObjectUrl = null;
+                }
+
+                photoPreview.removeAttribute("src");
+                photoPreview.hidden = true;
+
+                photoPlaceholder.hidden = false;
+                removePhotoButton.hidden = true;
+
+                // Dikirim ke Flask sebagai perintah hapus foto
+                hapusFotoInput.value = "1";
+            });
+
+            // Membersihkan object URL ketika halaman ditutup
+            window.addEventListener("beforeunload", function () {
+                if (previewObjectUrl) {
+                    URL.revokeObjectURL(previewObjectUrl);
+                }
+            });
+        });
+    </script>
 
 </body>
 

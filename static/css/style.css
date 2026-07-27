@@ -130,6 +130,48 @@ h3 {
   box-shadow: inset 0 -2px 0 var(--rust-buoy-lt);
 }
 
+/* Tombol masuk admin pada navigasi publik */
+.nav-links .nav-admin-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4rem;
+
+  margin-left: 0.35rem;
+  padding: 0.48rem 0.78rem;
+
+  border: 1px solid rgba(185, 196, 183, 0.3);
+  border-radius: 6px;
+
+  background: rgba(47, 111, 100, 0.1);
+  color: var(--muted-sage);
+
+  font-size: 0.78rem;
+  font-weight: 500;
+  letter-spacing: 0.2px;
+
+  box-shadow: none;
+}
+
+.nav-admin-icon {
+  width: 15px;
+  height: 15px;
+  flex: 0 0 15px;
+
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.7;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.nav-links .nav-admin-link:hover {
+  border-color: rgba(217, 120, 78, 0.7);
+
+  background: rgba(192, 87, 42, 0.12);
+  color: var(--rust-buoy-lt);
+}
+
 
 /* Tombol menu untuk tablet dan HP */
 .nav-toggle {
@@ -576,6 +618,25 @@ main>section:not(.hero) {
       opacity 0.25s ease,
       visibility 0.25s ease,
       transform 0.25s ease;
+  }
+
+  .nav-links .nav-admin-link {
+    justify-content: flex-start;
+
+    width: 100%;
+    margin: 0.55rem 0 0;
+    padding: 0.85rem 1rem;
+
+    border: 1px solid rgba(185, 196, 183, 0.18);
+    border-radius: 7px;
+
+    background: rgba(47, 111, 100, 0.1);
+    box-shadow: none;
+  }
+
+  .nav-links .nav-admin-link:hover {
+    background: rgba(192, 87, 42, 0.12);
+    box-shadow: none;
   }
 
   /* Menu muncul setelah tombol hamburger diklik */
@@ -4043,4 +4104,220 @@ main>section:not(.hero) {
   height: 260px;
   object-fit: cover;
   object-position: center top;
+}
+
+/* =========================================================================
+   PREVIEW DAN HAPUS FOTO STRUKTUR ORGANISASI
+   ========================================================================= */
+
+.admin-photo-editor {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.85rem;
+}
+
+.admin-structure-current-image {
+  position: relative;
+  width: 210px;
+  height: 260px;
+
+  overflow: hidden;
+
+  background: rgba(16, 38, 43, 0.75);
+}
+
+.admin-structure-current-image img {
+  width: 100%;
+  height: 100%;
+  display: block;
+
+  object-fit: cover;
+  object-position: center top;
+}
+
+.admin-photo-placeholder {
+  width: 100%;
+  height: 100%;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  background: rgba(47, 111, 100, 0.08);
+  color: var(--muted-sage);
+  text-align: center;
+}
+
+.admin-photo-placeholder[hidden],
+.admin-structure-current-image img[hidden],
+.admin-remove-photo-button[hidden] {
+  display: none;
+}
+
+.admin-photo-placeholder span {
+  display: block;
+  margin-bottom: 0.5rem;
+
+  font-size: 3.5rem;
+  opacity: 0.75;
+}
+
+.admin-photo-placeholder p {
+  font-size: 0.82rem;
+}
+
+.admin-remove-photo-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  min-width: 130px;
+  padding: 0.7rem 1rem;
+
+  border: 1px solid rgba(217, 120, 78, 0.55);
+  border-radius: 7px;
+
+  background: rgba(164, 56, 58, 0.22);
+  color: #ffb7b9;
+
+  font-family: var(--font-sans);
+  font-size: 0.85rem;
+  font-weight: 600;
+
+  cursor: pointer;
+
+  transition:
+    background 0.25s ease,
+    border-color 0.25s ease,
+    transform 0.25s ease;
+}
+
+.admin-remove-photo-button:hover {
+  background: #a4383a;
+  border-color: #d9784e;
+  color: #ffffff;
+
+  transform: translateY(-2px);
+}
+
+@media (max-width: 600px) {
+  .admin-structure-current-image {
+    width: min(100%, 210px);
+  }
+
+  .admin-remove-photo-button {
+    width: min(100%, 210px);
+  }
+}
+
+/* =========================================================================
+   PREVIEW GAMBAR ADMIN UMUM
+   ========================================================================= */
+
+.admin-image-editor {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.85rem;
+}
+
+.admin-image-preview {
+  position: relative;
+  width: 100%;
+  max-width: 320px;
+
+  overflow: hidden;
+
+  border: 1px solid rgba(47, 111, 100, 0.6);
+  border-radius: 10px;
+
+  background: rgba(16, 38, 43, 0.75);
+}
+
+.admin-image-preview--landscape {
+  aspect-ratio: 16 / 10;
+}
+
+.admin-image-preview--poster {
+  max-width: 240px;
+  aspect-ratio: 4 / 5;
+}
+
+.admin-image-preview--portrait {
+  max-width: 210px;
+  aspect-ratio: 3 / 4;
+}
+
+.admin-image-preview--product {
+  aspect-ratio: 4 / 3;
+}
+
+.admin-image-preview img {
+  width: 100%;
+  height: 100%;
+  display: block;
+
+  object-fit: cover;
+  object-position: center;
+}
+
+.admin-image-preview--poster img {
+  object-fit: contain;
+  background: rgba(255, 255, 255, 0.04);
+}
+
+.admin-image-placeholder {
+  width: 100%;
+  height: 100%;
+  min-height: 170px;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  padding: 1rem;
+
+  background: rgba(47, 111, 100, 0.08);
+  color: var(--muted-sage);
+
+  text-align: center;
+}
+
+.admin-image-placeholder span {
+  display: block;
+  margin-bottom: 0.5rem;
+
+  font-size: 3rem;
+  opacity: 0.75;
+}
+
+.admin-image-placeholder p {
+  font-size: 0.82rem;
+}
+
+.admin-image-preview img[hidden],
+.admin-image-placeholder[hidden],
+.admin-remove-photo-button[hidden] {
+  display: none;
+}
+
+.admin-image-editor>input[type="file"] {
+  width: 100%;
+}
+
+@media (max-width: 600px) {
+
+  .admin-image-preview,
+  .admin-image-preview--poster,
+  .admin-image-preview--portrait {
+    width: 100%;
+    max-width: 100%;
+  }
+
+  .admin-image-editor .admin-remove-photo-button {
+    width: 100%;
+  }
 }

@@ -35,6 +35,24 @@ UPLOAD_FOLDER = os.path.join(BASE_DIR, "static", "uploads")
 os.makedirs(UPLOAD_FOLDER, exist_ok=True)
 app.config["UPLOAD_FOLDER"] = UPLOAD_FOLDER
 
+
+def hapus_file_upload(nama_file):
+    """
+    Menghapus file dari static/uploads.
+    File default.jpg tidak boleh dihapus.
+    """
+    if not nama_file or nama_file == "default.jpg":
+        return
+
+    lokasi_file = os.path.join(
+        app.config["UPLOAD_FOLDER"],
+        nama_file,
+    )
+
+    if os.path.isfile(lokasi_file):
+        os.remove(lokasi_file)
+
+
 # Mengatur Zona Waktu ke WIB agar perpindahan hari sesuai waktu setempat
 Waktu_Lokal = ZoneInfo("Asia/Jakarta")
 
@@ -653,9 +671,18 @@ def admin_dashboard():
             filename = "default.jpg"
 
             if gambar and gambar.filename:
-                filename = secure_filename(gambar.filename)
+                nama_asli = secure_filename(gambar.filename)
 
-                gambar.save(os.path.join(app.config["UPLOAD_FOLDER"], filename))
+                kode_waktu = datetime.datetime.now().strftime("%Y%m%d%H%M%S%f")
+
+                filename = f"berita_{kode_waktu}_{nama_asli}"
+
+                gambar.save(
+                    os.path.join(
+                        app.config["UPLOAD_FOLDER"],
+                        filename,
+                    )
+                )
 
             db.execute(
                 """
@@ -705,9 +732,18 @@ def admin_dashboard():
             filename = "default.jpg"
 
             if gambar and gambar.filename:
-                filename = secure_filename(gambar.filename)
+                nama_asli = secure_filename(gambar.filename)
 
-                gambar.save(os.path.join(app.config["UPLOAD_FOLDER"], filename))
+                kode_waktu = datetime.datetime.now().strftime("%Y%m%d%H%M%S%f")
+
+                filename = f"infografis_{kode_waktu}_{nama_asli}"
+
+                gambar.save(
+                    os.path.join(
+                        app.config["UPLOAD_FOLDER"],
+                        filename,
+                    )
+                )
 
             db.execute(
                 """
@@ -982,7 +1018,11 @@ def admin_edit_struktur(id_struktur):
         nama = request.form.get("nama", "").strip()
         jabatan = request.form.get("jabatan", "").strip()
         urutan = request.form.get("urutan", "0").strip()
+
         foto = request.files.get("foto")
+
+        # Bernilai True ketika tombol Hapus Foto dipilih
+        hapus_foto = request.form.get("hapus_foto") == "1"
 
         if not nama or not jabatan:
             return render_template(
@@ -997,22 +1037,13 @@ def admin_edit_struktur(id_struktur):
         except ValueError:
             urutan_angka = 0
 
-        filename = item["foto"]
+        # Tetap menggunakan foto lama apabila tidak ada perubahan
+        filename = item["foto"] or "default.jpg"
 
-        if foto and foto.filename:
-            nama_asli = secure_filename(foto.filename)
-            kode_waktu = datetime.datetime.now().strftime("%Y%m%d%H%M%S%f")
-
-            filename_baru = f"struktur_{kode_waktu}_{nama_asli}"
-
-            foto.save(
-                os.path.join(
-                    app.config["UPLOAD_FOLDER"],
-                    filename_baru,
-                )
-            )
-
-            # Menghapus foto lama, kecuali default.jpg
+        # ==========================================
+        # HAPUS FOTO LAMA
+        # ==========================================
+        if hapus_foto:
             if filename and filename != "default.jpg":
                 lokasi_foto_lama = os.path.join(
                     app.config["UPLOAD_FOLDER"],
@@ -1021,6 +1052,36 @@ def admin_edit_struktur(id_struktur):
 
                 if os.path.exists(lokasi_foto_lama):
                     os.remove(lokasi_foto_lama)
+
+            # Kembali menggunakan placeholder
+            filename = "default.jpg"
+
+        # ==========================================
+        # SIMPAN FOTO BARU
+        # ==========================================
+        if foto and foto.filename:
+            nama_asli = secure_filename(foto.filename)
+
+            kode_waktu = datetime.datetime.now().strftime("%Y%m%d%H%M%S%f")
+
+            filename_baru = f"struktur_{kode_waktu}_{nama_asli}"
+
+            # Menghapus foto lama jika sebelumnya belum dihapus
+            if filename and filename != "default.jpg":
+                lokasi_foto_lama = os.path.join(
+                    app.config["UPLOAD_FOLDER"],
+                    filename,
+                )
+
+                if os.path.exists(lokasi_foto_lama):
+                    os.remove(lokasi_foto_lama)
+
+            foto.save(
+                os.path.join(
+                    app.config["UPLOAD_FOLDER"],
+                    filename_baru,
+                )
+            )
 
             filename = filename_baru
 
@@ -1347,7 +1408,9 @@ def admin_edit_infografis(id_infografis):
     if request.method == "POST":
         judul = request.form.get("judul", "").strip()
         tanggal = request.form.get("tanggal", "").strip()
+
         gambar = request.files.get("gambar")
+        hapus_gambar = request.form.get("hapus_gambar") == "1"
 
         # Validasi sederhana
         if not judul or not tanggal:
@@ -1358,18 +1421,32 @@ def admin_edit_infografis(id_infografis):
                 error="Judul dan tanggal wajib diisi.",
             )
 
-        # Tetap menggunakan gambar lama
-        filename = item["gambar"]
+        # Tetap menggunakan gambar lama jika tidak ada perubahan
+        filename = item["gambar"] or "default.jpg"
 
-        # Jika admin memilih gambar baru
+        # Menghapus gambar lama
+        if hapus_gambar:
+            hapus_file_upload(filename)
+            filename = "default.jpg"
+
+        # Menyimpan gambar baru
         if gambar and gambar.filename:
             nama_asli = secure_filename(gambar.filename)
 
-            kode_waktu = datetime.datetime.now().strftime("%Y%m%d%H%M%S")
+            kode_waktu = datetime.datetime.now().strftime("%Y%m%d%H%M%S%f")
 
-            filename = f"{kode_waktu}_{nama_asli}"
+            filename_baru = f"infografis_{kode_waktu}_{nama_asli}"
 
-            gambar.save(os.path.join(app.config["UPLOAD_FOLDER"], filename))
+            hapus_file_upload(filename)
+
+            gambar.save(
+                os.path.join(
+                    app.config["UPLOAD_FOLDER"],
+                    filename_baru,
+                )
+            )
+
+            filename = filename_baru
 
         # Memperbarui data infografis
         db.execute(
@@ -1442,7 +1519,9 @@ def admin_edit_berita(id_berita):
         tanggal = request.form.get("tanggal", "").strip()
         ringkasan = request.form.get("ringkasan", "").strip()
         isi = request.form.get("isi", "").strip()
+
         gambar = request.files.get("gambar")
+        hapus_gambar = request.form.get("hapus_gambar") == "1"
 
         # Validasi sederhana
         if not judul or not tanggal or not ringkasan or not isi:
@@ -1453,19 +1532,33 @@ def admin_edit_berita(id_berita):
                 error="Judul, tanggal, ringkasan, dan isi wajib diisi.",
             )
 
-        # Tetap memakai gambar lama
-        filename = item["gambar"]
+        # Tetap memakai gambar lama jika tidak ada perubahan
+        filename = item["gambar"] or "default.jpg"
 
-        # Jika admin memilih gambar baru
+        # Menghapus gambar lama
+        if hapus_gambar:
+            hapus_file_upload(filename)
+            filename = "default.jpg"
+
+        # Menyimpan gambar baru
         if gambar and gambar.filename:
             nama_asli = secure_filename(gambar.filename)
 
-            # Menambahkan waktu agar nama gambar tidak sama
-            kode_waktu = datetime.datetime.now().strftime("%Y%m%d%H%M%S")
+            kode_waktu = datetime.datetime.now().strftime("%Y%m%d%H%M%S%f")
 
-            filename = f"{kode_waktu}_{nama_asli}"
+            filename_baru = f"berita_{kode_waktu}_{nama_asli}"
 
-            gambar.save(os.path.join(app.config["UPLOAD_FOLDER"], filename))
+            # Hapus gambar lama sebelum menggantinya
+            hapus_file_upload(filename)
+
+            gambar.save(
+                os.path.join(
+                    app.config["UPLOAD_FOLDER"],
+                    filename_baru,
+                )
+            )
+
+            filename = filename_baru
 
         # Memperbarui data berita
         db.execute(
@@ -1532,6 +1625,7 @@ def admin_edit_umkm(id_umkm):
         status = request.form.get("status", "aktif").strip()
 
         gambar = request.files.get("gambar")
+        hapus_gambar = request.form.get("hapus_gambar") == "1"
 
         # Validasi kolom wajib
         if (
@@ -1558,10 +1652,15 @@ def admin_edit_umkm(id_umkm):
         elif nomor_wa.startswith("+62"):
             nomor_wa = nomor_wa[1:]
 
-        # Gunakan gambar lama jika tidak memilih gambar baru
-        filename = item["gambar"]
+        # Gunakan gambar lama jika tidak ada perubahan
+        filename = item["gambar"] or "default.jpg"
 
-        # Jika admin memilih gambar baru
+        # Menghapus gambar lama
+        if hapus_gambar:
+            hapus_file_upload(filename)
+            filename = "default.jpg"
+
+        # Menyimpan gambar baru
         if gambar and gambar.filename:
             nama_asli = secure_filename(gambar.filename)
 
@@ -1569,22 +1668,14 @@ def admin_edit_umkm(id_umkm):
 
             filename_baru = f"umkm_{kode_waktu}_{nama_asli}"
 
+            hapus_file_upload(filename)
+
             gambar.save(
                 os.path.join(
                     app.config["UPLOAD_FOLDER"],
                     filename_baru,
                 )
             )
-
-            # Menghapus gambar lama, kecuali default.jpg
-            if filename and filename != "default.jpg":
-                lokasi_gambar_lama = os.path.join(
-                    app.config["UPLOAD_FOLDER"],
-                    filename,
-                )
-
-                if os.path.exists(lokasi_gambar_lama):
-                    os.remove(lokasi_gambar_lama)
 
             filename = filename_baru
 

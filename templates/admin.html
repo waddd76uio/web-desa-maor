@@ -225,7 +225,26 @@
 
           <div class="form-group">
             <label>Foto / Thumbnail</label>
-            <input type="file" name="gambar" class="form-control" accept="image/png, image/jpeg" required>
+
+            <div class="admin-image-editor" data-image-editor>
+
+              <div class="admin-image-preview admin-image-preview--landscape">
+                <img data-image-preview alt="Preview foto berita" hidden>
+
+                <div class="admin-image-placeholder" data-image-placeholder>
+                  <span>📰</span>
+                  <p>Belum ada foto dipilih</p>
+                </div>
+              </div>
+
+              <input type="file" name="gambar" class="form-control" accept=".jpg,.jpeg,.png,.webp,image/*"
+                data-image-input>
+
+              <button type="button" class="admin-remove-photo-button" data-image-remove hidden>
+                Batalkan Foto
+              </button>
+
+            </div>
           </div>
 
           <button type="submit" class="btn-submit btn-news">Upload & Publikasikan Berita</button>
@@ -245,7 +264,26 @@
 
           <div class="form-group">
             <label>File Gambar Infografis</label>
-            <input type="file" name="gambar" class="form-control" accept="image/png, image/jpeg" required>
+
+            <div class="admin-image-editor" data-image-editor>
+
+              <div class="admin-image-preview admin-image-preview--poster">
+                <img data-image-preview alt="Preview infografis" hidden>
+
+                <div class="admin-image-placeholder" data-image-placeholder>
+                  <span>📊</span>
+                  <p>Belum ada infografis dipilih</p>
+                </div>
+              </div>
+
+              <input type="file" name="gambar" class="form-control" accept=".jpg,.jpeg,.png,.webp,image/*"
+                data-image-input>
+
+              <button type="button" class="admin-remove-photo-button" data-image-remove hidden>
+                Batalkan Gambar
+              </button>
+
+            </div>
           </div>
 
           <button type="submit" class="btn-submit" style="background: #e6b31e; color: #1a1a1a;">Upload
@@ -362,7 +400,26 @@
 
           <div class="form-group">
             <label>Foto Perangkat Desa</label>
-            <input type="file" name="foto" class="form-control" accept=".jpg,.jpeg,.png,.webp,image/*" required>
+
+            <div class="admin-image-editor" data-image-editor>
+
+              <div class="admin-image-preview admin-image-preview--portrait">
+                <img data-image-preview alt="Preview foto perangkat desa" hidden>
+
+                <div class="admin-image-placeholder" data-image-placeholder>
+                  <span>👤</span>
+                  <p>Belum ada foto dipilih</p>
+                </div>
+              </div>
+
+              <input type="file" name="foto" class="form-control" accept=".jpg,.jpeg,.png,.webp,image/*"
+                data-image-input>
+
+              <button type="button" class="admin-remove-photo-button" data-image-remove hidden>
+                Batalkan Foto
+              </button>
+
+            </div>
           </div>
 
           <button type="submit" class="btn-submit" style="background: #c0572a; color: white;">
@@ -438,7 +495,26 @@
 
           <div class="form-group">
             <label>Foto Produk</label>
-            <input type="file" name="gambar" class="form-control" accept=".jpg,.jpeg,.png,.webp,image/*" required>
+
+            <div class="admin-image-editor" data-image-editor>
+
+              <div class="admin-image-preview admin-image-preview--product">
+                <img data-image-preview alt="Preview foto produk" hidden>
+
+                <div class="admin-image-placeholder" data-image-placeholder>
+                  <span>🛍️</span>
+                  <p>Belum ada foto produk dipilih</p>
+                </div>
+              </div>
+
+              <input type="file" name="gambar" class="form-control" accept=".jpg,.jpeg,.png,.webp,image/*"
+                data-image-input>
+
+              <button type="button" class="admin-remove-photo-button" data-image-remove hidden>
+                Batalkan Foto
+              </button>
+
+            </div>
           </div>
 
           <div class="form-group">
@@ -1146,6 +1222,12 @@
     </section>
 
   </main>
+
+  <script src="{{ url_for(
+    'static',
+    filename='js/admin-image-preview.js',
+    v='20260727-2'
+  ) }}" defer></script>
 
 </body>
 

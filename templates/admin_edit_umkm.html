@@ -146,34 +146,39 @@
                 </div>
 
                 <div class="admin-edit-field">
+                    <label>Preview Foto Produk</label>
 
-                    <label>
-                        Gambar Saat Ini
-                    </label>
+                    <div class="admin-image-editor" data-image-editor>
 
-                    {% if item["gambar"] %}
-                    <div class="admin-current-image">
-                        <img src="{{ url_for('static', filename='uploads/' + item['gambar']) }}"
-                            alt="{{ item['nama_produk'] }}">
+                        <div class="admin-image-preview admin-image-preview--product">
+
+                            <img data-image-preview {% if item["gambar"] and item["gambar"] !="default.jpg" %}
+                                src="{{ url_for('static', filename='uploads/' + item['gambar']) }}"
+                                alt="{{ item['nama_produk'] }}" {% else %} hidden alt="Preview foto produk" {% endif %}>
+
+                            <div class="admin-image-placeholder" data-image-placeholder {% if item["gambar"] and
+                                item["gambar"] !="default.jpg" %} hidden {% endif %}>
+                                <span>🛍️</span>
+                                <p>Produk belum memiliki foto</p>
+                            </div>
+
+                        </div>
+
+                        <input type="file" id="gambar" name="gambar" accept=".jpg,.jpeg,.png,.webp,image/*"
+                            data-image-input>
+
+                        <input type="hidden" name="hapus_gambar" value="0" data-image-delete>
+
+                        <button type="button" class="admin-remove-photo-button" data-image-remove {% if not
+                            item["gambar"] or item["gambar"]=="default.jpg" %} hidden {% endif %}>
+                            Hapus Foto Produk
+                        </button>
+
+                        <small>
+                            Pilih foto baru untuk mengganti foto produk lama.
+                        </small>
+
                     </div>
-                    {% else %}
-                    <p class="admin-no-image">
-                        Produk ini belum memiliki gambar.
-                    </p>
-                    {% endif %}
-
-                </div>
-
-                <div class="admin-edit-field">
-                    <label for="gambar">
-                        Ganti Gambar Produk
-                    </label>
-
-                    <input type="file" id="gambar" name="gambar" accept=".jpg,.jpeg,.png,.webp,image/*">
-
-                    <small>
-                        Kosongkan apabila gambar lama tetap digunakan.
-                    </small>
                 </div>
 
                 <div class="admin-edit-actions">
@@ -193,6 +198,12 @@
         </section>
 
     </main>
+
+    <script src="{{ url_for(
+    'static',
+    filename='js/admin-image-preview.js',
+    v='20260727-2'
+  ) }}" defer></script>
 
 </body>
 

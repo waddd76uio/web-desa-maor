@@ -1,12 +1,10 @@
 <!DOCTYPE html>
 <html lang="id">
+
 <head>
   <meta charset="UTF-8">
 
-  <meta
-    name="viewport"
-    content="width=device-width, initial-scale=1.0"
-  >
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
   <title>Edit Infografis — {{ desa.nama }}</title>
 
@@ -14,13 +12,9 @@
 
   <link
     href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Work+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap"
-    rel="stylesheet"
-  >
+    rel="stylesheet">
 
-  <link
-    rel="stylesheet"
-    href="{{ url_for('static', filename='css/style.css') }}"
-  >
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
 </head>
 
 <body>
@@ -29,10 +23,7 @@
 
     <section class="admin-edit-card">
 
-      <a
-        href="{{ url_for('admin_dashboard') }}"
-        class="admin-edit-back"
-      >
+      <a href="{{ url_for('admin_dashboard') }}" class="admin-edit-back">
         ← Kembali ke Dashboard
       </a>
 
@@ -47,29 +38,19 @@
       </p>
 
       {% if error %}
-        <div class="admin-edit-error">
-          {{ error }}
-        </div>
+      <div class="admin-edit-error">
+        {{ error }}
+      </div>
       {% endif %}
 
-      <form
-        method="POST"
-        enctype="multipart/form-data"
-        class="admin-edit-form"
-      >
+      <form method="POST" enctype="multipart/form-data" class="admin-edit-form">
 
         <div class="admin-edit-field">
           <label for="judul">
             Judul Infografis
           </label>
 
-          <input
-            type="text"
-            id="judul"
-            name="judul"
-            value="{{ item['judul'] }}"
-            required
-          >
+          <input type="text" id="judul" name="judul" value="{{ item['judul'] }}" required>
         </div>
 
         <div class="admin-edit-field">
@@ -77,13 +58,7 @@
             Tanggal Publikasi
           </label>
 
-          <input
-            type="text"
-            id="tanggal"
-            name="tanggal"
-            value="{{ item['tanggal'] }}"
-            required
-          >
+          <input type="text" id="tanggal" name="tanggal" value="{{ item['tanggal'] }}" required>
 
           <small>
             Contoh: 25 Juli 2026
@@ -91,61 +66,47 @@
         </div>
 
         <div class="admin-edit-field">
-          <label>
-            Gambar Saat Ini
-          </label>
+          <label>Preview Infografis</label>
 
-          {% if item["gambar"] %}
-            <div class="admin-current-image">
-              <img
-                src="{{ url_for(
-                  'static',
-                  filename='uploads/' + item['gambar']
-                ) }}"
-                alt="{{ item['judul'] }}"
-                style="
-                  object-fit: contain;
-                  background: rgba(255,255,255,0.04);
-                "
-              >
+          <div class="admin-image-editor" data-image-editor>
+
+            <div class="admin-image-preview admin-image-preview--poster">
+
+              <img data-image-preview {% if item["gambar"] and item["gambar"] !="default.jpg" %}
+                src="{{ url_for('static', filename='uploads/' + item['gambar']) }}" alt="{{ item['judul'] }}" {% else %}
+                hidden alt="Preview infografis" {% endif %}>
+
+              <div class="admin-image-placeholder" data-image-placeholder {% if item["gambar"] and item["gambar"]
+                !="default.jpg" %} hidden {% endif %}>
+                <span>📊</span>
+                <p>Infografis belum memiliki gambar</p>
+              </div>
+
             </div>
-          {% else %}
-            <p class="admin-no-image">
-              Infografis ini belum memiliki gambar.
-            </p>
-          {% endif %}
-        </div>
 
-        <div class="admin-edit-field">
-          <label for="gambar">
-            Ganti Gambar
-          </label>
+            <input type="file" id="gambar" name="gambar" accept=".jpg,.jpeg,.png,.webp,image/*" data-image-input>
 
-          <input
-            type="file"
-            id="gambar"
-            name="gambar"
-            accept=".jpg,.jpeg,.png,.webp,image/*"
-          >
+            <input type="hidden" name="hapus_gambar" value="0" data-image-delete>
 
-          <small>
-            Biarkan kosong apabila gambar lama tetap digunakan.
-          </small>
+            <button type="button" class="admin-remove-photo-button" data-image-remove {% if not item["gambar"] or
+              item["gambar"]=="default.jpg" %} hidden {% endif %}>
+              Hapus Gambar
+            </button>
+
+            <small>
+              Pilih gambar baru untuk mengganti infografis lama.
+            </small>
+
+          </div>
         </div>
 
         <div class="admin-edit-actions">
 
-          <a
-            href="{{ url_for('admin_dashboard') }}"
-            class="admin-cancel-button"
-          >
+          <a href="{{ url_for('admin_dashboard') }}" class="admin-cancel-button">
             Batal
           </a>
 
-          <button
-            type="submit"
-            class="admin-save-button"
-          >
+          <button type="submit" class="admin-save-button">
             Simpan Perubahan
           </button>
 
@@ -157,5 +118,12 @@
 
   </main>
 
+  <script src="{{ url_for(
+    'static',
+    filename='js/admin-image-preview.js',
+    v='20260727-2'
+  ) }}" defer></script>
+
 </body>
+
 </html>
