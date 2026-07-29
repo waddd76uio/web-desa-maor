@@ -61,14 +61,12 @@
                 <a href="/umkm" aria-current="page">UMKM</a>
                 <a href="/berita">Berita</a>
 
-                <a href="{{ url_for('admin_login') }}" class="nav-admin-link" aria-label="Masuk ke halaman login admin">
+                <a href="{{ url_for('admin_login') }}" class="nav-admin-link nav-admin-icon-only"
+                    aria-label="Masuk ke halaman admin" title="Masuk ke halaman admin">
                     <svg class="nav-admin-icon" viewBox="0 0 24 24" aria-hidden="true">
-                        <path d="M7 10V7a5 5 0 0 1 10 0v3"></path>
-                        <rect x="5" y="10" width="14" height="10" rx="2"></rect>
-                        <path d="M12 14v2"></path>
+                        <circle cx="12" cy="8" r="4"></circle>
+                        <path d="M4 21a8 8 0 0 1 16 0"></path>
                     </svg>
-
-                    <span>Admin</span>
                 </a>
             </nav>
 

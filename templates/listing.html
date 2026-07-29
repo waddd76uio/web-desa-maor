@@ -55,16 +55,12 @@
         <a href="/umkm">UMKM</a>
         <a href="/berita">Berita</a>
 
-        <a href="{{ url_for('admin_login') }}" class="nav-admin-link" aria-label="Masuk ke halaman login admin">
+        <a href="{{ url_for('admin_login') }}" class="nav-admin-link nav-admin-icon-only"
+          aria-label="Masuk ke halaman admin" title="Masuk ke halaman admin">
           <svg class="nav-admin-icon" viewBox="0 0 24 24" aria-hidden="true">
-            <path d="M7 10V7a5 5 0 0 1 10 0v3"></path>
-
-            <rect x="5" y="10" width="14" height="10" rx="2"></rect>
-
-            <path d="M12 14v2"></path>
+            <circle cx="12" cy="8" r="4"></circle>
+            <path d="M4 21a8 8 0 0 1 16 0"></path>
           </svg>
-
-          <span>Admin</span>
         </a>
       </nav>
 
@@ -299,77 +295,128 @@
 
     </section>
 
-    <section class="vm-section" style="margin-top: 4rem; margin-bottom: 4rem;">
-      <h2 class="agenda-heading">
-        <svg class="ui-icon ui-icon--heading" viewBox="0 0 24 24" aria-hidden="true">
-          <rect x="3" y="5" width="18" height="16" rx="2"></rect>
-          <path d="M16 3v4"></path>
-          <path d="M8 3v4"></path>
-          <path d="M3 10h18"></path>
-          <path d="M8 14h2"></path>
-          <path d="M14 14h2"></path>
-          <path d="M8 17h2"></path>
-          <path d="M14 17h2"></path>
-        </svg>
+    <section class="agenda-section">
 
-        <span>Agenda &amp; Kalender Kegiatan Desa</span>
-      </h2>
+      <!-- Judul bagian agenda -->
+      <header class="agenda-section-header">
 
-      <div class="card vm-card"
-        style="background: #ffffff; border: 1px solid var(--light-border); padding: 2rem; border-radius: 12px; max-width: 800px; margin: 0 auto; box-shadow: 0 8px 24px var(--light-shadow);">
+        <div class="agenda-heading-group">
 
-        <ul style="list-style: none; padding: 0; margin: 0; color: var(--light-text);">
+          <svg class="ui-icon agenda-heading-icon" viewBox="0 0 24 24" aria-hidden="true">
+
+            <rect x="3" y="5" width="18" height="16" rx="2"></rect>
+            <path d="M16 3v4"></path>
+            <path d="M8 3v4"></path>
+            <path d="M3 10h18"></path>
+            <path d="M8 14h2"></path>
+            <path d="M14 14h2"></path>
+            <path d="M8 17h2"></path>
+            <path d="M14 17h2"></path>
+
+          </svg>
+
+          <div class="agenda-heading-content">
+
+            <span class="agenda-eyebrow">
+              Agenda Desa
+            </span>
+
+            <h2>
+              Agenda &amp; Kalender Kegiatan Desa
+            </h2>
+
+            <p class="agenda-description">
+              Informasi jadwal kegiatan yang akan dilaksanakan di Desa Maor.
+            </p>
+
+          </div>
+
+        </div>
+
+      </header>
+
+
+      <!-- Daftar agenda -->
+      <div class="agenda-list-card">
+
+        <ul class="agenda-list">
 
           {% for item in agenda %}
-          <!-- Looping Agenda Otomatis -->
-          <li
-            style="padding: 1.5rem 0; border-bottom: 1px solid var(--light-border); display: flex; gap: 1.5rem; align-items: center;">
 
-            <div
-              style="background: var(--tide-teal); padding: 0.8rem 1.2rem; border-radius: 8px; text-align: center; color: #ffffff; min-width: 80px;">
-              <span style="display: block; font-size: 1.5rem; font-weight: bold; line-height: 1;">{{ item.tgl_angka
-                }}</span>
-              <span style="font-size: 0.9rem; font-weight: 600; text-transform: uppercase;">{{ item.bln_teks }}</span>
+          <li class="agenda-item">
+
+            <!-- Tanggal kegiatan -->
+            <div class="agenda-date">
+
+              <span class="agenda-date-day">
+                {{ item.tgl_angka }}
+              </span>
+
+              <span class="agenda-date-month">
+                {{ item.bln_teks }}
+              </span>
+
             </div>
-            <div>
-              <h3 style="margin: 0; color: var(--light-text); font-size: 1.2rem; font-weight: 600;">{{ item.judul }}
-              </h3>
+
+
+            <!-- Informasi kegiatan -->
+            <div class="agenda-item-content">
+
+              <h3>{{ item.judul }}</h3>
+
               <div class="agenda-meta">
 
                 <span class="agenda-meta-item">
+
                   <svg class="ui-icon ui-icon--small" viewBox="0 0 24 24" aria-hidden="true">
+
                     <path d="M20 10c0 5-8 11-8 11S4 15 4 10a8 8 0 1 1 16 0Z"></path>
                     <circle cx="12" cy="10" r="2.5"></circle>
+
                   </svg>
 
                   <span>{{ item.lokasi }}</span>
+
                 </span>
 
-                <span class="agenda-meta-separator" aria-hidden="true">•</span>
+
+                <span class="agenda-meta-separator" aria-hidden="true">
+                  •
+                </span>
+
 
                 <span class="agenda-meta-item">
+
                   <svg class="ui-icon ui-icon--small" viewBox="0 0 24 24" aria-hidden="true">
+
                     <circle cx="12" cy="12" r="9"></circle>
                     <path d="M12 7v5l3 2"></path>
+
                   </svg>
 
                   <span>{{ item.waktu }}</span>
+
                 </span>
 
               </div>
+
             </div>
+
           </li>
+
           {% else %}
-          <!-- Tampilan Jika Data Kosong -->
-          <li style="padding: 2rem 0; text-align: center;">
-            <p style="color: var(--muted-sage); font-style: italic;">Belum ada agenda kegiatan desa terdekat.</p>
+
+          <li class="agenda-empty">
+            <p>Belum ada agenda kegiatan desa terdekat.</p>
           </li>
+
           {% endfor %}
 
         </ul>
-      </div>
-    </section>
 
+      </div>
+
+    </section>
 
     <footer class="mega-footer" id="kontak">
       <div class="footer-top">
