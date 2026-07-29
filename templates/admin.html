@@ -31,28 +31,30 @@
       gap: 1.5rem;
     }
 
-    /* Membuat layout 2 kolom sejajar untuk desktop */
+    /* Layout dua card per baris pada desktop dan tablet */
     .admin-grid {
       display: grid;
       grid-template-columns: repeat(2, minmax(0, 1fr));
 
-      gap: 1.5rem;
-      align-items: start;
+      gap: 1.25rem;
+      align-items: stretch;
 
+      width: 100%;
       margin-bottom: 0;
     }
 
-    .admin-column {
+    /* Setiap card menjadi item langsung di dalam grid */
+    .admin-grid>.admin-card {
       min-width: 0;
-
-      display: flex;
-      flex-direction: column;
-      gap: 1.5rem;
+      align-self: stretch;
     }
 
-    /* Menghilangkan margin besar bawaan section */
-    .admin-main>.admin-list-card {
+    /* Semua card daftar menggunakan lebar penuh */
+    .admin-grid>.admin-list-card {
+      grid-column: 1 / -1;
+
       width: 100%;
+      min-width: 0;
       max-width: none;
 
       margin: 0;
@@ -161,16 +163,16 @@
       transform: translateY(-2px);
     }
 
-    /* Tampilan admin untuk tablet dan Android */
+    /* Tampilan admin untuk tablet */
     @media (max-width: 900px) {
       .admin-main {
         padding: 1.5rem 1rem 3rem;
         gap: 1.25rem;
       }
 
+      /* Tablet tetap menggunakan dua card per baris */
       .admin-grid {
-        grid-template-columns: 1fr;
-        gap: 1.5rem;
+        gap: 1.25rem;
       }
 
       .admin-card {
@@ -179,13 +181,18 @@
         padding: 1.5rem;
       }
 
-      .admin-main>.admin-list-card {
+      .admin-grid>.admin-list-card {
         padding: 1.5rem;
       }
     }
 
-    /* Formulir dua kolom diubah menjadi satu kolom pada HP */
+    /* Tampilan satu kolom khusus HP */
     @media (max-width: 600px) {
+      .admin-grid {
+        grid-template-columns: 1fr;
+        gap: 1.25rem;
+      }
+
       .grid-2-col {
         grid-template-columns: 1fr;
         gap: 1.25rem;
@@ -301,402 +308,396 @@
 
     <div class="admin-grid">
 
-      <!-- KOLOM KIRI -->
-      <div class="admin-column">
+      <!-- FORM BERITA -->
+      <div class="admin-card">
+        <h2 class="admin-card-title">
+          <svg class="admin-ui-icon" aria-hidden="true">
+            <use href="#icon-news"></use>
+          </svg>
 
-        <!-- FORM BERITA -->
-        <div class="admin-card">
-          <h2 class="admin-card-title">
-            <svg class="admin-ui-icon" aria-hidden="true">
-              <use href="#icon-news"></use>
-            </svg>
+          <span>Publikasi Berita Baru</span>
+        </h2>
+        <form class="admin-form" method="POST" enctype="multipart/form-data">
+          <input type="hidden" name="jenis_form" value="berita">
 
-            <span>Publikasi Berita Baru</span>
-          </h2>
-          <form class="admin-form" method="POST" enctype="multipart/form-data">
-            <input type="hidden" name="jenis_form" value="berita">
+          <div class="form-group">
+            <label>Judul Berita</label>
+            <input type="text" name="judul" class="form-control" required placeholder="Cth: Kerja Bakti Rutin...">
+          </div>
 
-            <div class="form-group">
-              <label>Judul Berita</label>
-              <input type="text" name="judul" class="form-control" required placeholder="Cth: Kerja Bakti Rutin...">
-            </div>
+          <div class="form-group">
+            <label>Ringkasan Singkat (Cuplikan)</label>
+            <textarea name="ringkasan" class="form-control" rows="2" required
+              placeholder="Tulis sedikit inti berita..."></textarea>
+          </div>
 
-            <div class="form-group">
-              <label>Ringkasan Singkat (Cuplikan)</label>
-              <textarea name="ringkasan" class="form-control" rows="2" required
-                placeholder="Tulis sedikit inti berita..."></textarea>
-            </div>
+          <div class="form-group">
+            <label>Isi Berita Lengkap</label>
+            <textarea name="isi" class="form-control" rows="8" required
+              placeholder="Tulis seluruh paragraf di sini..."></textarea>
+          </div>
 
-            <div class="form-group">
-              <label>Isi Berita Lengkap</label>
-              <textarea name="isi" class="form-control" rows="8" required
-                placeholder="Tulis seluruh paragraf di sini..."></textarea>
-            </div>
+          <div class="form-group">
+            <label>Foto / Thumbnail</label>
 
-            <div class="form-group">
-              <label>Foto / Thumbnail</label>
+            <div class="admin-image-editor" data-image-editor>
 
-              <div class="admin-image-editor" data-image-editor>
+              <div class="admin-image-preview admin-image-preview--landscape">
+                <img data-image-preview alt="Preview foto berita" hidden>
 
-                <div class="admin-image-preview admin-image-preview--landscape">
-                  <img data-image-preview alt="Preview foto berita" hidden>
+                <div class="admin-image-placeholder" data-image-placeholder>
 
-                  <div class="admin-image-placeholder" data-image-placeholder>
+                  <svg class="admin-placeholder-icon" aria-hidden="true">
+                    <use href="#icon-image"></use>
+                  </svg>
 
-                    <svg class="admin-placeholder-icon" aria-hidden="true">
-                      <use href="#icon-image"></use>
-                    </svg>
+                  <p>Belum ada foto dipilih</p>
 
-                    <p>Belum ada foto dipilih</p>
-
-                  </div>
                 </div>
-
-                <input type="file" name="gambar" class="form-control" accept=".jpg,.jpeg,.png,.webp,image/*"
-                  data-image-input>
-
-                <button type="button" class="admin-remove-photo-button" data-image-remove hidden>
-                  Batalkan Foto
-                </button>
-
               </div>
+
+              <input type="file" name="gambar" class="form-control" accept=".jpg,.jpeg,.png,.webp,image/*"
+                data-image-input>
+
+              <button type="button" class="admin-remove-photo-button" data-image-remove hidden>
+                Batalkan Foto
+              </button>
+
             </div>
+          </div>
 
-            <button type="submit" class="btn-submit btn-news">Upload & Publikasikan Berita</button>
-          </form>
-        </div>
+          <button type="submit" class="btn-submit btn-news">Upload & Publikasikan Berita</button>
+        </form>
+      </div>
 
-        <!-- FORM INFOGRAFIS -->
-        <div class="admin-card">
-          <h2 class="admin-card-title">
-            <svg class="admin-ui-icon" aria-hidden="true">
-              <use href="#icon-chart"></use>
-            </svg>
+      <!-- FORM INFOGRAFIS -->
+      <div class="admin-card">
+        <h2 class="admin-card-title">
+          <svg class="admin-ui-icon" aria-hidden="true">
+            <use href="#icon-chart"></use>
+          </svg>
 
-            <span>Upload Infografis Baru</span>
-          </h2>
-          <form class="admin-form" method="POST" enctype="multipart/form-data">
-            <input type="hidden" name="jenis_form" value="infografis">
+          <span>Upload Infografis Baru</span>
+        </h2>
+        <form class="admin-form" method="POST" enctype="multipart/form-data">
+          <input type="hidden" name="jenis_form" value="infografis">
 
-            <div class="form-group">
-              <label>Judul Infografis</label>
-              <input type="text" name="judul" class="form-control" required
-                placeholder="Cth: Infografis APBDes 2026...">
-            </div>
+          <div class="form-group">
+            <label>Judul Infografis</label>
+            <input type="text" name="judul" class="form-control" required placeholder="Cth: Infografis APBDes 2026...">
+          </div>
 
-            <div class="form-group">
-              <label>File Gambar Infografis</label>
+          <div class="form-group">
+            <label>File Gambar Infografis</label>
 
-              <div class="admin-image-editor" data-image-editor>
+            <div class="admin-image-editor" data-image-editor>
 
-                <div class="admin-image-preview admin-image-preview--poster">
-                  <img data-image-preview alt="Preview infografis" hidden>
+              <div class="admin-image-preview admin-image-preview--poster">
+                <img data-image-preview alt="Preview infografis" hidden>
 
-                  <div class="admin-image-placeholder" data-image-placeholder>
+                <div class="admin-image-placeholder" data-image-placeholder>
 
-                    <svg class="admin-placeholder-icon" aria-hidden="true">
-                      <use href="#icon-chart"></use>
-                    </svg>
+                  <svg class="admin-placeholder-icon" aria-hidden="true">
+                    <use href="#icon-chart"></use>
+                  </svg>
 
-                    <p>Belum ada infografis dipilih</p>
+                  <p>Belum ada infografis dipilih</p>
 
-                  </div>
                 </div>
-
-                <input type="file" name="gambar" class="form-control" accept=".jpg,.jpeg,.png,.webp,image/*"
-                  data-image-input>
-
-                <button type="button" class="admin-remove-photo-button" data-image-remove hidden>
-                  Batalkan Gambar
-                </button>
-
               </div>
+
+              <input type="file" name="gambar" class="form-control" accept=".jpg,.jpeg,.png,.webp,image/*"
+                data-image-input>
+
+              <button type="button" class="admin-remove-photo-button" data-image-remove hidden>
+                Batalkan Gambar
+              </button>
+
             </div>
+          </div>
 
-            <button type="submit" class="btn-submit">
-              Upload Infografis
-            </button>
-          </form>
-        </div>
+          <button type="submit" class="btn-submit">
+            Upload Infografis
+          </button>
+        </form>
+      </div>
 
-        <!-- KARTU KANAN: FORM POI (TITIK PETA) -->
-        <div class="admin-card">
-          <h2 class="admin-card-title">
-            <svg class="admin-ui-icon" aria-hidden="true">
-              <use href="#icon-location"></use>
-            </svg>
+      <!-- KARTU KANAN: FORM POI (TITIK PETA) -->
+      <div class="admin-card">
+        <h2 class="admin-card-title">
+          <svg class="admin-ui-icon" aria-hidden="true">
+            <use href="#icon-location"></use>
+          </svg>
 
-            <span>Tambah Titik Peta (POI)</span>
-          </h2>
-          <form class="admin-form" method="POST">
-            <input type="hidden" name="jenis_form" value="poi">
+          <span>Tambah Titik Peta (POI)</span>
+        </h2>
+        <form class="admin-form" method="POST">
+          <input type="hidden" name="jenis_form" value="poi">
+
+          <div class="form-group">
+            <label>Nama Lokasi / Fasilitas</label>
+            <input type="text" name="nama" class="form-control" required placeholder="Cth: Balai RW 03...">
+          </div>
+
+          <div class="form-group">
+            <label>Kategori Tempat</label>
+            <select name="kategori" class="form-control" required>
+              <option value="" disabled selected>-- Pilih Kategori --</option>
+              <option value="Pemerintahan">Pemerintahan</option>
+              <option value="Peribadatan">Peribadatan</option>
+              <option value="Pendidikan">Pendidikan</option>
+              <option value="Kesehatan">Kesehatan</option>
+              <option value="Pertanian">Pertanian</option>
+              <option value="Pengairan">Pengairan</option>
+              <option value="Usaha Warga">Usaha Warga</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label>Deskripsi Singkat</label>
+            <textarea name="deskripsi" class="form-control" rows="3" required
+              placeholder="Jelaskan fungsi atau detail lokasi ini..."></textarea>
+          </div>
+
+          <div class="grid-2-col">
+            <div class="form-group">
+              <label>Latitude (Lintang)</label>
+              <input type="number" step="any" name="lat" class="form-control" required placeholder="Cth: -7.2064">
+            </div>
+            <div class="form-group">
+              <label>Longitude (Bujur)</label>
+              <input type="number" step="any" name="lng" class="form-control" required placeholder="Cth: 112.3550">
+            </div>
+          </div>
+
+          <button type="submit" class="btn-submit btn-poi">Tambahkan ke Peta Web</button>
+        </form>
+      </div>
+      <!-- KARTU TAMBAHAN: FORM AGENDA -->
+      <div class="admin-card">
+        <h2 class="admin-card-title">
+          <svg class="admin-ui-icon" aria-hidden="true">
+            <use href="#icon-calendar"></use>
+          </svg>
+
+          <span>Tambah Agenda Desa</span>
+        </h2>
+        <form class="admin-form" method="POST">
+          <input type="hidden" name="jenis_form" value="agenda">
+
+          <div class="form-group">
+            <label>Nama Kegiatan</label>
+            <input type="text" name="judul" class="form-control" required placeholder="Cth: Kerja Bakti Rutin...">
+          </div>
+
+          <div class="grid-2-col">
+            <div class="form-group">
+              <label>Tanggal Kegiatan</label>
+              <!-- Input type date akan otomatis memunculkan kalender bawaan browser -->
+              <input type="date" name="tanggal" class="form-control" required>
+            </div>
+            <div class="form-group">
+              <label>Waktu Pelaksanaan</label>
+              <input type="text" name="waktu" class="form-control" required placeholder="Cth: 08:00 WIB - Selesai">
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label>Lokasi Acara</label>
+            <input type="text" name="lokasi" class="form-control" required placeholder="Cth: Balai Desa Maor">
+          </div>
+
+          <button type="submit" class="btn-submit">
+            Simpan Agenda
+          </button>
+        </form>
+      </div>
+
+      <!-- KARTU TAMBAHAN: FORM STRUKTUR ORGANISASI -->
+      <div class="admin-card">
+        <h2 class="admin-card-title">
+          <svg class="admin-ui-icon" aria-hidden="true">
+            <use href="#icon-user"></use>
+          </svg>
+
+          <span>Tambah Struktur Organisasi</span>
+        </h2>
+
+        <form class="admin-form" method="POST" enctype="multipart/form-data">
+          <input type="hidden" name="jenis_form" value="struktur">
+
+          <div class="grid-2-col">
 
             <div class="form-group">
-              <label>Nama Lokasi / Fasilitas</label>
-              <input type="text" name="nama" class="form-control" required placeholder="Cth: Balai RW 03...">
-            </div>
-
-            <div class="form-group">
-              <label>Kategori Tempat</label>
-              <select name="kategori" class="form-control" required>
-                <option value="" disabled selected>-- Pilih Kategori --</option>
-                <option value="Pemerintahan">Pemerintahan</option>
-                <option value="Peribadatan">Peribadatan</option>
-                <option value="Pendidikan">Pendidikan</option>
-                <option value="Kesehatan">Kesehatan</option>
-                <option value="Pertanian">Pertanian</option>
-                <option value="Pengairan">Pengairan</option>
-                <option value="Usaha Warga">Usaha Warga</option>
-              </select>
-            </div>
-
-            <div class="form-group">
-              <label>Deskripsi Singkat</label>
-              <textarea name="deskripsi" class="form-control" rows="3" required
-                placeholder="Jelaskan fungsi atau detail lokasi ini..."></textarea>
-            </div>
-
-            <div class="grid-2-col">
-              <div class="form-group">
-                <label>Latitude (Lintang)</label>
-                <input type="number" step="any" name="lat" class="form-control" required placeholder="Cth: -7.2064">
-              </div>
-              <div class="form-group">
-                <label>Longitude (Bujur)</label>
-                <input type="number" step="any" name="lng" class="form-control" required placeholder="Cth: 112.3550">
-              </div>
-            </div>
-
-            <button type="submit" class="btn-submit btn-poi">Tambahkan ke Peta Web</button>
-          </form>
-        </div>
-        <!-- KARTU TAMBAHAN: FORM AGENDA -->
-        <div class="admin-card">
-          <h2 class="admin-card-title">
-            <svg class="admin-ui-icon" aria-hidden="true">
-              <use href="#icon-calendar"></use>
-            </svg>
-
-            <span>Tambah Agenda Desa</span>
-          </h2>
-          <form class="admin-form" method="POST">
-            <input type="hidden" name="jenis_form" value="agenda">
-
-            <div class="form-group">
-              <label>Nama Kegiatan</label>
-              <input type="text" name="judul" class="form-control" required placeholder="Cth: Kerja Bakti Rutin...">
-            </div>
-
-            <div class="grid-2-col">
-              <div class="form-group">
-                <label>Tanggal Kegiatan</label>
-                <!-- Input type date akan otomatis memunculkan kalender bawaan browser -->
-                <input type="date" name="tanggal" class="form-control" required>
-              </div>
-              <div class="form-group">
-                <label>Waktu Pelaksanaan</label>
-                <input type="text" name="waktu" class="form-control" required placeholder="Cth: 08:00 WIB - Selesai">
-              </div>
-            </div>
-
-            <div class="form-group">
-              <label>Lokasi Acara</label>
-              <input type="text" name="lokasi" class="form-control" required placeholder="Cth: Balai Desa Maor">
-            </div>
-
-            <button type="submit" class="btn-submit">
-              Simpan Agenda
-            </button>
-          </form>
-        </div>
-
-        <!-- KARTU TAMBAHAN: FORM STRUKTUR ORGANISASI -->
-        <div class="admin-card">
-          <h2 class="admin-card-title">
-            <svg class="admin-ui-icon" aria-hidden="true">
-              <use href="#icon-user"></use>
-            </svg>
-
-            <span>Tambah Struktur Organisasi</span>
-          </h2>
-
-          <form class="admin-form" method="POST" enctype="multipart/form-data">
-            <input type="hidden" name="jenis_form" value="struktur">
-
-            <div class="grid-2-col">
-
-              <div class="form-group">
-                <label>Nama Lengkap</label>
-                <input type="text" name="nama" class="form-control" required placeholder="Cth: H. Supriyono">
-              </div>
-
-              <div class="form-group">
-                <label>Jabatan</label>
-                <input type="text" name="jabatan" class="form-control" required placeholder="Cth: Kepala Desa">
-              </div>
-
+              <label>Nama Lengkap</label>
+              <input type="text" name="nama" class="form-control" required placeholder="Cth: H. Supriyono">
             </div>
 
             <div class="form-group">
-              <label>Urutan Tampilan</label>
-              <input type="number" name="urutan" class="form-control" value="1" min="1" required>
-
-              <small>
-                Angka yang lebih kecil akan tampil lebih dahulu.
-              </small>
+              <label>Jabatan</label>
+              <input type="text" name="jabatan" class="form-control" required placeholder="Cth: Kepala Desa">
             </div>
 
-            <div class="form-group">
-              <label>Foto Perangkat Desa</label>
+          </div>
 
-              <div class="admin-image-editor" data-image-editor>
+          <div class="form-group">
+            <label>Urutan Tampilan</label>
+            <input type="number" name="urutan" class="form-control" value="1" min="1" required>
 
-                <div class="admin-image-preview admin-image-preview--portrait">
-                  <img data-image-preview alt="Preview foto perangkat desa" hidden>
+            <small>
+              Angka yang lebih kecil akan tampil lebih dahulu.
+            </small>
+          </div>
 
-                  <div class="admin-image-placeholder" data-image-placeholder>
+          <div class="form-group">
+            <label>Foto Perangkat Desa</label>
 
-                    <svg class="admin-placeholder-icon" aria-hidden="true">
-                      <use href="#icon-user"></use>
-                    </svg>
+            <div class="admin-image-editor" data-image-editor>
 
-                    <p>Belum ada foto dipilih</p>
+              <div class="admin-image-preview admin-image-preview--portrait">
+                <img data-image-preview alt="Preview foto perangkat desa" hidden>
 
-                  </div>
+                <div class="admin-image-placeholder" data-image-placeholder>
+
+                  <svg class="admin-placeholder-icon" aria-hidden="true">
+                    <use href="#icon-user"></use>
+                  </svg>
+
+                  <p>Belum ada foto dipilih</p>
+
                 </div>
-
-                <input type="file" name="foto" class="form-control" accept=".jpg,.jpeg,.png,.webp,image/*"
-                  data-image-input>
-
-                <button type="button" class="admin-remove-photo-button" data-image-remove hidden>
-                  Batalkan Foto
-                </button>
-
-              </div>
-            </div>
-
-            <button type="submit" class="btn-submit">
-              Simpan Perangkat Desa
-            </button>
-
-          </form>
-        </div>
-
-        <!-- KARTU TAMBAHAN: FORM PRODUK UMKM -->
-        <div class="admin-card">
-          <h2 class="admin-card-title">
-            <svg class="admin-ui-icon" aria-hidden="true">
-              <use href="#icon-store"></use>
-            </svg>
-
-            <span>Tambah Produk UMKM</span>
-          </h2>
-
-          <form class="admin-form" method="POST" enctype="multipart/form-data">
-            <input type="hidden" name="jenis_form" value="umkm">
-
-            <div class="grid-2-col">
-
-              <div class="form-group">
-                <label>Nama Produk</label>
-                <input type="text" name="nama_produk" class="form-control" required placeholder="Cth: Keripik Pisang">
               </div>
 
-              <div class="form-group">
-                <label>Nama Usaha</label>
-                <input type="text" name="nama_usaha" class="form-control" required placeholder="Cth: UMKM Berkah Maor">
-              </div>
+              <input type="file" name="foto" class="form-control" accept=".jpg,.jpeg,.png,.webp,image/*"
+                data-image-input>
 
+              <button type="button" class="admin-remove-photo-button" data-image-remove hidden>
+                Batalkan Foto
+              </button>
+
+            </div>
+          </div>
+
+          <button type="submit" class="btn-submit">
+            Simpan Perangkat Desa
+          </button>
+
+        </form>
+      </div>
+
+      <!-- KARTU TAMBAHAN: FORM PRODUK UMKM -->
+      <div class="admin-card">
+        <h2 class="admin-card-title">
+          <svg class="admin-ui-icon" aria-hidden="true">
+            <use href="#icon-store"></use>
+          </svg>
+
+          <span>Tambah Produk UMKM</span>
+        </h2>
+
+        <form class="admin-form" method="POST" enctype="multipart/form-data">
+          <input type="hidden" name="jenis_form" value="umkm">
+
+          <div class="grid-2-col">
+
+            <div class="form-group">
+              <label>Nama Produk</label>
+              <input type="text" name="nama_produk" class="form-control" required placeholder="Cth: Keripik Pisang">
             </div>
 
             <div class="form-group">
-              <label>Kategori Produk</label>
-
-              <select name="kategori" class="form-control" required>
-                <option value="" disabled selected>
-                  -- Pilih Kategori --
-                </option>
-
-                <option value="Makanan">Makanan</option>
-                <option value="Minuman">Minuman</option>
-                <option value="Kerajinan">Kerajinan</option>
-                <option value="Pertanian">Pertanian</option>
-                <option value="Jasa">Jasa</option>
-                <option value="Lainnya">Lainnya</option>
-              </select>
+              <label>Nama Usaha</label>
+              <input type="text" name="nama_usaha" class="form-control" required placeholder="Cth: UMKM Berkah Maor">
             </div>
 
-            <div class="form-group">
-              <label>Deskripsi Produk</label>
-              <textarea name="deskripsi" class="form-control" rows="4"
-                placeholder="Jelaskan produk secara singkat..."></textarea>
-            </div>
+          </div>
 
-            <div class="form-group">
-              <label>Nomor WhatsApp</label>
-              <input type="text" name="nomor_wa" class="form-control" required placeholder="Cth: 6281234567890">
+          <div class="form-group">
+            <label>Kategori Produk</label>
 
-              <small>
-                Gunakan format 62, bukan angka 0 di bagian depan.
-              </small>
-            </div>
+            <select name="kategori" class="form-control" required>
+              <option value="" disabled selected>
+                -- Pilih Kategori --
+              </option>
 
-            <div class="form-group">
-              <label>Alamat Usaha</label>
-              <textarea name="alamat" class="form-control" rows="3" required
-                placeholder="Cth: Dusun Maor, Desa Maor..."></textarea>
-            </div>
+              <option value="Makanan">Makanan</option>
+              <option value="Minuman">Minuman</option>
+              <option value="Kerajinan">Kerajinan</option>
+              <option value="Pertanian">Pertanian</option>
+              <option value="Jasa">Jasa</option>
+              <option value="Lainnya">Lainnya</option>
+            </select>
+          </div>
 
-            <div class="form-group">
-              <label>Link Google Maps</label>
-              <input type="url" name="maps_url" class="form-control" required placeholder="https://maps.google.com/...">
-            </div>
+          <div class="form-group">
+            <label>Deskripsi Produk</label>
+            <textarea name="deskripsi" class="form-control" rows="4"
+              placeholder="Jelaskan produk secara singkat..."></textarea>
+          </div>
 
-            <div class="form-group">
-              <label>Foto Produk</label>
+          <div class="form-group">
+            <label>Nomor WhatsApp</label>
+            <input type="text" name="nomor_wa" class="form-control" required placeholder="Cth: 6281234567890">
 
-              <div class="admin-image-editor" data-image-editor>
+            <small>
+              Gunakan format 62, bukan angka 0 di bagian depan.
+            </small>
+          </div>
 
-                <div class="admin-image-preview admin-image-preview--product">
-                  <img data-image-preview alt="Preview foto produk" hidden>
+          <div class="form-group">
+            <label>Alamat Usaha</label>
+            <textarea name="alamat" class="form-control" rows="3" required
+              placeholder="Cth: Dusun Maor, Desa Maor..."></textarea>
+          </div>
 
-                  <div class="admin-image-placeholder" data-image-placeholder>
+          <div class="form-group">
+            <label>Link Google Maps</label>
+            <input type="url" name="maps_url" class="form-control" required placeholder="https://maps.google.com/...">
+          </div>
 
-                    <svg class="admin-placeholder-icon" aria-hidden="true">
-                      <use href="#icon-store"></use>
-                    </svg>
+          <div class="form-group">
+            <label>Foto Produk</label>
 
-                    <p>Belum ada foto produk dipilih</p>
+            <div class="admin-image-editor" data-image-editor>
 
-                  </div>
+              <div class="admin-image-preview admin-image-preview--product">
+                <img data-image-preview alt="Preview foto produk" hidden>
+
+                <div class="admin-image-placeholder" data-image-placeholder>
+
+                  <svg class="admin-placeholder-icon" aria-hidden="true">
+                    <use href="#icon-store"></use>
+                  </svg>
+
+                  <p>Belum ada foto produk dipilih</p>
+
                 </div>
-
-                <input type="file" name="gambar" class="form-control" accept=".jpg,.jpeg,.png,.webp,image/*"
-                  data-image-input>
-
-                <button type="button" class="admin-remove-photo-button" data-image-remove hidden>
-                  Batalkan Foto
-                </button>
-
               </div>
+
+              <input type="file" name="gambar" class="form-control" accept=".jpg,.jpeg,.png,.webp,image/*"
+                data-image-input>
+
+              <button type="button" class="admin-remove-photo-button" data-image-remove hidden>
+                Batalkan Foto
+              </button>
+
             </div>
+          </div>
 
-            <div class="form-group">
-              <label>Status Produk</label>
+          <div class="form-group">
+            <label>Status Produk</label>
 
-              <select name="status" class="form-control" required>
-                <option value="aktif" selected>Aktif</option>
-                <option value="nonaktif">Nonaktif</option>
-              </select>
-            </div>
+            <select name="status" class="form-control" required>
+              <option value="aktif" selected>Aktif</option>
+              <option value="nonaktif">Nonaktif</option>
+            </select>
+          </div>
 
-            <button type="submit" class="btn-submit">
-              Simpan Produk UMKM
-            </button>
+          <button type="submit" class="btn-submit">
+            Simpan Produk UMKM
+          </button>
 
-          </form>
-        </div>
-
+        </form>
       </div>
 
       <!-- DAFTAR STRUKTUR ORGANISASI -->
@@ -1403,6 +1404,9 @@
         {% endif %}
 
       </section>
+
+    </div>
+    <!-- AKHIR ADMIN GRID -->
 
   </main>
 
