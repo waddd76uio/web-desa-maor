@@ -7852,3 +7852,454 @@ main>section.agenda-section {
     border-radius: 7px;
   }
 }
+
+/* =========================================================================
+   TEMA TERANG SELURUH HALAMAN EDIT ADMIN
+   Letakkan paling bawah style.css
+   ========================================================================= */
+
+/* Latar belakang halaman */
+.admin-edit-page {
+  width: 100%;
+  min-height: 100vh;
+
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+
+  padding: 3rem 1.5rem 4rem;
+
+  background:
+    linear-gradient(180deg,
+      #f4f8f6 0%,
+      #edf5f1 100%);
+}
+
+
+/* Card utama halaman edit */
+.admin-edit-card {
+  width: 100%;
+  max-width: 860px;
+  height: auto;
+
+  padding: 2.5rem;
+
+  background:
+    linear-gradient(145deg,
+      #ffffff 0%,
+      #f7fbf9 100%);
+
+  border: 1px solid var(--green-border-strong);
+  border-top: 4px solid var(--green-primary);
+  border-radius: 10px;
+
+  color: var(--text-main);
+
+  box-shadow:
+    0 10px 30px rgba(34, 73, 63, 0.11);
+}
+
+
+/* Link kembali */
+.admin-edit-back {
+  display: inline-flex;
+  align-items: center;
+
+  margin-bottom: 1.75rem;
+
+  color: var(--green-primary);
+
+  font-size: 0.84rem;
+  font-weight: 500;
+  text-decoration: none;
+
+  transition:
+    color 0.2s ease,
+    transform 0.2s ease;
+}
+
+.admin-edit-back:hover {
+  color: var(--green-primary-hover);
+  transform: translateX(-3px);
+}
+
+
+/* Label kecil di atas judul */
+.admin-edit-label {
+  display: block;
+
+  margin-bottom: 0.55rem;
+
+  color: var(--green-primary);
+
+  font-family: var(--font-sans);
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+
+
+/* Judul halaman edit */
+.admin-edit-card h1 {
+  margin: 0 0 0.65rem;
+
+  color: var(--green-dark);
+
+  font-family: var(--font-sans) !important;
+  font-size: clamp(1.9rem, 4vw, 2.5rem);
+  font-weight: 700 !important;
+  letter-spacing: -0.025em;
+  line-height: 1.25;
+}
+
+
+/* Penjelasan di bawah judul */
+.admin-edit-description {
+  margin-bottom: 2rem;
+
+  color: var(--text-secondary);
+
+  font-size: 0.9rem;
+  line-height: 1.7;
+}
+
+
+/* Pesan error */
+.admin-edit-error {
+  margin-bottom: 1.5rem;
+  padding: 0.9rem 1rem;
+
+  background: #fff3f2;
+  border: 1px solid #e7c8c4;
+  border-radius: 7px;
+
+  color: #963e38;
+
+  font-size: 0.88rem;
+  line-height: 1.6;
+}
+
+
+/* Jarak antarfield form */
+.admin-edit-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.3rem;
+}
+
+.admin-edit-field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.45rem;
+}
+
+
+/* Label field */
+.admin-edit-field label {
+  color: #405b53;
+
+  font-family: var(--font-sans);
+  font-size: 0.76rem;
+  font-weight: 600;
+  letter-spacing: 0.2px;
+}
+
+
+/* Input, textarea, dan select */
+.admin-edit-field input,
+.admin-edit-field textarea,
+.admin-edit-field select {
+  width: 100%;
+
+  padding: 0.78rem 0.9rem;
+
+  background: #fbfdfc;
+  border: 1px solid var(--green-border-strong);
+  border-radius: 6px;
+
+  color: var(--green-dark);
+  color-scheme: light;
+
+  font-family: var(--font-sans);
+  font-size: 0.9rem;
+
+  transition:
+    background 0.2s ease,
+    border-color 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.admin-edit-field input {
+  min-height: 44px;
+}
+
+.admin-edit-field textarea {
+  line-height: 1.65;
+  resize: vertical;
+}
+
+.admin-edit-field select {
+  min-height: 44px;
+  cursor: pointer;
+}
+
+
+/* Hover field */
+.admin-edit-field input:hover,
+.admin-edit-field textarea:hover,
+.admin-edit-field select:hover {
+  background: #ffffff;
+  border-color: #9fbdb2;
+}
+
+
+/* Focus field */
+.admin-edit-field input:focus,
+.admin-edit-field textarea:focus,
+.admin-edit-field select:focus {
+  outline: none;
+
+  background: #ffffff;
+  border-color: var(--green-primary);
+
+  box-shadow:
+    0 0 0 3px rgba(47, 117, 103, 0.11);
+}
+
+
+/* Placeholder */
+.admin-edit-field input::placeholder,
+.admin-edit-field textarea::placeholder {
+  color: #94a49f;
+  opacity: 1;
+}
+
+
+/* Teks bantuan */
+.admin-edit-field small {
+  color: var(--text-secondary);
+
+  font-size: 0.74rem;
+  line-height: 1.55;
+}
+
+
+/* Input upload file */
+.admin-edit-field input[type="file"] {
+  padding: 0.4rem;
+
+  background: #ffffff;
+  color: var(--text-secondary);
+}
+
+.admin-edit-field input[type="file"]::file-selector-button {
+  margin-right: 0.8rem;
+  padding: 0.58rem 0.85rem;
+
+  background: var(--green-section-soft);
+  border: 1px solid var(--green-border-strong);
+  border-radius: 5px;
+
+  color: var(--green-primary);
+
+  font-family: var(--font-sans);
+  font-size: 0.78rem;
+  font-weight: 600;
+
+  cursor: pointer;
+
+  transition:
+    background 0.2s ease,
+    border-color 0.2s ease;
+}
+
+.admin-edit-field input[type="file"]::file-selector-button:hover {
+  background: var(--green-pale);
+  border-color: var(--green-accent);
+}
+
+
+/* Preview foto dan gambar */
+.admin-current-image,
+.admin-image-preview,
+.admin-structure-current-image {
+  background: #f3f7f5;
+
+  border: 1px dashed var(--green-border-strong);
+  border-radius: 7px;
+
+  box-shadow: none;
+}
+
+
+/* Placeholder preview */
+.admin-image-placeholder,
+.admin-photo-placeholder {
+  background: #f3f7f5;
+  color: var(--text-secondary);
+}
+
+.admin-image-placeholder p,
+.admin-photo-placeholder p {
+  color: var(--text-secondary);
+}
+
+
+/* Background khusus poster agar tetap bersih */
+.admin-image-preview--poster img {
+  background: #ffffff;
+}
+
+
+/* Tombol hapus foto atau gambar */
+.admin-remove-photo-button {
+  min-width: 0;
+  padding: 0.6rem 0.85rem;
+
+  background: #fff3f2;
+  border: 1px solid #e7c8c4;
+  border-radius: 6px;
+
+  color: #9a413b;
+
+  font-family: var(--font-sans);
+  font-size: 0.78rem;
+  font-weight: 600;
+
+  box-shadow: none;
+}
+
+.admin-remove-photo-button:hover {
+  background: #a9443e;
+  border-color: #a9443e;
+  color: #ffffff;
+
+  transform: none;
+  box-shadow: none;
+}
+
+
+/* Pembungkus tombol bagian bawah */
+.admin-edit-actions {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  flex-wrap: wrap;
+
+  gap: 0.75rem;
+
+  margin-top: 0.5rem;
+  padding-top: 1.4rem;
+
+  border-top: 1px solid var(--green-border);
+}
+
+
+/* Tombol batal dan simpan */
+.admin-cancel-button,
+.admin-save-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  min-width: 140px;
+  min-height: 42px;
+  padding: 0.68rem 1rem;
+
+  border-radius: 6px;
+
+  font-family: var(--font-sans);
+  font-size: 0.82rem;
+  font-weight: 600;
+  text-decoration: none;
+
+  cursor: pointer;
+
+  transition:
+    background 0.2s ease,
+    border-color 0.2s ease,
+    color 0.2s ease;
+}
+
+
+/* Tombol batal */
+.admin-cancel-button {
+  background: #ffffff;
+  border: 1px solid var(--green-border-strong);
+
+  color: var(--text-secondary);
+}
+
+.admin-cancel-button:hover {
+  background: var(--green-section-soft);
+  border-color: var(--green-accent);
+
+  color: var(--green-primary);
+}
+
+
+/* Tombol simpan */
+.admin-save-button {
+  background: var(--green-primary);
+  border: 1px solid var(--green-primary);
+
+  color: #ffffff;
+}
+
+.admin-save-button:hover {
+  background: var(--green-primary-hover);
+  border-color: var(--green-primary-hover);
+
+  color: #ffffff;
+}
+
+
+/* Tampilan tablet */
+@media (max-width: 900px) {
+  .admin-edit-page {
+    padding: 2.5rem 1.25rem 3rem;
+  }
+
+  .admin-edit-card {
+    padding: 2rem;
+  }
+}
+
+
+/* Tampilan HP */
+@media (max-width: 600px) {
+  .admin-edit-page {
+    padding: 1.5rem 0.85rem 2.5rem;
+  }
+
+  .admin-edit-card {
+    padding: 1.5rem 1.1rem;
+
+    border-top-width: 3px;
+    border-radius: 8px;
+  }
+
+  .admin-edit-card h1 {
+    font-size: 1.75rem;
+  }
+
+  .admin-edit-description {
+    font-size: 0.84rem;
+  }
+
+  .admin-edit-actions {
+    flex-direction: column-reverse;
+  }
+
+  .admin-cancel-button,
+  .admin-save-button {
+    width: 100%;
+  }
+
+  .admin-image-preview,
+  .admin-current-image,
+  .admin-structure-current-image {
+    max-width: 100%;
+  }
+}
