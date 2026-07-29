@@ -284,24 +284,32 @@
   <div class="chart-grain" aria-hidden="true"></div>
 
   <!-- Navigasi Minimalis Admin -->
-  <header class="site-nav">
+  <header class="site-nav admin-site-nav">
     <div class="nav-inner">
+
       <a class="brand" href="/listing">
         <span class="brand-mark admin-brand-mark" aria-hidden="true">
-          <svg class="admin-ui-icon">
-            <use href="#icon-admin"></use>
-          </svg>
+          <img src="{{ url_for(
+        'static',
+        filename='uploads/logo-desa-maor.png'
+      ) }}" alt="" class="brand-logo admin-brand-logo">
         </span>
+
         <span class="brand-text">
           <strong>Panel Admin</strong>
           <small>{{ desa.nama }}</small>
         </span>
       </a>
-      <nav class="nav-links">
-        <a href="/listing">Lihat Web Utama &rarr;</a>
+      <nav class="nav-links admin-header-links" aria-label="Navigasi admin">
+
+        <a href="/listing" class="admin-web-link">
+          Lihat Web Utama &rarr;
+        </a>
+
         <a href="/admin/logout" class="admin-logout-link">
           Logout
         </a>
+
       </nav>
     </div>
   </header>
