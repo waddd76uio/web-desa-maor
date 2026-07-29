@@ -74,10 +74,21 @@
         <h1>Peta Titik Lokasi Desa</h1>
 
         <p class="section-lede">
-          Klik penanda untuk membaca catatan lapangan tiap titik
-          &mdash; koordinat ditampilkan dalam derajat desimal.
+          Klik penanda pada peta untuk melihat nama, kategori,
+          dan informasi setiap lokasi di Desa Maor.
         </p>
       </header>
+      <div class="map-toolbar">
+
+        <p class="map-instruction">
+          Klik salah satu penanda untuk melihat informasi lokasi.
+        </p>
+
+        <button type="button" class="map-reset-button" id="map-reset-button">
+          Kembali ke Pusat Desa
+        </button>
+
+      </div>
 
       <div id="peta-desa" class="leaflet-frame" aria-label="Peta titik lokasi Desa Maor"></div>
 
@@ -88,7 +99,11 @@
   </main>
 
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-  <script src="{{ url_for('static', filename='js/map.js') }}"></script>
+  <script src="{{ url_for(
+  'static',
+  filename='js/map.js',
+  v='20260729-1'
+) }}"></script>
   <script src="{{ url_for('static', filename='js/navigation.js') }}"></script>
 </body>
 

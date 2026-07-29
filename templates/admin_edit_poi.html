@@ -14,7 +14,13 @@
         href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Work+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap"
         rel="stylesheet">
 
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+
+    <link rel="stylesheet" href="{{ url_for(
+  'static',
+  filename='css/style.css',
+  v='20260729-1'
+) }}">
 </head>
 
 <body>
@@ -98,19 +104,37 @@
                 </div>
 
                 <div class="admin-edit-field">
-                    <label for="lat">
-                        Latitude
-                    </label>
 
-                    <input type="number" step="any" id="lat" name="lat" value="{{ item['lat'] }}" required>
+                    <label>Pilih Posisi Titik pada Peta</label>
+
+                    <p class="admin-map-help">
+                        Klik lokasi baru atau geser penanda untuk memperbarui posisi.
+                    </p>
+
+                    <div id="admin-edit-poi-map" class="admin-map-picker" data-map-picker data-lat-input="#lat"
+                        data-lng-input="#lng" data-default-lat="{{ desa['peta_pusat']['lat'] }}"
+                        data-default-lng="{{ desa['peta_pusat']['lng'] }}" aria-label="Pilih posisi titik peta"></div>
+
                 </div>
 
-                <div class="admin-edit-field">
-                    <label for="lng">
-                        Longitude
-                    </label>
+                <div class="admin-coordinate-grid">
 
-                    <input type="number" step="any" id="lng" name="lng" value="{{ item['lng'] }}" required>
+                    <div class="admin-edit-field">
+                        <label for="lat">
+                            Latitude (Otomatis)
+                        </label>
+
+                        <input type="number" step="any" id="lat" name="lat" value="{{ item['lat'] }}" required readonly>
+                    </div>
+
+                    <div class="admin-edit-field">
+                        <label for="lng">
+                            Longitude (Otomatis)
+                        </label>
+
+                        <input type="number" step="any" id="lng" name="lng" value="{{ item['lng'] }}" required readonly>
+                    </div>
+
                 </div>
 
                 <div class="admin-edit-actions">
@@ -130,6 +154,14 @@
         </section>
 
     </main>
+
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
+    <script src="{{ url_for(
+  'static',
+  filename='js/admin-map-picker.js',
+  v='20260729-1'
+) }}"></script>
 
 </body>
 

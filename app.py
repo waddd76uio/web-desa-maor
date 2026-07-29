@@ -518,12 +518,13 @@ def api_poi():
 
     # Kategori warna disesuaikan dengan geografi wilayah pertanian
     kategori_warna = {
-        "Pemerintahan": "#c0572a",
-        "Pertanian": "#4caf50",  # Hijau untuk area persawahan
-        "Pengairan": "#2196f3",  # Biru untuk waduk/embung
-        "Peribadatan": "#8a6d3b",
+        "Pemerintahan": "#2f7567",
+        "Pertanian": "#4f8a5b",
+        "Pengairan": "#3b82f6",
+        "Peribadatan": "#7c5aa6",
         "Pendidikan": "#3f6fa8",
-        "Kesehatan": "#a4383a",
+        "Kesehatan": "#c34f4f",
+        "Usaha Warga": "#d17a32",
     }
 
     data = []
