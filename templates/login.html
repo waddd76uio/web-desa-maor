@@ -1,25 +1,96 @@
 <!DOCTYPE html>
 <html lang="id">
+
 <head>
-<meta charset="UTF-8">
-<title>Login Admin &mdash; {{ desa.nama }}</title>
-<link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}" />
-<style>
-  .login-container { max-width: 400px; margin: 10rem auto; padding: 2rem; background: rgba(47, 111, 100, 0.1); border: 1px solid var(--tide-teal); border-radius: 8px; text-align: center; }
-  .login-input { width: 100%; padding: 0.75rem; margin: 1rem 0; border-radius: 4px; border: 1px solid var(--tide-teal); background: var(--chart-navy); color: white; }
-</style>
+  <meta charset="UTF-8">
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Login Admin &mdash; {{ desa.nama }}</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+
+  <link
+    href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Work+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap"
+    rel="stylesheet">
+
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}" />
+  <style>
+    .login-container {
+      max-width: 400px;
+      margin: 10rem auto;
+      padding: 2rem;
+      background: #ffffff;
+      border: 1px solid var(--light-border);
+      border-radius: 12px;
+      text-align: center;
+      box-shadow: 0 12px 35px var(--light-shadow);
+    }
+
+    .login-input {
+      width: 100%;
+      padding: 0.75rem;
+      margin: 1rem 0;
+      border-radius: 6px;
+      border: 1px solid var(--light-border);
+      background: #ffffff;
+      color: var(--light-text);
+    }
+
+    .login-input:focus {
+      outline: none;
+      border-color: var(--rust-buoy-lt);
+      box-shadow: 0 0 0 3px rgba(192, 87, 42, 0.15);
+    }
+
+    .login-input::placeholder {
+      color: #96a29e;
+    }
+
+    body {
+      min-height: 100vh;
+      padding: 2rem 1rem;
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .login-container {
+      width: 100%;
+      margin: 0;
+    }
+
+    .login-container h2 {
+      font-family: var(--font-serif);
+      font-size: 2rem;
+    }
+
+    @media (max-width: 480px) {
+      body {
+        padding: 1rem;
+      }
+
+      .login-container {
+        padding: 1.5rem;
+      }
+    }
+  </style>
 </head>
+
 <body>
   <div class="login-container">
     <h2 style="color: var(--rust-buoy-lt); margin-bottom: 1rem;">Admin Panel</h2>
     {% if error %}
-      <p style="color: #ff4c4c; font-size: 0.9rem;">{{ error }}</p>
+    <p style="color: #ff4c4c; font-size: 0.9rem;">{{ error }}</p>
     {% endif %}
     <form method="POST">
       <input type="password" name="password" class="login-input" placeholder="Masukkan Password..." required>
       <button type="submit" class="btn btn-primary" style="width: 100%;">Masuk</button>
     </form>
-    <a href="/listing" style="color: var(--muted-sage); display: block; margin-top: 1rem; font-size: 0.8rem;">&larr; Kembali ke Web Utama</a>
+    <a href="/listing" style="color: var(--muted-sage); display: block; margin-top: 1rem; font-size: 0.8rem;">&larr;
+      Kembali ke Web Utama</a>
   </div>
 </body>
+
 </html>

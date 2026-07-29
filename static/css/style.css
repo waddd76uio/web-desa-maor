@@ -2,12 +2,22 @@
    1. CSS VARIABLES & BASE THEME (Nautical / Coastal Data)
    ========================================================================= */
 :root {
-  --chart-navy: #10262b;
-  --paper-sand: #e8e2cd;
+  /* Warna utama tema terang */
+  --chart-navy: #f4f7f5;
+  --paper-sand: #243330;
   --rust-buoy: #c0572a;
-  --rust-buoy-lt: #d9784e;
+  --rust-buoy-lt: #b94f24;
   --tide-teal: #2f6f64;
-  --muted-sage: #b9c4b7;
+  --muted-sage: #65746f;
+
+  /* Warna tambahan tema terang */
+  --light-bg: #f4f7f5;
+  --light-surface: #ffffff;
+  --light-surface-soft: #eef4f1;
+  --light-text: #243330;
+  --light-muted: #65746f;
+  --light-border: #d6e0dc;
+  --light-shadow: rgba(25, 55, 48, 0.12);
 
   --font-serif: 'Fraunces', serif;
   --font-sans: 'Work Sans', sans-serif;
@@ -3633,11 +3643,12 @@ main>section:not(.hero) {
 .umkm-page-heading h1 {
   margin-bottom: 1rem;
 
-  color: var(--rust-buoy-lt);
+  color: var(--green-dark);
   font-family: var(--font-serif);
   font-size: clamp(2.25rem, 5vw, 3.5rem);
-  font-weight: 500;
+  font-weight: 600;
   line-height: 1.15;
+  letter-spacing: -0.02em;
 }
 
 .umkm-page-heading p {
@@ -3682,10 +3693,12 @@ main>section:not(.hero) {
   width: 100%;
   padding: 1.2rem;
 
-  border: 1px solid rgba(47, 111, 100, 0.4);
+  border: 1px solid var(--green-border-strong);
   border-radius: 12px;
 
-  background: rgba(47, 111, 100, 0.07);
+  background: var(--green-section-soft);
+
+  box-shadow: 0 6px 18px rgba(34, 73, 63, 0.06);
 }
 
 .umkm-filter-field,
@@ -3697,7 +3710,8 @@ main>section:not(.hero) {
 
 .umkm-filter-field label,
 .umkm-search-field label {
-  color: var(--muted-sage);
+  color: var(--green-title);
+  font-family: var(--font-sans);
   font-size: 0.72rem;
   font-weight: 600;
   letter-spacing: 0.8px;
@@ -3711,22 +3725,47 @@ main>section:not(.hero) {
 
   padding: 0.75rem 0.9rem;
 
-  border: 1px solid rgba(47, 111, 100, 0.65);
-  border-radius: 7px;
+  border: 1px solid var(--green-border-strong);
+  border-radius: 8px;
 
-  background: rgba(16, 38, 43, 0.85);
-  color: var(--paper-sand);
+  background: #ffffff;
+  color: var(--green-title);
 
   font-family: var(--font-sans);
   font-size: 0.9rem;
+  font-weight: 500;
+
+  transition:
+    border-color 0.25s ease,
+    background 0.25s ease,
+    box-shadow 0.25s ease;
+}
+
+.umkm-filter-field select:hover,
+.umkm-search-field input:hover {
+  border-color: var(--green-accent);
+  background: #fbfdfc;
 }
 
 .umkm-filter-field select:focus,
 .umkm-search-field input:focus {
   outline: none;
-  border-color: var(--rust-buoy-lt);
 
-  box-shadow: 0 0 0 3px rgba(217, 120, 78, 0.12);
+  background: #ffffff;
+  border-color: var(--green-primary);
+
+  box-shadow: 0 0 0 4px rgba(47, 117, 103, 0.11);
+}
+
+.umkm-search-field input::placeholder {
+  color: #879992;
+  opacity: 1;
+  font-weight: 400;
+}
+
+.umkm-filter-field select option {
+  background: #ffffff;
+  color: var(--green-title);
 }
 
 
@@ -3841,18 +3880,29 @@ main>section:not(.hero) {
   top: 1rem;
   left: 1rem;
 
-  padding: 0.35rem 0.7rem;
+  padding: 0.38rem 0.75rem;
 
-  border: 1px solid rgba(232, 226, 205, 0.18);
+  border: 1px solid rgba(255, 255, 255, 0.75);
   border-radius: 999px;
 
-  background: rgba(16, 38, 43, 0.88);
-  color: var(--paper-sand);
+  background: rgba(232, 243, 238, 0.94);
+  color: var(--green-primary);
 
+  font-family: var(--font-sans);
   font-size: 0.7rem;
   font-weight: 600;
+  letter-spacing: 0.2px;
+
+  box-shadow: 0 4px 12px rgba(34, 73, 63, 0.12);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
 }
 
+.umkm-card:hover .umkm-category-badge {
+  background: rgba(255, 255, 255, 0.97);
+  border-color: var(--green-border-strong);
+  color: var(--green-primary-hover);
+}
 
 /* Isi card */
 .umkm-card-content {
@@ -3978,27 +4028,31 @@ main>section:not(.hero) {
 }
 
 .umkm-whatsapp-button {
-  border: 1px solid rgba(61, 190, 105, 0.55);
+  border: 1px solid #9fcfba;
 
-  background: rgba(37, 170, 87, 0.18);
-  color: #66dd91;
+  background: #e5f5ed;
+  color: #267551;
 }
 
 .umkm-whatsapp-button:hover {
-  background: rgba(37, 170, 87, 0.3);
+  background: #d3ecdf;
+  border-color: #78b99a;
+  color: #1f6545;
+
   transform: translateY(-2px);
 }
 
 .umkm-maps-button {
-  border: 1px solid rgba(47, 111, 100, 0.65);
+  border: 1px solid var(--green-border-strong);
 
-  background: rgba(47, 111, 100, 0.12);
-  color: var(--paper-sand);
+  background: var(--green-section-soft);
+  color: var(--green-title);
 }
 
 .umkm-maps-button:hover {
-  background: rgba(47, 111, 100, 0.28);
-  border-color: var(--muted-sage);
+  background: var(--green-pale);
+  border-color: var(--green-accent);
+  color: var(--green-primary-hover);
 
   transform: translateY(-2px);
 }
@@ -4354,5 +4408,2927 @@ main>section:not(.hero) {
 
   .admin-image-editor .admin-remove-photo-button {
     width: 100%;
+  }
+}
+
+/* =========================================================================
+   LIGHT THEME OVERRIDE
+   Letakkan di bagian paling bawah style.css
+   ========================================================================= */
+
+html {
+  background: var(--light-bg);
+}
+
+body {
+  background: var(--light-bg);
+  color: var(--light-text);
+}
+
+/* Hilangkan efek gelap tambahan jika digunakan */
+.chart-grain {
+  opacity: 0.08;
+  pointer-events: none;
+}
+
+/* Header dan navigasi */
+.site-nav {
+  background: rgba(255, 255, 255, 0.94);
+  border-bottom: 1px solid var(--light-border);
+  box-shadow: 0 4px 20px var(--light-shadow);
+}
+
+.brand,
+.nav-links a,
+.nav-links a[aria-current="page"] {
+  color: var(--light-text);
+}
+
+.brand-text small {
+  color: var(--light-muted);
+}
+
+.nav-links a:hover {
+  color: var(--rust-buoy);
+}
+
+.nav-links .nav-admin-link {
+  background: var(--light-surface-soft);
+  border-color: var(--light-border);
+  color: var(--tide-teal);
+}
+
+.nav-links .nav-admin-link:hover {
+  background: #f9ebe5;
+  border-color: var(--rust-buoy-lt);
+  color: var(--rust-buoy);
+}
+
+/* Tombol hamburger */
+.nav-toggle {
+  background: var(--light-surface-soft);
+  border-color: var(--light-border);
+}
+
+.nav-toggle span {
+  background: var(--light-text);
+}
+
+/* Menu tablet dan HP */
+@media (max-width: 1100px) {
+  .nav-links {
+    background: rgba(255, 255, 255, 0.98);
+    border-color: var(--light-border);
+    box-shadow: 0 18px 35px rgba(25, 55, 48, 0.16);
+  }
+
+  .nav-links a {
+    color: var(--light-text);
+    border-bottom-color: var(--light-border);
+  }
+
+  .nav-links a:hover {
+    color: var(--rust-buoy);
+    background: var(--light-surface-soft);
+  }
+
+  .nav-links a[aria-current="page"] {
+    color: var(--rust-buoy);
+    background: #f9ebe5;
+  }
+
+  .nav-links .nav-admin-link {
+    background: var(--light-surface-soft);
+    border-color: var(--light-border);
+  }
+}
+
+/* Hero */
+.hero-copy h1,
+.hero-copy dd,
+.section-title,
+.vm-section h2 {
+  color: var(--light-text);
+}
+
+.hero-copy p,
+.hero-copy dt {
+  color: var(--light-muted);
+}
+
+.coord-readout {
+  border-top-color: var(--light-border);
+}
+
+.hero-media {
+  background: var(--light-surface);
+  border-color: var(--light-border);
+  box-shadow: 0 12px 30px var(--light-shadow);
+}
+
+.hero-media:hover {
+  box-shadow: 0 15px 35px rgba(25, 55, 48, 0.18);
+}
+
+/* Card umum */
+.card,
+.vm-card,
+.org-card,
+.news-card,
+.ledger,
+.legend {
+  background: var(--light-surface);
+  border-color: var(--light-border);
+  color: var(--light-text);
+  box-shadow: 0 8px 24px var(--light-shadow);
+}
+
+.card:hover,
+.org-card:hover,
+.news-card:hover {
+  box-shadow: 0 12px 28px rgba(25, 55, 48, 0.16);
+}
+
+.card a,
+.news-title,
+.org-name,
+.visi-text,
+.vm-list {
+  color: var(--light-text);
+}
+
+.card p,
+.news-summary,
+.legend-item,
+.org-empty {
+  color: var(--light-muted);
+}
+
+.ledger-row {
+  border-bottom-color: var(--light-border);
+}
+
+.ledger-row:hover:not(.ledger-row--total) {
+  background: var(--light-surface-soft);
+}
+
+/* Sambutan kepala desa */
+.welcome-panel {
+  background: var(--light-surface);
+  border-color: var(--light-border);
+  box-shadow: 0 10px 30px var(--light-shadow);
+}
+
+.welcome-portrait {
+  background: var(--light-surface-soft);
+  border-right-color: var(--light-border);
+}
+
+.welcome-photo-frame {
+  background: var(--light-surface);
+  border-color: var(--light-border);
+}
+
+.welcome-content,
+.welcome-copy {
+  background: var(--light-surface);
+  color: var(--light-text);
+}
+
+.welcome-content h2,
+.welcome-identity h3,
+.welcome-copy strong {
+  color: var(--light-text);
+}
+
+.welcome-identity p,
+.welcome-copy p {
+  color: var(--light-muted);
+}
+
+/* Sejarah desa */
+.history-panel,
+.history-heading,
+.history-copy {
+  background: var(--light-surface);
+  border-color: var(--light-border);
+  color: var(--light-text);
+}
+
+.history-panel {
+  box-shadow: 0 10px 30px var(--light-shadow);
+}
+
+.history-heading h2,
+.history-copy strong {
+  color: var(--light-text);
+}
+
+.history-copy p {
+  color: var(--light-muted);
+}
+
+/* Struktur organisasi */
+.org-photo-wrapper {
+  background: var(--light-surface-soft);
+  box-shadow: 0 8px 20px var(--light-shadow);
+}
+
+.org-photo-placeholder {
+  background: var(--light-surface-soft);
+}
+
+.org-card.org-kades {
+  background: #fff8f4;
+}
+
+/* Berita */
+.news-content {
+  background: var(--light-surface);
+}
+
+.news-date,
+.news-readmore {
+  color: var(--rust-buoy);
+}
+
+/* Peta dan POI */
+.leaflet-frame {
+  border-color: var(--light-border);
+  box-shadow: 0 8px 24px var(--light-shadow);
+}
+
+.poi-row {
+  border-bottom-color: var(--light-border);
+}
+
+.poi-row:hover {
+  background: var(--light-surface-soft);
+}
+
+/* Floating statistik */
+.stats-trigger {
+  color: #ffffff;
+  box-shadow: 0 4px 15px var(--light-shadow);
+}
+
+.stats-panel {
+  background: rgba(255, 255, 255, 0.98);
+  border-color: var(--light-border);
+  color: var(--light-text);
+  box-shadow: 0 10px 35px rgba(25, 55, 48, 0.18);
+}
+
+/* Footer */
+.mega-footer {
+  background: #eaf1ee;
+  border-top-color: var(--light-border);
+  color: var(--light-text);
+}
+
+.footer-brand,
+.footer-heading {
+  color: var(--light-text);
+}
+
+.footer-col p,
+.footer-contact li,
+.footer-contact a,
+.footer-links a,
+.footer-bottom {
+  color: var(--light-muted);
+}
+
+.footer-bottom {
+  border-top-color: var(--light-border);
+}
+
+.footer-social a {
+  background: var(--light-surface);
+  border-color: var(--light-border);
+  color: var(--tide-teal);
+}
+
+/* Footer sederhana */
+.site-footer {
+  border-top-color: var(--light-border);
+  color: var(--light-muted);
+}
+
+/* Form secara umum */
+input,
+textarea,
+select {
+  color-scheme: light;
+}
+
+input::placeholder,
+textarea::placeholder {
+  color: #94a19d;
+}
+
+/* Tombol utama harus tetap memiliki teks putih */
+.btn-primary,
+.stats-trigger,
+.poi-tag {
+  color: #ffffff;
+}
+
+/* Scrollbar terang */
+::-webkit-scrollbar-track {
+  background: #edf2f0;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #abbab5;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #879994;
+}
+
+/* =========================================================================
+   FINAL POLISH TEMA TERANG
+   Letakkan paling bawah style.css
+   ========================================================================= */
+
+/* -------------------------------------------------------------------------
+   1. Warna dan tipografi umum
+   ------------------------------------------------------------------------- */
+
+:root {
+  --page-bg: #f6f8f7;
+  --surface: #ffffff;
+  --surface-soft: #edf4f1;
+
+  --text-heading: #20332e;
+  --text-body: #485b55;
+  --text-muted: #71807b;
+
+  --border-soft: #dce5e1;
+  --border-strong: #cbd8d3;
+
+  --green-primary: #2f6f64;
+  --green-hover: #285f56;
+  --green-soft: #e8f2ee;
+
+  --orange-primary: #b9572d;
+  --orange-hover: #9f4622;
+  --orange-soft: #fff1ea;
+
+  --shadow-sm: 0 4px 14px rgba(31, 61, 53, 0.06);
+  --shadow-md: 0 10px 30px rgba(31, 61, 53, 0.09);
+  --shadow-hover: 0 16px 36px rgba(31, 61, 53, 0.13);
+}
+
+html {
+  background: var(--page-bg);
+  scroll-behavior: smooth;
+}
+
+body {
+  background:
+    radial-gradient(circle at top left,
+      rgba(47, 111, 100, 0.045),
+      transparent 400px),
+    var(--page-bg);
+
+  color: var(--text-body);
+  font-size: 16px;
+  line-height: 1.7;
+}
+
+p,
+li,
+dd,
+td {
+  color: var(--text-body);
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  color: var(--text-heading);
+  letter-spacing: -0.015em;
+}
+
+h1 {
+  font-weight: 600;
+}
+
+h2,
+h3 {
+  font-weight: 500;
+}
+
+a {
+  text-underline-offset: 3px;
+}
+
+::selection {
+  background: rgba(47, 111, 100, 0.18);
+  color: var(--text-heading);
+}
+
+
+/* -------------------------------------------------------------------------
+   2. Navbar
+   ------------------------------------------------------------------------- */
+
+.site-nav {
+  background: rgba(255, 255, 255, 0.92);
+  border-bottom: 1px solid rgba(203, 216, 211, 0.85);
+  box-shadow: 0 4px 18px rgba(31, 61, 53, 0.065);
+}
+
+.brand {
+  color: var(--text-heading);
+}
+
+.brand-text strong {
+  color: var(--text-heading);
+  font-weight: 600;
+}
+
+.brand-text small {
+  color: var(--text-muted);
+}
+
+.nav-links a {
+  color: #40534d;
+  font-weight: 500;
+}
+
+.nav-links a:hover {
+  color: var(--orange-primary);
+}
+
+.nav-links a[aria-current="page"] {
+  color: var(--orange-primary);
+  box-shadow: inset 0 -2px 0 var(--orange-primary);
+}
+
+.nav-links .nav-admin-link {
+  background: var(--green-soft);
+  border: 1px solid #cee0d9;
+  color: var(--green-primary);
+  border-radius: 8px;
+}
+
+.nav-links .nav-admin-link:hover {
+  background: var(--orange-soft);
+  border-color: #edc7b5;
+  color: var(--orange-primary);
+}
+
+.nav-toggle {
+  background: var(--green-soft);
+  border-color: #cee0d9;
+  border-radius: 10px;
+}
+
+.nav-toggle span {
+  background: var(--green-primary);
+}
+
+
+/* -------------------------------------------------------------------------
+   3. Hero
+   ------------------------------------------------------------------------- */
+
+.hero {
+  margin-top: 4.5rem;
+  margin-bottom: 5rem;
+}
+
+.hero-copy .eyebrow {
+  color: var(--orange-primary);
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  font-weight: 500;
+}
+
+.hero-copy h1 {
+  color: var(--text-heading);
+  font-weight: 600;
+}
+
+.hero-copy p {
+  color: var(--text-body);
+  line-height: 1.8;
+}
+
+.coord-readout {
+  border-top-color: var(--border-soft);
+}
+
+.coord-readout dt {
+  color: var(--text-muted);
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.7px;
+}
+
+.coord-readout dd {
+  color: var(--text-heading);
+  font-weight: 600;
+}
+
+.hero-media {
+  border: 1px solid var(--border-soft);
+  border-radius: 16px;
+  box-shadow: var(--shadow-md);
+}
+
+.hero-media:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-hover);
+}
+
+
+/* -------------------------------------------------------------------------
+   4. Standar semua card
+   ------------------------------------------------------------------------- */
+
+.card,
+.vm-card,
+.org-card,
+.news-card,
+.infographic-card,
+.umkm-card,
+.admin-card,
+.ledger,
+.legend,
+.welcome-panel,
+.history-panel {
+  background: var(--surface);
+  border: 1px solid var(--border-soft);
+  border-radius: 16px;
+  box-shadow: var(--shadow-sm);
+}
+
+.card,
+.org-card,
+.news-card,
+.infographic-card,
+.umkm-card {
+  transition:
+    transform 0.25s ease,
+    border-color 0.25s ease,
+    box-shadow 0.25s ease;
+}
+
+.card:hover,
+.org-card:hover,
+.news-card:hover,
+.infographic-card:hover,
+.umkm-card:hover {
+  transform: translateY(-4px);
+  border-color: #bfd2ca;
+  box-shadow: var(--shadow-hover);
+}
+
+/* Jangan memberi efek lompat pada card form admin */
+.admin-card:hover,
+.vm-card:hover {
+  transform: none;
+}
+
+.card h2,
+.card h3,
+.news-title,
+.org-name,
+.infographic-content h2 {
+  color: var(--text-heading);
+}
+
+.card p,
+.news-summary,
+.infographic-date,
+.org-empty {
+  color: var(--text-body);
+}
+
+
+/* -------------------------------------------------------------------------
+   5. Sambutan kepala desa
+   ------------------------------------------------------------------------- */
+
+.welcome-panel {
+  border-radius: 20px;
+  box-shadow: var(--shadow-md);
+}
+
+.welcome-panel::before {
+  background: linear-gradient(90deg,
+      var(--green-primary),
+      var(--orange-primary));
+}
+
+.welcome-portrait {
+  background:
+    linear-gradient(180deg,
+      #edf5f1 0%,
+      #f7faf8 100%);
+
+  border-right: 1px solid var(--border-soft);
+}
+
+.welcome-photo-frame {
+  background: #e6efeb;
+  border: 1px solid #cfddd7;
+  box-shadow: 0 12px 26px rgba(31, 61, 53, 0.13);
+}
+
+.welcome-identity {
+  background: rgba(255, 255, 255, 0.97);
+  border: 1px solid var(--border-soft);
+  box-shadow: 0 8px 20px rgba(31, 61, 53, 0.12);
+}
+
+.welcome-position {
+  color: var(--orange-primary);
+}
+
+.welcome-identity h3 {
+  color: var(--text-heading);
+}
+
+.welcome-identity p {
+  color: var(--text-muted);
+}
+
+.welcome-content {
+  background: var(--surface);
+}
+
+.welcome-content h2 {
+  color: var(--text-heading);
+}
+
+.profile-section-number {
+  color: var(--green-primary);
+}
+
+.profile-title-line::after {
+  background: var(--border-soft);
+}
+
+.welcome-copy {
+  background: transparent;
+  color: var(--text-body);
+  border-left-color: var(--orange-primary);
+  font-style: normal;
+  line-height: 1.9;
+
+  scrollbar-color:
+    rgba(185, 87, 45, 0.65) #edf2f0;
+}
+
+.welcome-copy p {
+  color: var(--text-body);
+}
+
+.welcome-copy::-webkit-scrollbar-track {
+  background: #edf2f0;
+}
+
+.welcome-copy::-webkit-scrollbar-thumb {
+  background: rgba(185, 87, 45, 0.55);
+}
+
+
+/* -------------------------------------------------------------------------
+   6. Sejarah desa
+   ------------------------------------------------------------------------- */
+
+.history-panel {
+  border-radius: 20px;
+  box-shadow: var(--shadow-md);
+}
+
+.history-heading {
+  background: #fff6f1;
+  border-right: 1px solid #f0ded4;
+}
+
+.history-heading h2 {
+  color: var(--text-heading);
+}
+
+.history-copy {
+  background: var(--surface);
+  color: var(--text-body);
+  column-rule-color: var(--border-soft);
+}
+
+.history-copy p {
+  color: var(--text-body);
+}
+
+.history-copy strong {
+  color: var(--orange-primary);
+}
+
+.history-copy p:first-child::first-letter {
+  color: var(--orange-primary);
+}
+
+
+/* -------------------------------------------------------------------------
+   7. Agenda desa
+   ------------------------------------------------------------------------- */
+
+.vm-section>h2 {
+  color: var(--text-heading) !important;
+  font-weight: 600;
+}
+
+.vm-section .vm-card {
+  border-top: 4px solid var(--green-primary) !important;
+  border-radius: 16px !important;
+  box-shadow: var(--shadow-md) !important;
+}
+
+.vm-section .vm-card li {
+  border-bottom-color: var(--border-soft) !important;
+}
+
+.vm-section .vm-card li:last-child {
+  border-bottom: none !important;
+}
+
+.vm-section .vm-card li>div:first-child {
+  background: var(--green-primary) !important;
+  color: #ffffff !important;
+  box-shadow: 0 5px 14px rgba(47, 111, 100, 0.18);
+}
+
+.vm-section .vm-card li>div:first-child span {
+  color: #ffffff !important;
+}
+
+.vm-section .vm-card h3 {
+  color: var(--text-heading) !important;
+}
+
+.vm-section .vm-card p {
+  color: var(--text-muted) !important;
+}
+
+
+/* -------------------------------------------------------------------------
+   8. Visi, misi, dan struktur
+   ------------------------------------------------------------------------- */
+
+.profil-main .vm-card {
+  background:
+    linear-gradient(145deg,
+      #ffffff,
+      #f3f8f5);
+
+  border-color: var(--border-soft);
+  border-top-color: var(--green-primary);
+  box-shadow: var(--shadow-sm);
+}
+
+.vm-title,
+.profile-page-heading h1 {
+  color: var(--text-heading);
+}
+
+.visi-text,
+.vm-list {
+  color: var(--text-body);
+}
+
+.org-card {
+  background: var(--surface);
+  border-color: var(--border-soft);
+  border-radius: 14px;
+}
+
+.org-card.org-kades {
+  background: #fff7f2;
+  border-color: #e6bba6;
+}
+
+.org-photo-wrapper {
+  background: #edf3f0;
+  border-color: #c8d9d2;
+  box-shadow: 0 8px 18px rgba(31, 61, 53, 0.1);
+}
+
+.org-role {
+  color: var(--green-primary);
+}
+
+.org-name {
+  color: var(--text-heading);
+}
+
+
+/* -------------------------------------------------------------------------
+   9. Berita dan infografis
+   ------------------------------------------------------------------------- */
+
+.news-card,
+.infographic-card {
+  overflow: hidden;
+  background: var(--surface);
+  border-color: var(--border-soft);
+}
+
+.news-content,
+.infographic-content {
+  background: var(--surface);
+}
+
+.news-title,
+.infographic-content h2 {
+  color: var(--text-heading);
+}
+
+.news-summary,
+.infographic-date {
+  color: var(--text-body);
+}
+
+.news-date,
+.news-readmore,
+.infographic-label {
+  color: var(--green-primary);
+}
+
+.infographic-image-wrapper {
+  background: #eef3f1;
+  border-bottom-color: var(--border-soft);
+}
+
+
+/* -------------------------------------------------------------------------
+   10. Form dan tombol
+   ------------------------------------------------------------------------- */
+
+input,
+textarea,
+select,
+.form-control,
+.login-input {
+  background: #fbfcfc;
+  border: 1px solid var(--border-strong);
+  border-radius: 9px;
+  color: var(--text-heading);
+  font-size: 0.95rem;
+}
+
+input:hover,
+textarea:hover,
+select:hover,
+.form-control:hover,
+.login-input:hover {
+  border-color: #aec5bc;
+}
+
+input:focus,
+textarea:focus,
+select:focus,
+.form-control:focus,
+.login-input:focus {
+  background: #ffffff;
+  border-color: var(--green-primary);
+  box-shadow: 0 0 0 4px rgba(47, 111, 100, 0.11);
+  outline: none;
+}
+
+input::placeholder,
+textarea::placeholder,
+.form-control::placeholder,
+.login-input::placeholder {
+  color: #98a49f;
+}
+
+.form-group label {
+  color: #566963;
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.65px;
+}
+
+.btn,
+.btn-submit {
+  border-radius: 9px;
+  font-weight: 600;
+  letter-spacing: 0.1px;
+  box-shadow: none;
+}
+
+.btn-primary,
+.btn-news {
+  background: var(--orange-primary);
+  color: #ffffff;
+}
+
+.btn-primary:hover,
+.btn-news:hover {
+  background: var(--orange-hover);
+  color: #ffffff;
+  box-shadow: 0 7px 16px rgba(185, 87, 45, 0.2);
+}
+
+.btn-poi {
+  background: var(--green-primary);
+  color: #ffffff;
+}
+
+.btn-poi:hover {
+  background: var(--green-hover);
+  color: #ffffff;
+  box-shadow: 0 7px 16px rgba(47, 111, 100, 0.2);
+}
+
+
+/* -------------------------------------------------------------------------
+   11. Halaman admin
+   ------------------------------------------------------------------------- */
+
+.admin-header-title {
+  color: var(--text-heading) !important;
+  font-weight: 600;
+  letter-spacing: -0.025em;
+}
+
+.admin-card {
+  background: var(--surface) !important;
+  border-color: var(--border-soft) !important;
+  border-radius: 16px !important;
+  box-shadow: var(--shadow-sm) !important;
+}
+
+.admin-card h2 {
+  color: var(--text-heading) !important;
+  border-bottom-color: var(--border-soft) !important;
+  font-weight: 600;
+}
+
+.admin-image-preview,
+.admin-image-placeholder {
+  background: #f1f5f3 !important;
+  border-color: var(--border-soft) !important;
+  color: var(--text-muted) !important;
+}
+
+/* Tabel admin */
+.admin-card table {
+  color: var(--text-body);
+}
+
+.admin-card table thead {
+  background: #edf4f1;
+}
+
+.admin-card table th {
+  color: var(--text-heading);
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.4px;
+  text-transform: uppercase;
+}
+
+.admin-card table td {
+  color: var(--text-body);
+}
+
+.admin-card table thead tr,
+.admin-card table tbody tr {
+  border-bottom: 1px solid var(--border-soft) !important;
+}
+
+.admin-card table tbody tr:hover {
+  background: #f7faf8;
+}
+
+.admin-card table img {
+  border: 1px solid var(--border-soft);
+  background: #f2f5f4 !important;
+}
+
+.admin-edit-button {
+  background: var(--green-soft);
+  border: 1px solid #c9ded5;
+  color: var(--green-primary);
+  border-radius: 7px;
+}
+
+.admin-edit-button:hover {
+  background: var(--green-primary);
+  color: #ffffff;
+}
+
+.admin-delete-button {
+  background: #fff0ef;
+  border: 1px solid #edc8c5;
+  color: #b33f37;
+  border-radius: 7px;
+}
+
+.admin-delete-button:hover {
+  background: #b9433a;
+  color: #ffffff;
+}
+
+
+/* -------------------------------------------------------------------------
+   12. Login
+   ------------------------------------------------------------------------- */
+
+.login-container {
+  background: rgba(255, 255, 255, 0.98) !important;
+  border-color: var(--border-soft) !important;
+  border-radius: 18px !important;
+  box-shadow: var(--shadow-md) !important;
+}
+
+.login-container h2 {
+  color: var(--text-heading) !important;
+  font-weight: 600;
+}
+
+.login-container>a {
+  color: var(--green-primary) !important;
+  font-weight: 500;
+}
+
+.login-container>a:hover {
+  color: var(--orange-primary) !important;
+}
+
+
+/* -------------------------------------------------------------------------
+   13. Statistik mengambang
+   ------------------------------------------------------------------------- */
+
+.stats-trigger {
+  background: var(--green-primary);
+  border: none;
+  color: #ffffff;
+  box-shadow: 0 7px 20px rgba(47, 111, 100, 0.22);
+}
+
+.stats-panel {
+  background: rgba(255, 255, 255, 0.98);
+  border-color: var(--border-soft);
+  border-radius: 12px;
+  color: var(--text-body);
+  box-shadow: var(--shadow-hover);
+}
+
+.stats-panel .ledger-row {
+  color: var(--text-body);
+  border-bottom-color: var(--border-soft);
+}
+
+.stats-panel .ledger-value {
+  color: var(--text-heading);
+}
+
+
+/* -------------------------------------------------------------------------
+   14. Footer
+   ------------------------------------------------------------------------- */
+
+.mega-footer {
+  background:
+    linear-gradient(180deg,
+      #e9f1ed 0%,
+      #e4ede9 100%);
+
+  border-top: 1px solid #cbdad4;
+  color: var(--text-body);
+}
+
+.footer-brand,
+.footer-heading,
+.footer-brand strong {
+  color: var(--text-heading);
+}
+
+.footer-col p,
+.footer-contact li,
+.footer-contact a,
+.footer-links a,
+.footer-bottom {
+  color: #5d7069;
+}
+
+.footer-contact a:hover,
+.footer-links a:hover {
+  color: var(--orange-primary);
+}
+
+.footer-social a {
+  background: rgba(255, 255, 255, 0.75);
+  border-color: #c8d9d2;
+  color: var(--green-primary);
+  border-radius: 8px;
+}
+
+.footer-social a:hover {
+  background: var(--green-primary);
+  border-color: var(--green-primary);
+  color: #ffffff;
+}
+
+.footer-bottom {
+  border-top-color: #cbdad4;
+}
+
+
+/* -------------------------------------------------------------------------
+   15. Responsif
+   ------------------------------------------------------------------------- */
+
+@media (max-width: 1100px) {
+  .nav-links {
+    background: rgba(255, 255, 255, 0.99);
+    border-color: var(--border-soft);
+    box-shadow: var(--shadow-md);
+  }
+
+  .nav-links a {
+    color: var(--text-body);
+    border-bottom-color: var(--border-soft);
+  }
+
+  .nav-links a:hover {
+    background: var(--green-soft);
+    color: var(--green-primary);
+  }
+
+  .nav-links a[aria-current="page"] {
+    background: var(--orange-soft);
+    color: var(--orange-primary);
+  }
+}
+
+@media (max-width: 900px) {
+  .welcome-portrait {
+    border-right: none;
+    border-bottom: 1px solid var(--border-soft);
+  }
+
+  .history-heading {
+    border-right: none;
+    border-bottom: 1px solid #f0ded4;
+  }
+}
+
+@media (max-width: 600px) {
+  body {
+    font-size: 15px;
+  }
+
+  .hero {
+    margin-top: 2rem;
+  }
+
+  .card,
+  .admin-card,
+  .news-card,
+  .infographic-card,
+  .welcome-panel,
+  .history-panel {
+    border-radius: 13px !important;
+  }
+
+  .admin-header-title {
+    font-size: 1.9rem !important;
+    line-height: 1.25;
+  }
+}
+
+/* =========================================================================
+   TEMA HIJAU TERPADU
+   Letakkan paling bawah style.css
+   ========================================================================= */
+
+:root {
+  /* Background */
+  --green-page: #f4f8f6;
+  --green-section: #e8f1ed;
+  --green-section-soft: #eef5f2;
+  --green-card: #ffffff;
+
+  /* Hijau utama */
+  --green-primary: #2f7567;
+  --green-primary-hover: #266457;
+  --green-dark: #203c35;
+  --green-title: #244139;
+  --green-accent: #4b8c7d;
+  --green-pale: #dceae4;
+
+  /* Teks */
+  --text-main: #344d46;
+  --text-secondary: #667a74;
+  --text-soft: #81918c;
+
+  /* Border dan bayangan */
+  --green-border: #d1e0da;
+  --green-border-strong: #bdd2ca;
+  --green-shadow: rgba(34, 73, 63, 0.09);
+
+  /*
+    Mengubah variabel oranye lama menjadi hijau.
+    Elemen yang masih menggunakan --rust-buoy otomatis ikut berubah.
+  */
+  --rust-buoy: #357c6d;
+  --rust-buoy-lt: #4b8c7d;
+
+  --tide-teal: #2f7567;
+  --paper-sand: #29433c;
+  --muted-sage: #6c7f79;
+  --chart-navy: #f4f8f6;
+
+  --light-bg: #f4f8f6;
+  --light-surface: #ffffff;
+  --light-surface-soft: #eaf3ef;
+  --light-text: #29433c;
+  --light-muted: #6c7f79;
+  --light-border: #d1e0da;
+  --light-shadow: rgba(34, 73, 63, 0.09);
+}
+
+
+/* -------------------------------------------------------------------------
+   1. Font dan warna dasar
+   ------------------------------------------------------------------------- */
+
+html,
+body {
+  background: var(--green-page);
+}
+
+body {
+  color: var(--text-main);
+  font-family: var(--font-sans);
+  font-size: 16px;
+  line-height: 1.75;
+  letter-spacing: 0;
+}
+
+p,
+li,
+dd,
+td,
+input,
+textarea,
+select,
+button {
+  font-family: var(--font-sans);
+}
+
+p,
+li,
+dd,
+td {
+  color: var(--text-main);
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  color: var(--green-title);
+  font-family: var(--font-serif);
+  font-weight: 600;
+  letter-spacing: -0.015em;
+}
+
+.mono,
+.eyebrow,
+.profile-section-number,
+.profile-page-eyebrow,
+.infographic-eyebrow,
+.news-page-eyebrow,
+.vm-card-number,
+.org-role {
+  font-family: var(--font-mono);
+}
+
+
+/* -------------------------------------------------------------------------
+   2. Navbar dibuat sama dengan warna footer
+   ------------------------------------------------------------------------- */
+
+.site-nav {
+  background:
+    linear-gradient(180deg,
+      #edf5f1 0%,
+      #e7f0ec 100%);
+
+  border-bottom: 1px solid var(--green-border);
+  box-shadow: 0 4px 18px rgba(34, 73, 63, 0.07);
+}
+
+.brand {
+  color: var(--green-title);
+}
+
+.brand-text strong {
+  color: var(--green-title);
+  font-weight: 600;
+}
+
+.brand-text small {
+  color: var(--text-secondary);
+}
+
+.nav-links a {
+  color: #435d55;
+  font-family: var(--font-sans);
+  font-weight: 500;
+}
+
+.nav-links a:hover {
+  color: var(--green-primary);
+}
+
+.nav-links a[aria-current="page"] {
+  color: var(--green-primary);
+  box-shadow: inset 0 -2px 0 var(--green-primary);
+}
+
+.nav-links .nav-admin-link {
+  background: rgba(255, 255, 255, 0.65);
+  border: 1px solid var(--green-border-strong);
+  color: var(--green-primary);
+}
+
+.nav-links .nav-admin-link:hover {
+  background: var(--green-primary);
+  border-color: var(--green-primary);
+  color: #ffffff;
+}
+
+
+/* Tombol hamburger */
+.nav-toggle {
+  background: rgba(255, 255, 255, 0.65);
+  border-color: var(--green-border-strong);
+}
+
+.nav-toggle span {
+  background: var(--green-primary);
+}
+
+
+/* Menu navbar di tablet dan HP */
+@media (max-width: 1100px) {
+  .nav-links {
+    background:
+      linear-gradient(180deg,
+        #edf5f1 0%,
+        #e7f0ec 100%);
+
+    border-color: var(--green-border);
+    box-shadow: 0 16px 30px rgba(34, 73, 63, 0.13);
+  }
+
+  .nav-links a {
+    color: var(--text-main);
+    border-bottom-color: var(--green-border);
+  }
+
+  .nav-links a:hover {
+    background: rgba(255, 255, 255, 0.65);
+    color: var(--green-primary);
+  }
+
+  .nav-links a[aria-current="page"] {
+    background: rgba(255, 255, 255, 0.75);
+    color: var(--green-primary);
+    box-shadow: inset 3px 0 0 var(--green-primary);
+  }
+
+  .nav-links .nav-admin-link {
+    background: rgba(255, 255, 255, 0.65);
+  }
+}
+
+
+/* -------------------------------------------------------------------------
+   3. Footer dibuat satu warna dengan navbar
+   ------------------------------------------------------------------------- */
+
+.mega-footer {
+  background:
+    linear-gradient(180deg,
+      #edf5f1 0%,
+      #e7f0ec 100%);
+
+  border-top: 1px solid var(--green-border);
+  color: var(--text-main);
+}
+
+.footer-brand,
+.footer-brand strong,
+.footer-heading {
+  color: var(--green-title);
+}
+
+.footer-heading {
+  font-family: var(--font-sans);
+  font-weight: 600;
+  letter-spacing: 1px;
+}
+
+.footer-col p,
+.footer-contact li,
+.footer-contact a,
+.footer-links a,
+.footer-bottom {
+  color: var(--text-secondary);
+}
+
+.footer-contact a:hover,
+.footer-links a:hover {
+  color: var(--green-primary);
+}
+
+.footer-social a {
+  background: rgba(255, 255, 255, 0.72);
+  border: 1px solid var(--green-border-strong);
+  color: var(--green-primary);
+}
+
+.footer-social a:hover {
+  background: var(--green-primary);
+  border-color: var(--green-primary);
+  color: #ffffff;
+}
+
+.footer-bottom {
+  border-top-color: var(--green-border);
+}
+
+
+/* -------------------------------------------------------------------------
+   4. Hero dan judul halaman
+   ------------------------------------------------------------------------- */
+
+.hero-copy .eyebrow,
+.map-section-header .eyebrow,
+.profile-page-eyebrow,
+.infographic-eyebrow,
+.news-page-eyebrow {
+  color: var(--green-accent);
+}
+
+.hero-copy h1,
+.map-section-header h1,
+.profile-page-heading h1,
+.infographic-heading h1,
+.news-page-heading h1 {
+  color: var(--green-dark);
+}
+
+.hero-copy p,
+.map-section-header .section-lede,
+.profile-page-heading p,
+.infographic-heading p,
+.news-page-heading p {
+  color: var(--text-secondary);
+}
+
+.coord-readout {
+  border-top-color: var(--green-border);
+}
+
+.coord-readout dt {
+  color: var(--text-soft);
+}
+
+.coord-readout dd {
+  color: var(--green-title);
+}
+
+
+/* -------------------------------------------------------------------------
+   5. Card
+   ------------------------------------------------------------------------- */
+
+.card,
+.vm-card,
+.org-card,
+.news-card,
+.infographic-card,
+.umkm-card,
+.admin-card,
+.welcome-panel,
+.history-panel,
+.ledger,
+.legend {
+  background: var(--green-card);
+  border-color: var(--green-border);
+  box-shadow: 0 8px 24px var(--green-shadow);
+}
+
+.card:hover,
+.org-card:hover,
+.news-card:hover,
+.infographic-card:hover,
+.umkm-card:hover {
+  border-color: var(--green-border-strong);
+  box-shadow: 0 14px 32px rgba(34, 73, 63, 0.13);
+}
+
+.card h2,
+.card h3,
+.news-title,
+.org-name,
+.infographic-content h2,
+.umkm-card h2,
+.umkm-card h3 {
+  color: var(--green-title);
+}
+
+.card p,
+.news-summary,
+.infographic-date,
+.umkm-card p {
+  color: var(--text-secondary);
+}
+
+
+/* -------------------------------------------------------------------------
+   6. Sambutan Kepala Desa
+   ------------------------------------------------------------------------- */
+
+.welcome-panel::before {
+  background:
+    linear-gradient(90deg,
+      var(--green-primary),
+      var(--green-accent));
+}
+
+.welcome-portrait {
+  background:
+    linear-gradient(180deg,
+      #e6f0ec,
+      #f2f7f5);
+
+  border-right-color: var(--green-border);
+}
+
+.welcome-photo-frame {
+  background: var(--green-section);
+  border-color: var(--green-border-strong);
+}
+
+.welcome-photo-frame::before,
+.welcome-photo-frame::after {
+  border-color: var(--green-primary);
+}
+
+.welcome-identity {
+  background: rgba(255, 255, 255, 0.97);
+  border-color: var(--green-border);
+  box-shadow: 0 8px 20px rgba(34, 73, 63, 0.12);
+}
+
+.welcome-position {
+  color: var(--green-primary);
+}
+
+.welcome-identity h3 {
+  color: var(--green-title);
+}
+
+.welcome-identity p {
+  color: var(--text-secondary);
+}
+
+.profile-section-number {
+  color: var(--green-accent);
+}
+
+.welcome-content h2 {
+  color: var(--green-dark);
+}
+
+.profile-title-line::before,
+.profile-title-line span {
+  background: var(--green-primary);
+}
+
+.profile-title-line::after {
+  background: var(--green-border);
+}
+
+.welcome-copy {
+  color: var(--text-main);
+  border-left-color: var(--green-primary);
+  font-style: normal;
+}
+
+.welcome-copy p {
+  color: var(--text-main);
+}
+
+.welcome-copy::-webkit-scrollbar-track {
+  background: var(--green-section-soft);
+}
+
+.welcome-copy::-webkit-scrollbar-thumb {
+  background: rgba(47, 117, 103, 0.55);
+}
+
+.welcome-copy::-webkit-scrollbar-thumb:hover {
+  background: var(--green-primary);
+}
+
+
+/* -------------------------------------------------------------------------
+   7. Sejarah desa
+   ------------------------------------------------------------------------- */
+
+.history-panel::before {
+  background:
+    linear-gradient(90deg,
+      var(--green-primary),
+      var(--green-accent));
+}
+
+.history-heading {
+  background: #edf5f1;
+  border-right-color: var(--green-border);
+}
+
+.history-heading h2 {
+  color: var(--green-dark);
+}
+
+.history-decoration span,
+.history-decoration span:nth-child(1),
+.history-decoration span:nth-child(2),
+.history-decoration span:nth-child(3) {
+  background: var(--green-primary);
+}
+
+.history-decoration span:nth-child(2) {
+  opacity: 0.7;
+}
+
+.history-decoration span:nth-child(3) {
+  opacity: 0.45;
+}
+
+.history-copy {
+  color: var(--text-main);
+  column-rule-color: var(--green-border);
+}
+
+.history-copy p {
+  color: var(--text-main);
+}
+
+.history-copy strong,
+.history-copy p:first-child::first-letter {
+  color: var(--green-primary);
+}
+
+
+/* -------------------------------------------------------------------------
+   8. Agenda
+   ------------------------------------------------------------------------- */
+
+.vm-section>h2 {
+  color: var(--green-dark) !important;
+}
+
+.vm-section .vm-card {
+  border-top-color: var(--green-primary) !important;
+}
+
+.vm-section .vm-card li>div:first-child {
+  background: var(--green-primary) !important;
+  color: #ffffff !important;
+}
+
+.vm-section .vm-card h3 {
+  color: var(--green-title) !important;
+}
+
+.vm-section .vm-card p {
+  color: var(--text-secondary) !important;
+}
+
+
+/* -------------------------------------------------------------------------
+   9. Visi, misi, struktur organisasi
+   ------------------------------------------------------------------------- */
+
+.profil-main .vm-card {
+  background:
+    linear-gradient(145deg,
+      #ffffff,
+      #edf5f1);
+
+  border-color: var(--green-border);
+  border-top-color: var(--green-primary);
+}
+
+.vm-title,
+.visi-text,
+.vm-list {
+  color: var(--green-title);
+}
+
+.org-role {
+  color: var(--green-primary);
+}
+
+.org-name {
+  color: var(--green-title);
+}
+
+.org-card.org-kades {
+  background: #edf5f1;
+  border-color: var(--green-border-strong);
+}
+
+.org-card.org-kades .org-role {
+  color: var(--green-primary);
+}
+
+.org-photo-wrapper {
+  background: var(--green-section);
+  border-color: var(--green-border-strong);
+}
+
+
+/* -------------------------------------------------------------------------
+   10. Berita, infografis, dan UMKM
+   ------------------------------------------------------------------------- */
+
+.news-date,
+.news-readmore,
+.infographic-label,
+.umkm-category,
+.umkm-badge {
+  color: var(--green-primary);
+}
+
+.news-card:hover,
+.infographic-card:hover,
+.umkm-card:hover {
+  border-color: var(--green-primary);
+}
+
+.infographic-image-wrapper,
+.umkm-image-wrapper {
+  background: var(--green-section-soft);
+  border-bottom-color: var(--green-border);
+}
+
+.infographic-content h2,
+.news-title {
+  color: var(--green-title);
+}
+
+
+/* -------------------------------------------------------------------------
+   11. Tombol
+   ------------------------------------------------------------------------- */
+
+.btn-primary,
+.btn-news,
+.btn-poi,
+.btn-submit,
+.stats-trigger {
+  background: var(--green-primary);
+  color: #ffffff;
+}
+
+.btn-primary:hover,
+.btn-news:hover,
+.btn-poi:hover,
+.btn-submit:hover,
+.stats-trigger:hover {
+  background: var(--green-primary-hover);
+  color: #ffffff;
+}
+
+.btn-ghost {
+  border-color: var(--green-primary);
+  color: var(--green-primary);
+}
+
+.btn-ghost:hover {
+  background: var(--green-pale);
+  color: var(--green-dark);
+}
+
+
+/* -------------------------------------------------------------------------
+   12. Form
+   ------------------------------------------------------------------------- */
+
+input,
+textarea,
+select,
+.form-control,
+.login-input {
+  background: #fbfdfc;
+  border-color: var(--green-border-strong);
+  color: var(--green-title);
+}
+
+input:hover,
+textarea:hover,
+select:hover,
+.form-control:hover,
+.login-input:hover {
+  border-color: var(--green-accent);
+}
+
+input:focus,
+textarea:focus,
+select:focus,
+.form-control:focus,
+.login-input:focus {
+  background: #ffffff;
+  border-color: var(--green-primary);
+  box-shadow: 0 0 0 4px rgba(47, 117, 103, 0.11);
+}
+
+.form-group label {
+  color: var(--text-secondary);
+}
+
+
+/* -------------------------------------------------------------------------
+   13. Admin
+   ------------------------------------------------------------------------- */
+
+.admin-header-title,
+.admin-card h2 {
+  color: var(--green-title) !important;
+}
+
+.admin-card table thead {
+  background: var(--green-section);
+}
+
+.admin-card table tbody tr:hover {
+  background: var(--green-section-soft);
+}
+
+.admin-edit-button {
+  background: var(--green-pale);
+  border-color: var(--green-border-strong);
+  color: var(--green-primary);
+}
+
+.admin-edit-button:hover {
+  background: var(--green-primary);
+  color: #ffffff;
+}
+
+
+/* Tombol hapus tetap merah karena menunjukkan tindakan berbahaya */
+.admin-delete-button {
+  background: #fff3f2;
+  border-color: #edcfcc;
+  color: #a9443e;
+}
+
+.admin-delete-button:hover {
+  background: #a9443e;
+  color: #ffffff;
+}
+
+
+/* -------------------------------------------------------------------------
+   14. Login
+   ------------------------------------------------------------------------- */
+
+.login-container h2 {
+  color: var(--green-title) !important;
+}
+
+.login-container>a {
+  color: var(--green-primary) !important;
+}
+
+.login-container>a:hover {
+  color: var(--green-primary-hover) !important;
+}
+
+
+/* -------------------------------------------------------------------------
+   15. Statistik kunjungan
+   ------------------------------------------------------------------------- */
+
+.stats-trigger {
+  box-shadow: 0 7px 20px rgba(47, 117, 103, 0.22);
+}
+
+.stats-panel {
+  border-color: var(--green-border);
+}
+
+.stats-panel .ledger-row--total,
+.stats-panel .ledger-row:hover:not(.ledger-row--total) {
+  color: var(--green-primary);
+}
+
+/* Menyatukan tombol admin yang masih memiliki warna inline */
+.admin-main .btn-submit {
+  background: var(--green-primary) !important;
+  color: #ffffff !important;
+}
+
+.admin-main .btn-submit:hover {
+  background: var(--green-primary-hover) !important;
+  color: #ffffff !important;
+  transform: translateY(-2px);
+}
+
+/* =========================================================================
+   PENYESUAIAN JUDUL DAN BADGE KATEGORI UMKM
+   ========================================================================= */
+
+.umkm-page-heading h1 {
+  color: var(--green-dark) !important;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+}
+
+.umkm-category-badge {
+  background: rgba(232, 243, 238, 0.94) !important;
+  border: 1px solid rgba(255, 255, 255, 0.75) !important;
+  color: var(--green-primary) !important;
+
+  box-shadow: 0 4px 12px rgba(34, 73, 63, 0.12);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+}
+
+.umkm-card:hover .umkm-category-badge {
+  background: rgba(255, 255, 255, 0.97) !important;
+  border-color: var(--green-border-strong) !important;
+  color: var(--green-primary-hover) !important;
+}
+
+/* =========================================================================
+   IKON SVG PROFESIONAL
+   Menggantikan emoji dan stiker
+   ========================================================================= */
+
+.ui-icon {
+  width: 18px;
+  height: 18px;
+  flex: 0 0 18px;
+
+  display: inline-block;
+
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.8;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.ui-icon--small {
+  width: 15px;
+  height: 15px;
+  flex-basis: 15px;
+}
+
+.ui-icon--large {
+  width: 24px;
+  height: 24px;
+  flex-basis: 24px;
+}
+
+.ui-icon--heading {
+  width: 26px;
+  height: 26px;
+  flex: 0 0 26px;
+
+  color: var(--green-primary);
+}
+
+.icon-text {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.agenda-heading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.7rem;
+
+  margin-bottom: 2rem;
+
+  color: var(--green-dark);
+  font-family: var(--font-serif);
+  font-size: 2rem;
+  font-weight: 600;
+}
+
+.agenda-meta {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.55rem;
+
+  margin-top: 0.4rem;
+
+  color: var(--text-secondary);
+  font-size: 0.95rem;
+}
+
+.agenda-meta-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+}
+
+.agenda-meta-separator {
+  color: var(--green-border-strong);
+}
+
+.footer-contact-icon {
+  width: 18px;
+  height: 18px;
+  flex: 0 0 18px;
+
+  color: var(--green-primary);
+}
+
+.stats-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.umkm-inline-icon {
+  width: 16px;
+  height: 16px;
+  flex: 0 0 16px;
+
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.8;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.umkm-empty-icon {
+  width: 38px;
+  height: 38px;
+  margin-bottom: 1rem;
+
+  fill: none;
+  stroke: var(--green-primary);
+  stroke-width: 1.5;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.umkm-image-placeholder .ui-icon {
+  width: 34px;
+  height: 34px;
+  margin-bottom: 0.6rem;
+
+  color: var(--green-primary);
+}
+
+.welcome-photo-placeholder .ui-icon {
+  width: 64px;
+  height: 64px;
+
+  color: var(--green-accent);
+  stroke-width: 1.3;
+}
+
+@media (max-width: 600px) {
+  .agenda-heading {
+    gap: 0.55rem;
+    font-size: 1.55rem;
+    line-height: 1.3;
+  }
+
+  .ui-icon--heading {
+    width: 22px;
+    height: 22px;
+    flex-basis: 22px;
+  }
+
+  .agenda-meta {
+    font-size: 0.85rem;
+  }
+}
+
+/* =========================================================================
+   TAMPILAN FORMAL VISI MISI DAN STRUKTUR ORGANISASI
+   Letakkan paling bawah style.css
+   ========================================================================= */
+
+/* -------------------------------------------------------------------------
+   1. Judul halaman
+   ------------------------------------------------------------------------- */
+
+.profil-main .profile-page-heading {
+  max-width: 720px;
+  margin-bottom: 1.5rem;
+}
+
+.profil-main .profile-page-eyebrow {
+  margin-bottom: 0.65rem;
+
+  color: var(--green-primary);
+  font-family: var(--font-sans);
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 1.1px;
+}
+
+.profil-main .profile-page-heading h1 {
+  margin-bottom: 0.8rem;
+
+  color: var(--green-dark);
+  font-size: clamp(2.2rem, 5vw, 3.35rem);
+  font-weight: 600;
+  letter-spacing: -0.025em;
+}
+
+.profil-main .profile-page-heading p {
+  max-width: 650px;
+  margin: 0 auto;
+
+  color: var(--text-secondary);
+  line-height: 1.75;
+}
+
+
+/* -------------------------------------------------------------------------
+   2. Card Visi dan Misi
+   ------------------------------------------------------------------------- */
+
+.profil-main .vm-section {
+  width: 100%;
+}
+
+.profil-main .vm-card {
+  position: relative;
+  overflow: hidden;
+
+  padding: 2.5rem 2.75rem;
+
+  background: #ffffff;
+  border: 1px solid var(--green-border);
+  border-left: 4px solid var(--green-primary);
+  border-top: 1px solid var(--green-border);
+  border-radius: 10px;
+
+  box-shadow: 0 6px 20px rgba(34, 73, 63, 0.07);
+
+  text-align: left;
+}
+
+/*
+  Menghapus lingkaran dekoratif besar
+  yang sebelumnya berada di kanan atas card.
+*/
+.profil-main .vm-card::before {
+  display: none;
+}
+
+.profil-main .vm-card:hover {
+  transform: none;
+
+  border-color: var(--green-border-strong);
+  border-left-color: var(--green-primary);
+
+  box-shadow: 0 8px 24px rgba(34, 73, 63, 0.09);
+}
+
+.vm-card-header {
+  margin-bottom: 1.35rem;
+  padding-bottom: 1rem;
+
+  border-bottom: 1px solid var(--green-border);
+}
+
+.vm-card-label {
+  display: block;
+  margin-bottom: 0.35rem;
+
+  color: var(--green-primary);
+  font-family: var(--font-sans);
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+
+.profil-main .vm-title {
+  margin: 0;
+
+  color: var(--green-dark);
+  font-size: clamp(1.75rem, 3vw, 2.15rem);
+  font-weight: 600;
+}
+
+.profil-main .visi-text {
+  max-width: none;
+  margin: 0;
+
+  color: var(--text-main);
+  font-family: var(--font-sans);
+  font-size: 1rem;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 1.85;
+  text-align: left;
+}
+
+.profil-main .vm-list {
+  max-width: none;
+  margin: 0;
+  padding-left: 1.4rem;
+
+  color: var(--text-main);
+  font-size: 1rem;
+  line-height: 1.8;
+}
+
+.profil-main .vm-list li {
+  margin-bottom: 0.9rem;
+  padding-left: 0.45rem;
+
+  color: var(--text-main);
+}
+
+.profil-main .vm-list li:last-child {
+  margin-bottom: 0;
+}
+
+.profil-main .vm-list li::marker {
+  color: var(--green-primary);
+  font-family: var(--font-sans);
+  font-weight: 600;
+}
+
+
+/* -------------------------------------------------------------------------
+   3. Struktur Organisasi
+   ------------------------------------------------------------------------- */
+
+.struktur-main .structure-section {
+  width: 100%;
+}
+
+.struktur-main .org-grid {
+  align-items: stretch;
+  gap: 1.25rem;
+}
+
+.struktur-main .org-card {
+  min-width: 0;
+  padding: 1.5rem 1.25rem;
+
+  background: #ffffff;
+  border: 1px solid var(--green-border);
+  border-radius: 10px;
+
+  box-shadow: 0 5px 18px rgba(34, 73, 63, 0.07);
+
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+/*
+  Menghilangkan efek card melompat agar terasa
+  lebih formal dan tidak seperti template AI.
+*/
+.struktur-main .org-card:hover {
+  transform: none;
+
+  border-color: var(--green-border-strong);
+
+  box-shadow: 0 7px 22px rgba(34, 73, 63, 0.1);
+}
+
+
+/* Foto perangkat */
+.struktur-main .org-photo-wrapper {
+  width: 118px;
+  margin-bottom: 1.15rem;
+
+  background: var(--green-section-soft);
+  border: 1px solid var(--green-border-strong);
+  border-radius: 8px;
+
+  box-shadow: none;
+}
+
+.struktur-main .org-card:hover .org-photo {
+  transform: none;
+  filter: none;
+}
+
+
+/* Placeholder foto tanpa emoji */
+.org-photo-placeholder {
+  background: var(--green-section-soft);
+}
+
+.org-placeholder-icon {
+  width: 48px;
+  height: 48px;
+
+  fill: none;
+  stroke: var(--green-accent);
+  stroke-width: 1.4;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+
+/* Jabatan */
+.struktur-main .org-role {
+  margin-bottom: 0.4rem;
+
+  color: var(--green-primary);
+  font-family: var(--font-sans);
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.75px;
+  line-height: 1.5;
+  text-transform: uppercase;
+}
+
+
+/* Nama perangkat */
+.struktur-main .org-name {
+  color: var(--green-dark);
+  font-family: var(--font-sans);
+  font-size: 1rem;
+  font-weight: 600;
+  line-height: 1.45;
+}
+
+
+/* -------------------------------------------------------------------------
+   4. Card Kepala Desa
+   ------------------------------------------------------------------------- */
+
+.struktur-main .org-card.org-kades {
+  grid-column: 1 / -1;
+
+  width: 100%;
+  max-width: 340px;
+
+  margin: 0 auto 0.75rem;
+  padding: 1.75rem 1.4rem;
+
+  background: #f4f8f6;
+  border: 1px solid var(--green-border-strong);
+  border-top: 3px solid var(--green-primary);
+
+  box-shadow: 0 6px 20px rgba(34, 73, 63, 0.08);
+}
+
+.struktur-main .org-card.org-kades:hover {
+  border-color: var(--green-primary);
+  border-top-color: var(--green-primary);
+
+  box-shadow: 0 8px 24px rgba(34, 73, 63, 0.11);
+}
+
+.struktur-main .org-card.org-kades .org-photo-wrapper {
+  width: 138px;
+
+  border-color: var(--green-border-strong);
+}
+
+.struktur-main .org-card.org-kades .org-role {
+  color: var(--green-primary);
+  font-size: 0.73rem;
+}
+
+.struktur-main .org-card.org-kades .org-name {
+  color: var(--green-dark);
+  font-size: 1.12rem;
+}
+
+
+/* -------------------------------------------------------------------------
+   5. Data struktur kosong
+   ------------------------------------------------------------------------- */
+
+.struktur-main .org-empty {
+  padding: 2.25rem;
+
+  background: #ffffff;
+  border: 1px dashed var(--green-border-strong);
+  border-radius: 10px;
+
+  color: var(--text-secondary);
+  box-shadow: none;
+}
+
+.struktur-main .org-empty p {
+  color: var(--text-secondary);
+}
+
+
+/* -------------------------------------------------------------------------
+   6. Tampilan tablet dan HP
+   ------------------------------------------------------------------------- */
+
+@media (max-width: 900px) {
+  .profil-main .vm-card {
+    padding: 2.25rem 2rem;
+  }
+}
+
+@media (max-width: 600px) {
+  .profil-main .vm-card {
+    padding: 1.75rem 1.25rem;
+
+    border-left-width: 3px;
+    border-radius: 8px;
+  }
+
+  .vm-card-header {
+    margin-bottom: 1.1rem;
+    padding-bottom: 0.8rem;
+  }
+
+  .profil-main .visi-text,
+  .profil-main .vm-list {
+    font-size: 0.92rem;
+    line-height: 1.75;
+  }
+
+  .struktur-main .org-card,
+  .struktur-main .org-card.org-kades {
+    width: 100%;
+    max-width: none;
+    margin: 0;
+
+    padding: 1.4rem 1.15rem;
+    border-radius: 8px;
+  }
+
+  .struktur-main .org-photo-wrapper,
+  .struktur-main .org-card.org-kades .org-photo-wrapper {
+    width: 110px;
+  }
+}
+
+/* =========================================================================
+   DASHBOARD ADMIN FORMAL
+   Letakkan paling bawah style.css
+   ========================================================================= */
+
+/* Ikon SVG yang disimpan tetapi tidak ditampilkan */
+.svg-sprite {
+  position: absolute;
+  width: 0;
+  height: 0;
+  overflow: hidden;
+}
+
+/* Ikon umum dashboard */
+.admin-ui-icon {
+  width: 20px;
+  height: 20px;
+  flex: 0 0 20px;
+
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.7;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+/* Header admin */
+.admin-brand-mark {
+  width: 34px;
+  height: 34px;
+  flex: 0 0 34px;
+
+  border: 1px solid var(--green-border);
+  border-radius: 7px;
+
+  background: rgba(255, 255, 255, 0.72);
+  color: var(--green-primary);
+}
+
+.admin-brand-mark .admin-ui-icon {
+  width: 18px;
+  height: 18px;
+}
+
+/* Judul utama */
+.admin-main .admin-header-title {
+  margin: 0 0 1.75rem;
+
+  color: var(--green-dark) !important;
+  font-family: var(--font-sans);
+  font-size: clamp(1.8rem, 4vw, 2.35rem);
+  font-weight: 600;
+  letter-spacing: -0.025em;
+  line-height: 1.25;
+  text-align: left;
+}
+
+/* Grid admin */
+.admin-main .admin-grid {
+  align-items: start;
+  gap: 1.5rem;
+}
+
+/*
+  Mencegah card kiri dan kanan memiliki tinggi sama.
+  Ini menghilangkan area putih kosong yang terlalu panjang.
+*/
+.admin-main .admin-card {
+  align-self: start;
+
+  padding: 2rem;
+
+  background: #ffffff !important;
+  border: 1px solid var(--green-border) !important;
+  border-radius: 9px !important;
+
+  box-shadow: 0 5px 18px rgba(34, 73, 63, 0.065) !important;
+}
+
+/* Judul card */
+.admin-main .admin-card h2,
+.admin-main .admin-card-title {
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+
+  margin: 0 0 1.4rem;
+  padding: 0 0 1rem;
+
+  border-bottom: 1px solid var(--green-border) !important;
+
+  color: var(--green-dark) !important;
+  font-family: var(--font-sans);
+  font-size: 1.2rem;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  line-height: 1.4;
+}
+
+.admin-main .admin-card-title .admin-ui-icon {
+  color: var(--green-primary);
+}
+
+/* Jarak antarfield */
+.admin-main .admin-form {
+  gap: 1.1rem;
+}
+
+/* Label form */
+.admin-main .form-group label {
+  margin-bottom: 0.42rem;
+
+  color: #526861;
+  font-family: var(--font-sans);
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.55px;
+  line-height: 1.5;
+}
+
+/* Input */
+.admin-main .form-control {
+  min-height: 44px;
+  padding: 0.72rem 0.85rem;
+
+  background: #fcfdfc;
+  border: 1px solid var(--green-border-strong);
+  border-radius: 6px;
+
+  color: var(--green-dark);
+  font-size: 0.9rem;
+
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease,
+    background 0.2s ease;
+}
+
+.admin-main textarea.form-control {
+  line-height: 1.65;
+  resize: vertical;
+}
+
+.admin-main .form-control:hover {
+  border-color: #9fbbb0;
+}
+
+.admin-main .form-control:focus {
+  background: #ffffff;
+  border-color: var(--green-primary);
+
+  box-shadow: 0 0 0 3px rgba(47, 117, 103, 0.1);
+}
+
+/* Teks bantuan */
+.admin-main .form-group small {
+  display: block;
+  margin-top: 0.45rem;
+
+  color: var(--text-secondary) !important;
+  font-size: 0.75rem;
+  line-height: 1.55;
+}
+
+/* Preview gambar */
+.admin-main .admin-image-preview {
+  background: #f5f8f6 !important;
+  border: 1px dashed var(--green-border-strong) !important;
+  border-radius: 7px;
+
+  box-shadow: none;
+}
+
+.admin-main .admin-image-placeholder {
+  background: transparent !important;
+  color: var(--text-secondary) !important;
+}
+
+.admin-placeholder-icon {
+  width: 38px;
+  height: 38px;
+  margin-bottom: 0.75rem;
+
+  fill: none;
+  stroke: var(--green-accent);
+  stroke-width: 1.35;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.admin-main .admin-image-placeholder p {
+  color: var(--text-secondary);
+  font-size: 0.8rem;
+}
+
+/* Input file */
+.admin-main input[type="file"].form-control {
+  padding: 0.42rem;
+  background: #ffffff;
+  color: var(--text-secondary);
+}
+
+.admin-main input[type="file"]::file-selector-button {
+  margin-right: 0.8rem;
+  padding: 0.62rem 0.9rem;
+
+  border: 1px solid var(--green-border-strong);
+  border-radius: 5px;
+
+  background: var(--green-section-soft);
+  color: var(--green-primary);
+
+  font-family: var(--font-sans);
+  font-size: 0.8rem;
+  font-weight: 600;
+
+  cursor: pointer;
+
+  transition:
+    background 0.2s ease,
+    border-color 0.2s ease;
+}
+
+.admin-main input[type="file"]::file-selector-button:hover {
+  background: var(--green-pale);
+  border-color: var(--green-accent);
+}
+
+/* Tombol utama */
+.admin-main .btn-submit {
+  min-height: 44px;
+  margin-top: 0.4rem;
+  padding: 0.72rem 1rem;
+
+  background: var(--green-primary) !important;
+  border: 1px solid var(--green-primary);
+  border-radius: 6px;
+
+  color: #ffffff !important;
+  font-size: 0.88rem;
+  font-weight: 600;
+
+  box-shadow: none;
+
+  transition:
+    background 0.2s ease,
+    border-color 0.2s ease;
+}
+
+.admin-main .btn-submit:hover {
+  background: var(--green-primary-hover) !important;
+  border-color: var(--green-primary-hover);
+
+  transform: none;
+  box-shadow: none;
+}
+
+/* Tombol batalkan gambar */
+.admin-main .admin-remove-photo-button {
+  min-width: 0;
+  padding: 0.6rem 0.85rem;
+
+  background: #fff5f4;
+  border: 1px solid #e7c8c4;
+  border-radius: 6px;
+
+  color: #9a413b;
+  font-size: 0.8rem;
+}
+
+.admin-main .admin-remove-photo-button:hover {
+  background: #a9443e;
+  border-color: #a9443e;
+  color: #ffffff;
+
+  transform: none;
+}
+
+/* Card daftar */
+.admin-main>.admin-list-card {
+  margin-top: 1.5rem;
+  padding: 1.75rem;
+}
+
+/* Tabel */
+.admin-main .admin-list-card table {
+  font-size: 0.88rem;
+}
+
+.admin-main .admin-list-card table thead {
+  background: var(--green-section-soft);
+}
+
+.admin-main .admin-list-card table th {
+  color: #455e56;
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.55px;
+}
+
+.admin-main .admin-list-card table td {
+  color: var(--text-main);
+}
+
+.admin-main .admin-list-card table tbody tr:hover {
+  background: #f7faf8;
+}
+
+/* Tombol aksi tabel */
+.admin-main .admin-edit-button,
+.admin-main .admin-delete-button {
+  min-width: 72px;
+  padding: 0.55rem 0.75rem;
+
+  border-radius: 5px;
+
+  font-size: 0.78rem;
+  box-shadow: none;
+}
+
+.admin-main .admin-edit-button:hover,
+.admin-main .admin-delete-button:hover {
+  transform: none;
+  box-shadow: none;
+}
+
+/* Responsif */
+@media (max-width: 900px) {
+  .admin-main .admin-header-title {
+    text-align: left;
+  }
+
+  .admin-main .admin-card {
+    padding: 1.5rem;
+  }
+}
+
+@media (max-width: 600px) {
+  .admin-main .admin-card {
+    padding: 1.25rem;
+    border-radius: 7px !important;
+  }
+
+  .admin-main .admin-card h2,
+  .admin-main .admin-card-title {
+    align-items: flex-start;
+
+    font-size: 1.05rem;
+  }
+
+  .admin-main .grid-2-col {
+    gap: 1rem;
+  }
+
+  .admin-main>.admin-list-card {
+    padding: 1.25rem;
+  }
+}
+
+.admin-logout-link {
+  margin-left: 1rem;
+  color: #a9443e !important;
+  font-weight: 600;
+}
+
+.admin-logout-link:hover {
+  color: #87352f !important;
+}
+
+/* =========================================================================
+   PENYEMPURNAAN KOMPONEN ADMIN
+   ========================================================================= */
+
+/* Tombol logout */
+.admin-logout-link {
+  margin-left: 1rem;
+
+  color: #a9443e !important;
+  font-weight: 600;
+}
+
+.admin-logout-link:hover {
+  color: #87352f !important;
+}
+
+
+/* Link WhatsApp tabel UMKM */
+.admin-whatsapp-link {
+  color: var(--green-primary);
+  font-weight: 500;
+  text-decoration: none;
+}
+
+.admin-whatsapp-link:hover {
+  color: var(--green-primary-hover);
+  text-decoration: underline;
+}
+
+
+/* Badge status UMKM */
+.admin-status-badge {
+  display: inline-block;
+  padding: 0.35rem 0.7rem;
+
+  border: 1px solid transparent;
+  border-radius: 999px;
+
+  font-family: var(--font-sans);
+  font-size: 0.75rem;
+  font-weight: 600;
+  line-height: 1.3;
+}
+
+.admin-status-badge--active {
+  background: #e6f3ed;
+  border-color: #bddccc;
+  color: #27694f;
+}
+
+.admin-status-badge--inactive {
+  background: #fff1f0;
+  border-color: #ebcbc7;
+  color: #9a413b;
+}
+
+
+/* Tampilan navbar admin di tablet dan HP */
+@media (max-width: 1100px) {
+  .admin-logout-link {
+    margin-left: 0;
   }
 }
